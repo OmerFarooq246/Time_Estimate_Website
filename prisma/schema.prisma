@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  username  String     @unique
+  password  String
+  level     String
+  Estimates Estimate[]
+}
+
+model Categories {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  img_source String
+  created_at DateTime @default(now())
+
+  Sub_Categories Sub_Categories[]
+  Category_Link  Category_Link[]
+}
+
+model Sub_Categories {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  img_source String
+  category   String      @db.ObjectId
+  created_at DateTime    @default(now())
+  processes  Processes[]
+
+  owner_category Categories @relation(fields: [category], references: [id])
+}
+
+model Processes {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  time_per_unit Int
+  specs         Spec[]
+  sub_category  String   @db.ObjectId
+  img_source    String
+  created_at    DateTime @default(now())
+
+  owner_sub_category Sub_Categories @relation(fields: [sub_category], references: [id])
+  Process_Link       Process_Link[]
+}
+
+model Spec {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  description String
+  options     String
+  process     String @db.ObjectId
+
+  owner_process Processes    @relation(fields: [process], references: [id], onDelete: Cascade)
+  Specs_Info    Specs_Info[]
+}
+
+model Estimate {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  estimate_no Int
+  name        String
+  quantity    Int
+  item_no     Int
+  created_by  String   @db.ObjectId
+  created_at  DateTime @default(now())
+
+  creating_user Users           @relation(fields: [created_by], references: [id])
+  Estimate_Link Estimate_Link[]
+}
+
+model Estimate_Link {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  estimate_id   String          @db.ObjectId
+  cd            Int
+  r             Int
+  sd            Int
+  ai            Int
+  complex       String
+  time_per_unit Int
+  category_link Category_Link[]
+
+  estimate_rel Estimate @relation(fields: [estimate_id], references: [id])
+}
+
+model Category_Link {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  estimate_link_id String         @db.ObjectId
+  category_id      String         @db.ObjectId
+  process_link     Process_Link[]
+
+  category_rel      Categories    @relation(fields: [category_id], references: [id])
+  estimate_link_rel Estimate_Link @relation(fields: [estimate_link_id], references: [id])
+}
+
+model Process_Link {
+  id               String       @id @default(auto()) @map("_id") @db.ObjectId
+  category_link_id String       @db.ObjectId
+  process_id       String       @db.ObjectId
+  specs_info       Specs_Info[]
+  quantity         Int
+
+  process_rel       Processes     @relation(fields: [process_id], references: [id])
+  category_link_rel Category_Link @relation(fields: [category_link_id], references: [id])
+}
+
+model Specs_Info {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  process_link_id String @db.ObjectId
+  spec_id         String @db.ObjectId
+  option          String
+
+  spec_rel         Spec         @relation(fields: [spec_id], references: [id])
+  process_link_rel Process_Link @relation(fields: [process_link_id], references: [id])
+}
