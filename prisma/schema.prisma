@@ -64,7 +64,7 @@ model Estimate {
   estimate_no Int
   name        String
   quantity    Int
-  item_no     Int
+  item_no     String
   created_by  String   @db.ObjectId
   created_at  DateTime @default(now())
 
@@ -92,7 +92,7 @@ model Category_Link {
   category_id      String         @db.ObjectId
   process_link     Process_Link[]
 
-  category_rel      Categories    @relation(fields: [category_id], references: [id])
+  category_rel      Categories    @relation(fields: [category_id], references: [id], onDelete: Cascade)
   estimate_link_rel Estimate_Link @relation(fields: [estimate_link_id], references: [id])
 }
 

@@ -102,7 +102,7 @@ export default function Sub_Categories({category}){
     return(
         <div className="h-full flex flex-col">
             {active && <Sub_Category_Form toggleModel={toggleModel} category={category} sub_categories={sub_categories} setSub_Categories={setSub_Categories} index={index} current_sub_cat={current_sub_cat} edit={edit} setEdit={setEdit}/>}
-            <div className="h-12 flex flex-row items-start space-x-5 font-poppins px-5">
+            <div className="flex flex-row items-start space-x-5 font-poppins px-5">
                 {session.data?.user?.level === "admin" && 
                 <button onClick={toggleModel} className="flex flex-row items-center space-x-2">
                     <PiPlusSquareThin className="h-6 w-6"/>
@@ -111,7 +111,7 @@ export default function Sub_Categories({category}){
                 {session.data?.user?.level === "admin" && <button onClick={add_dumy_data}>add_dumy_data</button>}
             </div>
             <div className="flex flex-col">
-                <div className="px-24 py-10 grid gap-5 grid-cols-5 justify-center font-poppins">
+                <div className="px-24 py-10 grid gap-x-5 gap-y-10 grid-cols-5 justify-center font-poppins">
                     {sub_categories.map((sub_category, index) => (
                         <div key={index} className="max-w-40 max-h-48 min-h-48 flex flex-col items-center justify-center px-5 py-3 space-y-5 rounded bg-[#1D1D22] hover:bg-[#26262D]">
                             <div className="flex flex-row space-x-2 self-end">

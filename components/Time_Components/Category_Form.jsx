@@ -60,38 +60,38 @@ export default function Category_Form({toggleModel, categories, setCategories, i
                     setEdit(false)
                 }
                 else{
-                    const res = await fetch(`/api/add_category`, {
-                        mode: "no-cors",
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({categoryData: categoryData}) // Assuming categoryData is already in the correct format
-                    });
-                    // const resData = await res.json()
-                    // console.log("res.data in add cat: ", resData)
-                    const resData = {}
-                    console.log("res in add cat: ", await res)
-                    let temp_categories = categories
-                    if(Array.isArray(resData)){
-                        temp_categories = [...temp_categories, ...resData]    
-                    }
-                    else{
-                        temp_categories = [...temp_categories, resData]
-                    }
-                    setCategories(temp_categories)   
-
-                    // const res = await axios.post(`/api/add_category`, {categoryData: categoryData}, {headers: {"Content-Type": "application/json", 'Accept': 'application/json'}})
-                    // console.log("res.data in add cat: ", res.data)
+                    // const res = await fetch(`/api/add_category`, {
+                    //     mode: "no-cors",
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json',
+                    //         'Accept': 'application/json'
+                    //     },
+                    //     body: JSON.stringify({categoryData: categoryData}) // Assuming categoryData is already in the correct format
+                    // });
+                    // // const resData = await res.json()
+                    // // console.log("res.data in add cat: ", resData)
+                    // const resData = {}
+                    // console.log("res in add cat: ", await res)
                     // let temp_categories = categories
-                    // if(Array.isArray(res.data)){
-                    //     temp_categories = [...temp_categories, ...res.data]    
+                    // if(Array.isArray(resData)){
+                    //     temp_categories = [...temp_categories, ...resData]    
                     // }
                     // else{
-                    //     temp_categories = [...temp_categories, res.data]
+                    //     temp_categories = [...temp_categories, resData]
                     // }
                     // setCategories(temp_categories)   
+
+                    const res = await axios.post(`/api/add_category`, {categoryData: categoryData}, {headers: {"Content-Type": "application/json", 'Accept': 'application/json'}})
+                    console.log("res.data in add cat: ", res.data)
+                    let temp_categories = categories
+                    if(Array.isArray(res.data)){
+                        temp_categories = [...temp_categories, ...res.data]    
+                    }
+                    else{
+                        temp_categories = [...temp_categories, res.data]
+                    }
+                    setCategories(temp_categories)
                 }
                 toggleModel()
             }

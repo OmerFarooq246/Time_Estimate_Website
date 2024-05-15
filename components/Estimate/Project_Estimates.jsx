@@ -7,7 +7,7 @@ export default function Project_Estimates(){
 
     async function get_estimates(){
         try{
-            console.log("process.env.NEXT_PUBLIC_BASE_URL: ", process.env.NEXT_PUBLIC_BASE_URL)
+            // console.log("process.env.NEXT_PUBLIC_BASE_URL: ", process.env.NEXT_PUBLIC_BASE_URL)
             const res = await axios.get(`/api/get_estimates`)
             console.log("res.data in get_estimates: ", res.data)
             setEstimates(res.data)
@@ -40,12 +40,12 @@ export default function Project_Estimates(){
             <table className="text-sm">
                 <thead>
                     <tr>
-                        <th className="w-1/6 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#26262D]">Estimate #</th>
-                        <th className="w-1/6 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#26262D]">Project Name</th>
-                        <th className="w-1/6 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#26262D]">Qunatity</th>
-                        <th className="w-1/6 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#26262D]">Total Time per Unit</th>
-                        <th className="w-1/6 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#26262D]">Created by</th>
-                        <th className="w-1/6 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#26262D]">Created At</th>
+                        <th className="w-1/6 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Estimate #</th>
+                        <th className="w-1/6 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Project Name</th>
+                        <th className="w-1/6 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Qunatity</th>
+                        <th className="w-1/6 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Total Time per Unit</th>
+                        <th className="w-1/6 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Created by</th>
+                        <th className="w-1/6 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Created At</th>
                     </tr>
                 </thead>
             </table>
@@ -65,12 +65,12 @@ export default function Project_Estimates(){
                             )).map((estimate, index_2) => (
                                 
                                     <tr key={index_2}>
-                                        <td className="w-1/6 text-center font-light px-2 py-1.5 border border-[#26262D]">{estimate.estimate_no}</td>
-                                        <td className="w-1/6 text-center font-light px-2 py-1.5 border border-[#26262D]">{estimate.name}</td>
-                                        <td className="w-1/6 text-center font-light px-2 py-1.5 border border-[#26262D]">{estimate.quantity}</td>
-                                        <td className="w-1/6 text-center font-light px-2 py-1.5 border border-[#26262D]">{estimate.Estimate_Link[0]?.time_per_unit}</td>
-                                        <td className="w-1/6 text-center font-light px-2 py-1.5 border border-[#26262D]">{estimate.creating_user.username}</td>
-                                        <td className="w-1/6 text-center font-light px-2 py-1.5 border border-[#26262D]">{format_date(estimate.created_at)}</td>
+                                        <td className="w-1/6 text-center font-light px-2 py-1.5 border border-[#31313A]">{estimate.estimate_no}</td>
+                                        <td className="w-1/6 text-center font-light px-2 py-1.5 border border-[#31313A]">{estimate.name}</td>
+                                        <td className="w-1/6 text-center font-light px-2 py-1.5 border border-[#31313A]">{estimate.quantity}</td>
+                                        <td className="w-1/6 text-center font-light px-2 py-1.5 border border-[#31313A]">{estimate.Estimate_Link[0]?.time_per_unit}</td>
+                                        <td className="w-1/6 text-center font-light px-2 py-1.5 border border-[#31313A]">{estimate.creating_user.username}</td>
+                                        <td className="w-1/6 text-center font-light px-2 py-1.5 border border-[#31313A]">{format_date(estimate.created_at)}</td>
                                     </tr>
                             ))}
                         </table>

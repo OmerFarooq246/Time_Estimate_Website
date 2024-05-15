@@ -8,7 +8,7 @@ export default async function handler(req, res){
                 estimate_no: parseInt(req.body.new_estimteData.estimate_no),
                 name: req.body.new_estimteData.name,
                 quantity: parseInt(req.body.new_estimteData.quantity),
-                item_no: parseInt(req.body.new_estimteData.item_no),
+                item_no: req.body.new_estimteData.item_no,
                 created_by: req.body.new_estimteData.created_by_id,
             }
         })
