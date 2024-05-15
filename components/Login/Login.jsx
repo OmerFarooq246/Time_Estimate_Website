@@ -1,8 +1,9 @@
 import { LuUser2 } from "react-icons/lu";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signIn } from 'next-auth/react'
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import axios from "axios";
 
@@ -10,6 +11,13 @@ export default function Login(){
     const [loginData, setLoginData] = useState({username: "", password: ""})
     const [error, setError] = useState({username: "", password: "", credentials: ""})
     const router = useRouter()
+    const session = useSession()
+
+    useEffect(() => {
+        if(session?.data?.status === "authenticated"){
+            router.push("/")
+        }
+    }, [session?.data?.status])
 
     function handleChange(event){
         const {id, value} = event.target
