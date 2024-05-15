@@ -119,7 +119,7 @@ export default function Processes({sub_category}){
                     <PiPlusSquareThin className="h-6 w-6"/>
                     <h1 className="italic text-sm">New Process</h1>
                 </button>}
-                {session.data?.user?.level === "admin" && <button onClick={add_dumy_data}>add_dumy_data</button>}
+                {/* {session.data?.user?.level === "admin" && <button onClick={add_dumy_data}>add_dumy_data</button>} */}
             </div>
             <div className="flex flex-col">
                 <div className="px-24 py-10 grid gap-x-5 gap-y-10 grid-cols-5 justify-center font-poppins">
