@@ -74,26 +74,30 @@ model Estimate {
 
 model Estimate_Link {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  estimate_id   String          @db.ObjectId
+  estimate_id   String          @db.ObjectId @unique
   cd            Int
   r             Int
   sd            Int
   ai            Int
   complex       String
-  time_per_unit Int
+  time_per_unit Float
   category_link Category_Link[]
 
-  estimate_rel Estimate @relation(fields: [estimate_id], references: [id])
+  estimate_rel Estimate @relation(fields: [estimate_id], references: [id], onDelete: Cascade)
 }
 
 model Category_Link {
   id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  name String
   estimate_link_id String         @db.ObjectId
   category_id      String         @db.ObjectId
+  setup            Int
+  misc             Int
+  total            Int
   process_link     Process_Link[]
 
   category_rel      Categories    @relation(fields: [category_id], references: [id], onDelete: Cascade)
-  estimate_link_rel Estimate_Link @relation(fields: [estimate_link_id], references: [id])
+  estimate_link_rel Estimate_Link @relation(fields: [estimate_link_id], references: [id], onDelete: Cascade)
 }
 
 model Process_Link {
@@ -104,7 +108,7 @@ model Process_Link {
   quantity         Int
 
   process_rel       Processes     @relation(fields: [process_id], references: [id])
-  category_link_rel Category_Link @relation(fields: [category_link_id], references: [id])
+  category_link_rel Category_Link @relation(fields: [category_link_id], references: [id], onDelete: Cascade)
 }
 
 model Specs_Info {
@@ -114,5 +118,5 @@ model Specs_Info {
   option          String
 
   spec_rel         Spec         @relation(fields: [spec_id], references: [id])
-  process_link_rel Process_Link @relation(fields: [process_link_id], references: [id])
+  process_link_rel Process_Link @relation(fields: [process_link_id], references: [id], onDelete: Cascade)
 }

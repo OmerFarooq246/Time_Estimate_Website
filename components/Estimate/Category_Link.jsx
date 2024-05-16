@@ -1,28 +1,73 @@
 import { useEffect, useState } from "react"
 import Add_Process_Form from "./AddProcessForm"
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import axios from "axios";
 
 export default function Category_Link({index, categories_Link, setCategories_Link, handleSetUpChange, handleMiscChange}){
     const [active, setActive] = useState(false) //if true, model shown
+    const [current_process, setCurrent_process] = useState({})
+    const [index_process, setIndex_process] = useState(null)
+    const [edit, setEdit] = useState(false)
     
     function toggleModel(){
         setActive(!active)
     }
 
+    async function deleteProcess(index_p){
+            let temp_cat_links = [...categories_Link]
+            temp_cat_links[index].processes.splice(index_p, 1)
+            console.log("temp_cat_links: ", temp_cat_links)
+            setCategories_Link(temp_cat_links)
+
+        // if(!categories_Link[index].processes[index_p].id){
+        //     let temp_cat_links = [...categories_Link]
+        //     temp_cat_links[index].processes.splice(index_p, 1)
+        //     console.log("temp_cat_links: ", temp_cat_links)
+        //     setCategories_Link(temp_cat_links)
+        // }
+        // else{
+        //     try{
+        //         const res = await axios.post(`/api/delete_process_of_link`, {
+        //             process_link_id: categories_Link[index].processes[index_p].id
+        //         })
+        //         console.log("res.data in del process_link: ", res.data)
+        //         let temp_cats = [...categories_Link]
+        //         temp_cats[index].processes.splice(index_p, 1)
+        //         setCategories_Link(temp_cats)
+        //     }
+        //     catch(error){
+        //         console.log("error in delete process_link: ", error)
+        //     }
+        // }
+    }
+
+    function editProcess(index_p){
+        setIndex_process(index_p)
+        setCurrent_process(categories_Link[index].processes[index_p])
+        setEdit(true)
+        toggleModel()
+    }
+
     return(
         <div className="w-full flex flex-col space-y-2 text-sm">
-            {active && <Add_Process_Form toggleModel={toggleModel} index={index} categories_Link={categories_Link} setCategories_Link={setCategories_Link}/>}
+            {active && <Add_Process_Form toggleModel={toggleModel} index={index} categories_Link={categories_Link} setCategories_Link={setCategories_Link} edit={edit} setEdit={setEdit} index_process={index_process} current_process={current_process}/>}
             <h1 className="font-bold">{categories_Link[index].category.name}</h1>
             <table className="text-xs bg-[#1D1D22] rounded">
                 <tr>
-                    <th className="px-3 py-2 px-2 font-semibold w-4/6 text-start">Process</th>
-                    <th className="px-3 py-2 px-2 font-semibold w-1/6">Qty</th>
-                    <th className="px-3 py-2 px-2 font-semibold w-1/6 text-end">Time (mins)</th>
+                    <th className="px-3 py-2 px-2 border border-[#31313A] font-semibold w-7/12 text-start">Process</th>
+                    <th className="px-3 py-2 px-2 border border-[#31313A] font-semibold w-2/12 text-center">Time (mins)</th>
+                    <th className="px-3 py-2 px-2 border border-[#31313A] font-semibold w-1/12">Qty</th>
+                    <th className="px-3 py-2 px-2 border border-[#31313A] font-semibold w-1/12">Edit</th>
+                    <th className="px-3 py-2 px-2 border border-[#31313A] font-semibold w-1/12">Delete</th>
                 </tr>
                 {categories_Link[index].processes.map((process, index) => (
                     <tr key={index} className="">
-                        <td className="px-3 py-1 border border-[#26262D]">{process.process.name} {process.specs_info.map(spec => (" - " + spec.option))}</td>
-                        <td className="px-3 py-1 border border-[#26262D] text-center">{process.quantity}</td>
-                        <td className="px-3 py-1 border border-[#26262D] text-center">{process.quantity * process.process.time_per_unit}</td>
+                        <td className="px-3 py-1 border border-[#31313A]">{process.process.name} {process.specs_info.map(spec => (" - " + spec.option))}</td>
+                        <td className="px-3 py-1 border border-[#31313A] text-center">{process.quantity * process.process.time_per_unit}</td>
+                        <td className="px-3 py-1 border border-[#31313A] text-center">{process.quantity}</td>
+                        <td className="px-3 py-1 border border-[#31313A] text-center"><button onClick={() => editProcess(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button></td>
+                        <td className="px-3 py-1 border border-[#31313A] text-center"><button onClick={() => deleteProcess(index)}><MdDelete className="text-red-600"/></button></td>
                     </tr>
                 ))}
             </table>

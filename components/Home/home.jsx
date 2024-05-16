@@ -16,6 +16,12 @@ import { useSession } from "next-auth/react";
 export default function Home(){
     const [active, setActive] = useState(false)
     const session = useSession()
+    // const [user, setUser] = useState({})
+
+    // useEffect(() => {
+    //     setUser(session?.data?.user)
+    //     console.log("session?.data?.user: ", session?.data?.user)
+    // }, [session?.data?.user])
     
     // const [user, setUser] = useState({} as User)
     // const router = useRouter()
@@ -37,7 +43,15 @@ export default function Home(){
     // }, [])
 
     function toggleModel(){
+        console.log("session?.data?.user?.level: ", session?.data?.user?.level)
         setActive(!active)
+        // if(session?.data?.user?.level === "read only"){
+        //     // alert
+        //     return
+        // }
+        // else{
+        //     setActive(!active)
+        // }
     }
 
     return(
@@ -45,7 +59,8 @@ export default function Home(){
             {active && <New_Estimate_Form toggleModel={toggleModel} user={session.data?.user}/>}
             <div className="h-1/5"></div>
             <div className="h-3/5 flex flex-row font-poppins justify-center space-x-20">
-                <button onClick={toggleModel} className="h-4/6 w-1/6 px-7 bg-[#1D1D22] flex flex-col justify-center items-center rounded hover:bg-[#26262D]">
+                {/* <button onClick={toggleModel} className={`h-4/6 w-1/6 px-7 bg-[#1D1D22] flex flex-col justify-center items-center rounded ${!user?.level === "read only" && "hover:bg-[#26262D]"}`}> */}
+                <button disabled={session?.data?.user?.level === "read only"} onClick={toggleModel} className={`h-4/6 w-1/6 px-7 bg-[#1D1D22] flex flex-col justify-center items-center rounded hover:bg-[#26262D]`}>
                     <LuClipboardEdit className="w-24 h-24 text-[#E3E4E8]"/>
                     <h1 className="font-bold mt-8">New Estimate</h1>
                 </button>

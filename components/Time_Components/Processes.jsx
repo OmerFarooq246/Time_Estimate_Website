@@ -125,10 +125,11 @@ export default function Processes({sub_category}){
                 <div className="px-24 py-10 grid gap-x-5 gap-y-10 grid-cols-5 justify-center font-poppins">
                     {processes.map((process, index) => (
                         <div key={index} className="max-w-40 max-h-48 min-h-48 flex flex-col items-center justify-center px-5 py-3 space-y-5 rounded bg-[#1D1D22] hover:bg-[#26262D]">
+                            {session.data?.user?.level === "admin" && 
                             <div className="flex flex-row space-x-2 self-end">
                                 <button onClick={() => editProcess(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button>
                                 <button onClick={() => deleteProcess(index)}><MdDelete className="text-red-600 hover:text-red-500"/></button>
-                            </div>
+                            </div>}
                             <Link href={`/time_components/process/${process.id}`} className="flex flex-col items-center justify-center space-y-5">
                                 <MdSettingsInputComponent className="w-20 h-20 text-[#E3E4E8]"/>
                                 <h1 className="h-1/5 font-bold">{process.name}</h1>

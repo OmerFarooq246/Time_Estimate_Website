@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import axios from "axios";
 
-export default function Add_Process_Form({toggleModel, index, categories_Link, setCategories_Link}){
+export default function Add_Process_Form({toggleModel, index, categories_Link, setCategories_Link, edit, setEdit, index_process, current_process}){
     const [processes, setProcesses] = useState([])
     const [selected_Process, setSelected_Process] = useState(null)
     const [specs_info, setSpec_info] = useState([])
-    const [quantity, setQuantity] = useState(0)
+    const [quantity, setQuantity] = useState(edit ? current_process.quantity : 0)
     const [error, setError] = useState({quantity: ""})
 
     async function get_all_processes(){
@@ -34,17 +34,26 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
 
     useEffect(() => {
         if(processes.length !== 0 && processes !== null && processes !== undefined){
-            setSelected_Process(processes[0])
+            if(edit){
+                setSelected_Process(current_process.process)
+            }
+            else{
+                setSelected_Process(processes[0])
+            }
             console.log("processes[0]: ", processes[0])
         }
     }, [processes])
 
     function set_specs_info(){
-        let temp_specs_info = selected_Process?.specs.map((spec) => {
-            return {id: spec.id, option: spec.options[0]}
-        })
-
-        setSpec_info(temp_specs_info)
+        if(edit){
+            setSpec_info(current_process.specs_info)
+        }
+        else{
+            let temp_specs_info = selected_Process?.specs?.map((spec) => {
+                return {id: spec.id, option: spec.options[0]}
+            })
+            setSpec_info(temp_specs_info)
+        }
     }
 
     useEffect(() => {
@@ -91,20 +100,35 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
         }
         else{
             setError((prevError) => {return {...prevError, "quantity": ""}})
-            try{
-                let process = {process: selected_Process, specs_info: specs_info, quantity: quantity}
-                console.log("final process: ", process)
-                let temp_cat_links = [...categories_Link]
-                temp_cat_links[index].processes = [...temp_cat_links[index].processes, process]
-                temp_cat_links[index].time_info.total = temp_cat_links[index].processes.map((process) => (parseInt(process.quantity) * parseInt(process.process.time_per_unit))).reduce((a, b) => a + b, 0) + parseInt(temp_cat_links[index].time_info.setup) + parseInt(temp_cat_links[index].time_info.misc)
-                console.log("total: ", temp_cat_links[index].time_info.total)
-                setCategories_Link(temp_cat_links)
+            if(edit){
+                let temp_categories_link = categories_Link
+                temp_categories_link[index].processes[index_process].quantity = quantity
+                console.log("temp_categories_link: ", temp_categories_link)
+                setCategories_Link(temp_categories_link)
+                setEdit(false)
                 toggleModel()
             }
-            catch(error){
-                console.log("error in handle sbmit: ", error)
+            else{
+                try{
+                    let process = {process: selected_Process, specs_info: specs_info, quantity: quantity}
+                    console.log("final process: ", process)
+                    let temp_cat_links = [...categories_Link]
+                    temp_cat_links[index].processes = [...temp_cat_links[index].processes, process]
+                    temp_cat_links[index].time_info.total = temp_cat_links[index].processes.map((process) => (parseInt(process.quantity) * parseInt(process.process.time_per_unit))).reduce((a, b) => a + b, 0) + parseInt(temp_cat_links[index].time_info.setup) + parseInt(temp_cat_links[index].time_info.misc)
+                    console.log("total: ", temp_cat_links[index].time_info.total)
+                    setCategories_Link(temp_cat_links)
+                    toggleModel()
+                }
+                catch(error){
+                    console.log("error in handle sbmit: ", error)
+                }
             }
         }
+    }
+    
+    function cancelForm(){
+        setEdit(false)
+        toggleModel()
     }
 
     return(
@@ -113,7 +137,7 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
                 <h1 className="text-sm font-bold">{categories_Link[index].name}</h1>
                 <div className="w-full flex flex-col space-y-2.5 mb-4">
                     <label htmlFor="processes" className="text-xs">Select Process</label>
-                    <select id="processes" value={selected_Process?.id} onChange={handleProcessSelectChange} className="px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">
+                    <select disabled={edit} id="processes" value={selected_Process?.id} onChange={handleProcessSelectChange} className="px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">
                         {processes.map((process, index) => (
                             <option key={index} value={process.id}>{process.name}</option>
                         ))}
@@ -132,7 +156,8 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
                             {selected_Process?.specs?.map((spec, index) => (
                                 <div key={index} className="flex flex-col mt-5 space-y-2">
                                     <h3 className="text-xs">{spec.description}</h3>
-                                    {specs_info && <select id={spec.id} onChange={handleSpecOptionSelectChange} value={specs_info[index]?.option} className="px-2 py-1 bg-[#26262D] text-xs rounded-sm focus:outline-none">
+                                    {specs_info && 
+                                    <select disabled={edit} id={spec.id} onChange={handleSpecOptionSelectChange} value={specs_info[index]?.option} className="px-2 py-1 bg-[#26262D] text-xs rounded-sm focus:outline-none">
                                         {spec.options.map((option, index) => (
                                             <option key={index} value={option}>{option}</option>
                                         ))}
@@ -153,8 +178,8 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
                 </div>
 
                 <div className="w-full flex flex-row justify-end space-x-5">
-                    <button onClick={toggleModel} type="button" className="text-xs text-[#FA450C] hover:text-[#de3705] focus:text-[#de3705]">Cancel</button>
-                    <button type="submit" className="rounded-sm focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs px-5 py-3 text-lg">Add Process</button>
+                    <button onClick={cancelForm} type="button" className="text-xs text-[#FA450C] hover:text-[#de3705] focus:text-[#de3705]">Cancel</button>
+                    <button type="submit" className="rounded-sm focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs px-5 py-3 text-lg">{edit ? "Edit" : "Add"} Process</button>
                 </div>
             </form>
         </div>

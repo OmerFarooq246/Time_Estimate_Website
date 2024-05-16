@@ -4,10 +4,12 @@ import { useRouter } from "next/router"
 
 export default function Estimate_Page(){
     const router = useRouter()
-    console.log(router.query)
+    console.log("router.query in Estimate_Page", router.query)
 
     return(
     <BaseLayout title={"New Estimate"} heading={"New Estimate"}>
-        <Estimate estimate={router.query.estimate}/>
+        {router.query.edit 
+        ? <Estimate estimate={router.query.estimate} edit={true}/> 
+        : <Estimate estimate={router.query.estimate} edit={false}/>}
     </BaseLayout>)
 }

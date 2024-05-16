@@ -23,33 +23,17 @@ import { useRouter } from "next/router"
 // };
 
 
-export default function Estimate({estimate}){
+export default function Estimate({estimate, edit}){
+    console.log("edit in Estiamte comp: ", edit)
     const session = useSession()
     const router = useRouter()
-
-    // const [user, setUser] = useState({})
-    // const router = useRouter()
-    // async function get_token(){
-    //     try{
-    //         const res = await axios.get("/api/checktoken")
-    //         console.log("res.data: ", res.data)
-    //         setUser(res.data)
-    //     }
-    //     catch(error){
-    //         if(error.response.status === 401){
-    //             router.push("/login")
-    //         }
-    //         console.log("error in get_token: ", error)
-    //     }
-    // }
-    // useEffect(() => {
-    //     get_token()
-    // }, [])
 
     const [estimate_info, setEstimate_info] = useState({})
     const [categories_Link, setCategories_Link] = useState([])
     const [complex, setComplex] = useState("NC")
     const [engineering, setEngineering] = useState({cd: 0, r: 0, sd: 0, ai: 0})
+    const [total_time_qty, setTotal_time_qty] = useState("")
+    const [total_time_each, setTotal_time_each] = useState(0)
 
     function handleEngineering(event){
         // console.log("event.target: ", event.target)
@@ -75,7 +59,7 @@ export default function Estimate({estimate}){
     }
 
     function handleSetUpChange(event){
-        console.log("event.target: ", event.target)
+        // console.log("event.target: ", event.target)
         let temp_cat_links = [...categories_Link]
         temp_cat_links[event.target.id].time_info.setup = event.target.value
         temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseInt(process.quantity) * parseInt(process.process.time_per_unit))).reduce((a, b) => a + b, 0) + parseInt(temp_cat_links[event.target.id].time_info.setup) + parseInt(temp_cat_links[event.target.id].time_info.misc)
@@ -84,7 +68,7 @@ export default function Estimate({estimate}){
     }
 
     function handleMiscChange(event){
-        console.log("event.target: ", event.target)
+        // console.log("event.target: ", event.target)
         let temp_cat_links = [...categories_Link]
         temp_cat_links[event.target.id].time_info.misc = event.target.value
         temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseInt(process.quantity) * parseInt(process.process.time_per_unit))).reduce((a, b) => a + b, 0) + parseInt(temp_cat_links[event.target.id].time_info.setup) + parseInt(temp_cat_links[event.target.id].time_info.misc)
@@ -120,20 +104,94 @@ export default function Estimate({estimate}){
         }
     }
 
+    async function get_estimate_info_all(){
+        try{
+            const res = await axios.get(`/api/get_estimate_info_all`, {
+                params: {estimate_id: estimate}
+            })
+            console.log("res.data: ", res.data)
+            let temp_cats = res.data.Estimate_Link[0].category_link.map((cat) => (
+                {
+                    id: cat.id,
+                    category: {id: cat.category_id, name: cat.name}, 
+                    processes: cat.process_link.map((process) => ({
+                        id: process.id,
+                        process: {
+                            id: process.process_rel.id,
+                            name: process.process_rel.name,
+                            time_per_unit: parseInt(process.process_rel.time_per_unit),
+                            specs: process.process_rel.specs.map((spec) => ({
+                                id: spec.id,
+                                description: spec.description,
+                                process: spec.process,
+                                options: spec.options.split(",")
+                            })),
+                            img_source: process.process_rel.img_source
+                        }, 
+                        specs_info: process.specs_info, 
+                        quantity: parseInt(process.quantity)
+                    })),
+                    time_info: {
+                        setup: parseInt(cat.setup), 
+                        misc: parseInt(cat.misc), 
+                        total: parseInt(cat.total)
+                    }}
+            ))
+            console.log("temp_cats: ", temp_cats)
+            setCategories_Link(temp_cats)
+
+            let temp_info = {
+                id: res.data.id,
+                name: res.data.name,
+                item_no: res.data.item_no,
+                quantity: parseInt(res.data.quantity),
+                estimate_no: res.data.estimate_no,
+                created_by: res.data.created_by,
+                created_at: format_date(res.data.created_at)
+            }
+            console.log("temp_info: ", temp_info)
+            setEstimate_info(temp_info)
+
+            let temp_engineering = {
+                cd: parseInt(res.data.Estimate_Link[0].cd), 
+                r: parseInt(res.data.Estimate_Link[0].r), 
+                sd: parseInt(res.data.Estimate_Link[0].sd), 
+                ai: parseInt(res.data.Estimate_Link[0].ai)
+            }
+            console.log("temp_engineering: ", temp_engineering)
+            setEngineering(temp_engineering)
+
+            setComplex(res.data.Estimate_Link[0].complex)
+        }
+        catch(error){
+            console.log("error in get_estimate_info_all: ", error)
+        }
+    }
+
     useEffect(() => {
-        get_estimate_info()
-        set_categories_Link()
+        if(edit){
+            get_estimate_info_all()
+        }
+        else{
+            get_estimate_info()
+            set_categories_Link()
+        }
     }, [])
 
     function sum_all_total(){
         let total = categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai
         if(complex === "C"){
-            total = total + total*5/100
+            total = ((total + total*5/100)/estimate_info?.quantity).toFixed(4)
+            setTotal_time_each(total)
         }
         else if(complex === "VC"){
-            total = total + total*10/100
+            total = ((total + total*10/100)/estimate_info?.quantity).toFixed(4)
+            setTotal_time_each(total)
         }
-        return total
+        else{
+            setTotal_time_each((total/estimate_info?.quantity).toFixed(4))
+        }
+        // return total
     }
 
     function sum_total(){
@@ -141,28 +199,55 @@ export default function Estimate({estimate}){
         let complex_value;
         if(complex === "C"){
             complex_value = total*5/100
+            setTotal_time_qty(`${total} + ${complex_value} = ${total + complex_value}`)
         }
         else if(complex === "VC"){
             complex_value = total*10/100
+            setTotal_time_qty(`${total} + ${complex_value} = ${total + complex_value}`)
         }
         else if(complex === "NC"){
-            return total
+            // return total
+            setTotal_time_qty(`${total}`)
         }
-        return `${total} + ${complex_value} = ${total + complex_value}`
+        // return `${total} + ${complex_value} = ${total + complex_value}`
     }
 
-    async function handleSaveReport(){
-        const estimate_Link = {estimate_id: estimate_info.id, time_per_unit: sum_all_total(), categories_Link: categories_Link, engineering: engineering, complex: complex}
-        console.log("estimate_Link: ", estimate_Link)
-        try{
-            const res = await axios.post(`/api/add_estimate_link`,{
-                estimate_Link: estimate_Link
-            })
-            console.log("res.data in handleSaveReport: ", res.data)
-            router.push("/")
+    useEffect(() => {
+        if(categories_Link && complex && engineering && estimate_info){
+            sum_all_total()
+            sum_total()   
         }
-        catch(error){
-            console.log("error in handleSaveReport: ", error)
+    }, [categories_Link, complex, engineering])
+
+    async function handleSaveReport(){
+        // const estimate_Link = {estimate_id: estimate_info.id, time_per_unit: sum_all_total(), categories_Link: categories_Link, engineering: engineering, complex: complex}        
+        if(edit){
+            const estimate_Link = {estimate_id: estimate_info.id, time_per_unit: total_time_each, categories_Link: categories_Link, engineering: engineering, complex: complex}
+            console.log("estimate_Link: ", estimate_Link)
+            try{
+                const res = await axios.post(`/api/edit_estimate_link`,{
+                    estimate_Link: estimate_Link
+                })
+                console.log("res.data in handleSaveReport: ", res.data)
+                router.push("/")
+            }
+            catch(error){
+                console.log("error in handleSaveReport: ", error)
+            }
+        }
+        else{
+            const estimate_Link = {estimate_id: estimate_info.id, time_per_unit: total_time_each, categories_Link: categories_Link, engineering: engineering, complex: complex}
+            console.log("estimate_Link: ", estimate_Link)
+            try{
+                const res = await axios.post(`/api/add_estimate_link`,{
+                    estimate_Link: estimate_Link
+                })
+                console.log("res.data in handleSaveReport: ", res.data)
+                router.push("/")
+            }
+            catch(error){
+                console.log("error in handleSaveReport: ", error)
+            }
         }
     }
 
@@ -187,7 +272,7 @@ export default function Estimate({estimate}){
                 {session.data?.user?.level === "admin" && 
                 <button onClick={handleSaveReport} className="flex flex-row items-center space-x-1.5">
                     <FaSave className="h-5 w-5"/>
-                    <h1 className="italic text-sm">Save</h1>
+                    <h1 className="italic text-sm">{edit ? "Save Edit" : "Save"}</h1>
                 </button>}
             </div>
             <div className="flex flex-col w-7/12 mb-5 bg-[#1D1D22] rounded px-4 py-4 space-y-3 self-center items-center">
@@ -257,13 +342,15 @@ export default function Estimate({estimate}){
                                 {/* {categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai}
                                 {complex === "C" && " + " + ((categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai)*5/100).toFixed(2)}
                                 {complex === "VC" && " + " + ((categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai)*10/100).toFixed(2)} */}
-                                {sum_total()}
+                                {/* {sum_total()} */}
+                                {total_time_qty}
                             </td>
                         </tr>
                         <tr className="">
                             <td className="text-xs pr-2">Total time for each: </td>
                             <td className="w-18 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">
-                                {(sum_all_total()/estimate_info?.quantity).toFixed(4)}
+                                {total_time_each}
+                                {/* {(sum_all_total()/estimate_info?.quantity).toFixed(4)} */}
                                 {/* {((categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai)/estimate_info?.quantity).toFixed(4)} */}
                             </td>
                         </tr>

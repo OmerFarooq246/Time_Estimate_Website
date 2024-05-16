@@ -43,7 +43,7 @@ export default function User_Table({toggleModel, setIndex, users, setUsers, setC
                         <td className="text-center font-light px-2 py-1.5 border border-[#26262D]">{user.username}</td>
                         <td className="text-center font-light px-2 py-1.5 border border-[#26262D] text-ellipsis">{user.password}</td>
                         <td className="text-center font-light px-2 py-1.5 border border-[#26262D]">{user.level}</td>
-                        <td className="text-center font-light px-2 py-1.5 border border-[#26262D]"><button onClick={() => edituser(index)}><MdEdit className=""/></button></td>
+                        <td className="text-center font-light px-2 py-1.5 border border-[#26262D]"><button onClick={() => edituser(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button></td>
                         <td className="text-center font-light px-2 py-1.5 border border-[#26262D]"><button onClick={() => deleteUser(index)}><MdDelete className="text-red-600"/></button></td>
                     </tr>
                 ))}
