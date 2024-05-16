@@ -1,10 +1,12 @@
 import { FaPrint } from "react-icons/fa";
 import { FaSave } from "react-icons/fa";
 import { useSession } from "next-auth/react"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Category_Link from "./Category_Link";
 import axios from "axios";
 import { useRouter } from "next/router"
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 // type User = {
 //     username?: string;
@@ -27,6 +29,7 @@ export default function Estimate({estimate, edit}){
     console.log("edit in Estiamte comp: ", edit)
     const session = useSession()
     const router = useRouter()
+    const reference = useRef(null)
 
     const [estimate_info, setEstimate_info] = useState({})
     const [categories_Link, setCategories_Link] = useState([])
@@ -252,6 +255,7 @@ export default function Estimate({estimate, edit}){
     }
 
     async function handlePrintReport(){
+        generatePDF()
         // try{
         //     const res = await axios.post(`/api/save_puppet_PDF`)
         //     console.log("res.data in handlePrintReport: ", res.data)
@@ -261,8 +265,33 @@ export default function Estimate({estimate, edit}){
         // }
     }
 
+    async function generatePDF(){
+        const inputData = reference.current
+        try{
+            const canvas = await html2canvas(inputData)
+            const imgData = canvas.toDataURL("image/png")
+
+            const pdf = new jsPDF(
+                {
+                    orientation: "portrait",
+                    unit: "px",
+                    format: "a4"
+                }
+            )
+
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+
+            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight)
+            pdf.save("TestPDF.pdf")
+        }
+        catch(error){
+            console.log("error in generatePDF: ", error)
+        }
+    }
+
     return(
-        <div className="flex flex-col font-poppins">
+        <div ref={reference} className="flex flex-col font-poppins">
             <div className="flex flex-row items-start space-x-6 font-poppins px-5">
                 {session.data?.user?.level === "admin" && 
                 <button onClick={handlePrintReport} className="flex flex-row items-center space-x-1.5">
