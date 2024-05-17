@@ -5,7 +5,7 @@ const poppins = Poppins({subsets: ['latin'], variable: "--font-poppins", weight:
 
 export default function BaseLayout({title, heading, children}) {
   return (
-    <div className='h-screen flex flex-col bg-[#161616] overflow-y-scroll scrollbar scrollbar-thumb-[#26262D] scrollbar-track-[#1D1D22]'>
+    <div id="entire-page" className='h-screen flex flex-col bg-[#161616] overflow-y-scroll scrollbar scrollbar-thumb-[#26262D] scrollbar-track-[#1D1D22]'>
         <Head>
             <title>{title}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
