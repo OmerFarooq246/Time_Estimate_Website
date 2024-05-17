@@ -267,13 +267,13 @@ export default function Estimate({estimate, edit}){
     }
 
     async function generatePDF(){
-        const input = document.getElementById('entire-page'); // Assuming 'entire-page' is the id of the outermost container wrapping your page content
+        const input = document.getElementById('entire-page');
         const options = {
-            margin: 0.5, // Optional: Adjust margins as needed
+            margin: 0.5,
             filename: 'your-page.pdf',
-            image: { type: 'jpeg', quality: 0.98 }, // Optional: Specify image type and quality
-            html2canvas: { scale: 2 }, // Optional: Adjust scale for better resolution
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' } // Optional: Specify PDF format and orientation
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scrollY: -window.scrollY, scale: 2 },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
         };
 
         await html2pdf().from(input).set(options).save();
