@@ -33,7 +33,7 @@ model Sub_Categories {
   created_at DateTime    @default(now())
   processes  Processes[]
 
-  owner_category Categories @relation(fields: [category], references: [id])
+  owner_category Categories @relation(fields: [category], references: [id], onDelete: Cascade)
 }
 
 model Processes {
@@ -45,7 +45,7 @@ model Processes {
   img_source    String
   created_at    DateTime @default(now())
 
-  owner_sub_category Sub_Categories @relation(fields: [sub_category], references: [id])
+  owner_sub_category Sub_Categories @relation(fields: [sub_category], references: [id], onDelete: Cascade)
   Process_Link       Process_Link[]
 }
 
