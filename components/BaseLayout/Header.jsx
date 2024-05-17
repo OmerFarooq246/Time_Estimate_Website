@@ -38,7 +38,7 @@ export default function Header({ heading }) {
                 </div>
                 <div className={`w-2/12 flex flex-row justify-end items-center pr-2 ${poppins.className}`}>
                     {(router.pathname === "/" && router.pathname !== "/login") && <button className="uppercase font-bold text-sm" onClick={() => signOut({ callbackUrl: '/login' })}>Log Off</button>}
-                    {(router.pathname !== "/" && router.pathname !== "/login" && router.pathname.includes("estimate")) && <Link className="uppercase font-bold text-sm" href="/">Home</Link>}
+                    {(router.pathname !== "/" && router.pathname !== "/login" && !router.pathname.includes("/estimate")) && <Link className="uppercase font-bold text-sm" href="/">Home</Link>}
                 </div>
             </header>
             <div className="flex flex-row justify-between px-3 py-3 bg-[#161616] text-[#E3E4E8] mb-2">

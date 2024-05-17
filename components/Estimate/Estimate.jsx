@@ -1,13 +1,10 @@
 import { FaPrint } from "react-icons/fa";
 import { FaSave } from "react-icons/fa";
 import { useSession } from "next-auth/react"
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Category_Link from "./Category_Link";
 import axios from "axios";
 import { useRouter } from "next/router"
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import html2pdf from 'html2pdf.js';
 
 // type User = {
 //     username?: string;
@@ -30,7 +27,6 @@ export default function Estimate({estimate, edit}){
     console.log("edit in Estiamte comp: ", edit)
     const session = useSession()
     const router = useRouter()
-    const reference = useRef(null)
 
     const [estimate_info, setEstimate_info] = useState({})
     const [categories_Link, setCategories_Link] = useState([])
@@ -256,7 +252,6 @@ export default function Estimate({estimate, edit}){
     }
 
     async function handlePrintReport(){
-        // generatePDF()
         // try{
         //     const res = await axios.post(`/api/save_puppet_PDF`)
         //     console.log("res.data in handlePrintReport: ", res.data)
@@ -265,52 +260,6 @@ export default function Estimate({estimate, edit}){
         //     console.log("error in handlePrintReport: ", error)
         // }
     }
-
-    // async function generatePDF(){
-        // const input = document.getElementById('entire-page');
-        // const options = {
-        //     margin: 0.5,
-        //     filename: 'your-page.pdf',
-        //     image: { type: 'jpeg', quality: 0.98 },
-        //     html2canvas: { scrollY: -window.scrollY, scale: 2 },
-        //     jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
-        // };
-
-        // await html2pdf().from(input).set(options).save();
-
-        // const input = document.getElementById('entire-page'); // Assuming 'entire-page' is the id of the outermost container wrapping your page content
-        // const options = {
-        //     margin: 0.5, // Optional: Adjust margins as needed
-        //     filename: 'your-page.pdf',
-        //     image: { type: 'jpeg', quality: 0.98 }, // Optional: Specify image type and quality
-        //     html2canvas: { scale: 2 }, // Optional: Adjust scale for better resolution
-        //     jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' } // Optional: Specify PDF format and orientation
-        // };
-
-        // await html2pdf().from(input).set(options).save();
-        // const inputData = reference.current
-        // try{
-        //     const canvas = await html2canvas(inputData)
-        //     const imgData = canvas.toDataURL("image/png")
-
-        //     const pdf = new jsPDF(
-        //         {
-        //             orientation: "portrait",
-        //             unit: "px",
-        //             format: "a4"
-        //         }
-        //     )
-
-        //     const pdfWidth = pdf.internal.pageSize.getWidth();
-        //     const pdfHeight = pdf.internal.pageSize.getHeight();
-
-        //     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight)
-        //     pdf.save("TestPDF.pdf")
-        // }
-        // catch(error){
-        //     console.log("error in generatePDF: ", error)
-        // }
-    // }
 
     return(
         <div className="flex flex-col font-poppins">
