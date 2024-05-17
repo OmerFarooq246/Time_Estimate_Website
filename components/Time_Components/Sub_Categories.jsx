@@ -78,17 +78,23 @@ export default function Sub_Categories({category}){
     }
 
     async function delete_SubCat(index){
-        try{
-            const res = await axios.post(`/api/delete_sub_category`, {
-                sub_category_id: sub_categories[index].id
-            })
-            console.log("res.data in del sub_cat: ", res.data)
-            let temp_sub_cats = [...sub_categories]
-            temp_sub_cats.splice(index, 1)
-            setSub_Categories(temp_sub_cats)
+        const confirm = window.confirm("Are you sure you want to delete this sub_category?")
+        if(confirm){
+            try{
+                const res = await axios.post(`/api/delete_sub_category`, {
+                    sub_category_id: sub_categories[index].id
+                })
+                console.log("res.data in del sub_cat: ", res.data)
+                let temp_sub_cats = [...sub_categories]
+                temp_sub_cats.splice(index, 1)
+                setSub_Categories(temp_sub_cats)
+            }
+            catch(error){
+                console.log("error in delete sub_categories: ", error)
+            }
         }
-        catch(error){
-            console.log("error in delete sub_categories: ", error)
+        else{
+            return
         }
     }
 

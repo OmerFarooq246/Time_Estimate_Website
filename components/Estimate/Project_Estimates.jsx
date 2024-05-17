@@ -42,18 +42,24 @@ export default function Project_Estimates(){
     }
 
     async function deleteEstimate(estimate){
-        let temp_estimate_index = estimates.indexOf(estimate)
-        try{
-            const res = await axios.post(`/api/delete_estimate`, {
-                estimate_id: estimate.id
-            })
-            console.log("res.data in del estimate: ", res.data)
-            let temp_estimates = [...estimates]
-            temp_estimates.splice(temp_estimate_index, 1)
-            setEstimates(temp_estimates)
+        const confirm = window.confirm("Are you sure you want to delete this preoject_estimate?")
+        if(confirm){
+            let temp_estimate_index = estimates.indexOf(estimate)
+            try{
+                const res = await axios.post(`/api/delete_estimate`, {
+                    estimate_id: estimate.id
+                })
+                console.log("res.data in del estimate: ", res.data)
+                let temp_estimates = [...estimates]
+                temp_estimates.splice(temp_estimate_index, 1)
+                setEstimates(temp_estimates)
+            }
+            catch(error){
+                console.log("error in delete estimate: ", error)
+            }
         }
-        catch(error){
-            console.log("error in delete estimate: ", error)
+        else{
+            return
         }
     }
 

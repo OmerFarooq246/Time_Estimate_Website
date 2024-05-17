@@ -7,17 +7,23 @@ import { MdDelete } from "react-icons/md";
 export default function User_Table({toggleModel, setIndex, users, setUsers, setCurrent_user, setEdit}){
 
     async function deleteUser(index){
-        try{
-            const res = await axios.post(`/api/delete_user`, {
-                user_id: users[index].id
-            })
-            console.log("res.data in del user: ", res.data)
-            let temp_users = [...users]
-            temp_users.splice(index, 1)
-            setUsers(temp_users)
+        const confirm = window.confirm("Are you sure you want to delete this user?")
+        if(confirm){
+            try{
+                const res = await axios.post(`/api/delete_user`, {
+                    user_id: users[index].id
+                })
+                console.log("res.data in del user: ", res.data)
+                let temp_users = [...users]
+                temp_users.splice(index, 1)
+                setUsers(temp_users)
+            }
+            catch(error){
+                console.log("error in delete user: ", error)
+            }
         }
-        catch(error){
-            console.log("error in delete user: ", error)
+        else{
+            return
         }
     }
 

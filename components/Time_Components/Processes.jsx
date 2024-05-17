@@ -78,17 +78,23 @@ export default function Processes({sub_category}){
     }
 
     async function deleteProcess(index){
-        try{
-            const res = await axios.post(`/api/delete_process`, {
-                process_id: processes[index].id
-            })
-            console.log("res.data in del process: ", res.data)
-            let temp_processes = [...processes]
-            temp_processes.splice(index, 1)
-            setProcesses(temp_processes)
+        const confirm = window.confirm("Are you sure you want to delete this process?")
+        if(confirm){
+            try{
+                const res = await axios.post(`/api/delete_process`, {
+                    process_id: processes[index].id
+                })
+                console.log("res.data in del process: ", res.data)
+                let temp_processes = [...processes]
+                temp_processes.splice(index, 1)
+                setProcesses(temp_processes)
+            }
+            catch(error){
+                console.log("error in delete processes: ", error)
+            }
         }
-        catch(error){
-            console.log("error in delete processes: ", error)
+        else{
+            return
         }
     }
 

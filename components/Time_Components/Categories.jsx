@@ -74,17 +74,23 @@ export default function Categories(){
     }
 
     async function deleteCat(index){
-        try{
-            const res = await axios.post(`/api/delete_category`, {
-                category_id: categories[index].id
-            })
-            console.log("res.data in del cat: ", res.data)
-            let temp_cats = [...categories]
-            temp_cats.splice(index, 1)
-            setCategories(temp_cats)
+        const confirm = window.confirm("Are you sure you want to delete this category?")
+        if(confirm){
+            try{
+                const res = await axios.post(`/api/delete_category`, {
+                    category_id: categories[index].id
+                })
+                console.log("res.data in del cat: ", res.data)
+                let temp_cats = [...categories]
+                temp_cats.splice(index, 1)
+                setCategories(temp_cats)
+            }
+            catch(error){
+                console.log("error in delete categories: ", error)
+            }
         }
-        catch(error){
-            console.log("error in delete categories: ", error)
+        else{
+            return
         }
     }
 
