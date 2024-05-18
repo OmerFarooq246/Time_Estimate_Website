@@ -9,7 +9,7 @@ const Estimate_Page = () => {
     console.log("router.query in Estimate_Page", router.query)
 
     return(
-        <BaseLayout title={"New Estimate"} heading={"New Estimate"} height_reset={router.query.height_reset}>
+        <BaseLayout title={"New Estimate"} heading={"New Estimate"} height_reset={router.query.edit}>
             {router.query.edit 
             ? <Estimate estimate={router.query.estimate} edit={true}/> 
             : <Estimate estimate={router.query.estimate} edit={false}/>}

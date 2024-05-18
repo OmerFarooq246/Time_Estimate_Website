@@ -3,11 +3,11 @@ import puppeteer from 'puppeteer';
 export default async function handler(req, res) {
     console.log("rq.query in save_puppet_pdf: ", req.query)
     try {
-        const browser = await puppeteer.launch({
-            executablePath: '/home/sbx_user1051/.cache/puppeteer', // Specify the path to Chrome executable
-            args: ['--no-sandbox', '--disable-setuid-sandbox'], // Add necessary flags
-        });
-
+        const browser = await puppeteer.launch();
+        // const browser = await puppeteer.launch({
+        //     executablePath: '/home/sbx_user1051/.cache/puppeteer', // Specify the path to Chrome executable
+        //     args: ['--no-sandbox', '--disable-setuid-sandbox'], // Add necessary flags
+        // });
         const page = await browser.newPage();
         
         await page.goto(`https://time-estimate-website.vercel.app/${req.query.estimate_id}?edit=true&height_reset=true`, { waitUntil: 'networkidle2' });

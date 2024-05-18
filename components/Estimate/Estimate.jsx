@@ -176,7 +176,7 @@ export default function Estimate({estimate, edit}){
                 item_no: res.data.item_no,
                 quantity: parseInt(res.data.quantity),
                 estimate_no: res.data.estimate_no,
-                created_by: res.data.created_by,
+                creating_user: {username: res.data.creating_user.username},
                 created_at: format_date(res.data.created_at)
             }
             console.log("temp_info: ", temp_info)
@@ -284,48 +284,327 @@ export default function Estimate({estimate, edit}){
     }
 
     async function handlePrintReport(){
-        try{
-            const res = await axios.get(`/api/save_puppet_PDF`, {
-                params: {
-                    estimate_id: estimate
-                },
-                responseType: "blob"
-            })
-            console.log("res.data in handlePrintReport: ", res.data)
+        // try{
+        //     const res = await axios.get(`/api/save_puppet_PDF`, {
+        //         params: {
+        //             estimate_id: estimate
+        //         },
+        //         responseType: "blob"
+        //     })
+        //     console.log("res.data in handlePrintReport: ", res.data)
             
-            // Create a blob from the response data
-            const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+        //     // Create a blob from the response data
+        //     const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
 
-            // Create a URL for the blob
-            const url = URL.createObjectURL(pdfBlob);
+        //     // Create a URL for the blob
+        //     const url = URL.createObjectURL(pdfBlob);
 
-            // Create a link element
-            const a = document.createElement('a');
+        //     // Create a link element
+        //     const a = document.createElement('a');
 
-            // Set the href attribute to the blob URL
-            a.href = url;
+        //     // Set the href attribute to the blob URL
+        //     a.href = url;
 
-            // Set the download attribute to specify the filename
-            a.download = `Estimate_${estimate_info.estimate_no}.pdf`
+        //     // Set the download attribute to specify the filename
+        //     a.download = `Estimate_${estimate_info.estimate_no}.pdf`
 
-            // Programmatically trigger the click event on the link to start the download
-            a.click();
+        //     // Programmatically trigger the click event on the link to start the download
+        //     a.click();
 
-            // Clean up by revoking the blob URL
-            URL.revokeObjectURL(url);
-        }
-        catch(error){
-            console.log("error in handlePrintReport: ", error)
-        }
+        //     // Clean up by revoking the blob URL
+        //     URL.revokeObjectURL(url);
+        // }
+        // catch(error){
+        //     console.log("error in handlePrintReport: ", error)
+        // }
+
+
+        
+        // handlePrint()
     }
 
+    const handlePrint = () => {
+        const printContents = document.getElementById("abc123").outerHTML;
+        const printWindow = window.open("", "Print");
+        const styles = `
+        <style>
+            
+        .flex {
+        display: flex;
+        }
+        
+        .flex-col {
+        flex-direction: column;
+        }
+        
+        .flex-row {
+        flex-direction: row;
+        }
+        
+        .items-start {
+        align-items: flex-start;
+        }
+        
+        .space-x-6 {
+        gap: 1.5rem;
+        }
+        
+        .px-5 {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+        }
+        
+        .space-x-1.5 {
+        gap: 0.375rem;
+        }
+        
+        .h-5 {
+        height: 1.25rem;
+        }
+        
+        .w-5 {
+        width: 1.25rem;
+        }
+        
+        .w-7/12 {
+        width: 58.333333%;
+        }
+        
+        .mb-5 {
+        margin-bottom: 1.25rem;
+        }
+        
+        .bg-[#1D1D22] {
+        background-color: #1D1D22;
+        }
+        
+        .rounded {
+        border-radius: 0.25rem;
+        }
+        
+        .px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        }
+        
+        .py-4 {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        }
+        
+        .space-y-3 {
+        gap: 0.75rem;
+        }
+        
+        .self-center {
+        align-self: center;
+        }
+        
+        .items-center {
+        align-items: center;
+        }
+        
+        .justify-between {
+        justify-content: space-between;
+        }
+        
+        .w-full {
+        width: 100%;
+        }
+        
+        .text-xs {
+        font-size: 0.75rem;
+        }
+        
+        .space-y-1 {
+        gap: 0.25rem;
+        }
+        
+        .bg-[#26262D] {
+        background-color: #26262D;
+        }
+        
+        .px-3 {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+        }
+        
+        .py-2 {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        }
+        
+        .text-sm {
+        font-size: 0.875rem;
+        }
+        
+        .font-semibold {
+        font-weight: 600;
+        }
+        
+        .w-1/3 {
+        width: 33.333333%;
+        }
+        
+        .w-2/3 {
+        width: 66.666667%;
+        }
+        
+        .space-y-3 {
+        gap: 0.75rem;
+        }
+        
+        .space-y-2 {
+        gap: 0.5rem;
+        }
+        
+        .border-b-2 {
+        border-bottom-width: 2px;
+        }
+        
+        .border-[#26262D] {
+        border-color: #26262D;
+        }
+        
+        .font-semibold {
+        font-weight: 600;
+        }
+        
+        .w-5/6 {
+        width: 83.333333%;
+        }
+        
+        .text-start {
+        text-align: left;
+        }
+        
+        .w-1/6 {
+        width: 16.666667%;
+        }
+        
+        .text-end {
+        text-align: right;
+        }
+        
+        .justify-end {
+        justify-content: flex-end;
+        }
+        
+        .pr-2 {
+        padding-right: 0.5rem;
+        }
+        
+        .px-3 {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+        }
+        
+        .w-fit {
+        width: fit-content;
+        }
+        
+        .self-end {
+        align-self: flex-end;
+        }
+        
+        .border-separate {
+        border-collapse: separate;
+        }
+        
+        .border-spacing-x-2 {
+        column-gap: 0.5rem;
+        }
+        
+        .w-16 {
+        width: 4rem;
+        }
+        
+        .px-2 {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        }
+        
+        .py-1 {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        }
+        
+        .bg-[#31313A] {
+        background-color: #31313A;
+        }
+        
+        .text-xs {
+        font-size: 0.75rem;
+        }
+        
+        .rounded-sm {
+        border-radius: 0.125rem;
+        }
+        
+        .focus\:outline-none:focus {
+        outline: none;
+        }
+        
+        .w-fit {
+        width: fit-content;
+        }
+        
+        .border-separate {
+        border-collapse: separate;
+        }
+        
+        .border-spacing-y-1 {
+        row-gap: 0.25rem;
+        }
+        
+        .w-18 {
+        width: 4.5rem;
+        }
+        
+        .bg-[#31313A] {
+        background-color: #31313A;
+        }
+        
+        .space-x-5 {
+        gap: 1.25rem;
+        }
+        
+        .pt-6 {
+        padding-top: 1.5rem;
+        }
+        
+        .space-y-2 {
+        gap: 0.5rem;
+        }
+        
+        .font-poppins {
+        font-family: 'Poppins', sans-serif;
+        }
+          
+        </style>`;
+    
+        printWindow.document.write(styles);
+        printWindow.document.write(printContents);
+        printWindow.document.close();
+        // printWindow.focus();
+        // printWindow.print();
+        // printWindow.close();
+
+        setTimeout(() => {
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }, 2000);
+    };
+
     return(
-        <div className="flex flex-col font-poppins">
-            <div className="flex flex-row items-start space-x-6 font-poppins px-5">
+        <div id="abc123" className="flex flex-col font-poppins">
+            <div className="flex flex-col items-start space-y-3 mb-7 font-poppins px-5">
                 {(session.data?.user?.level === "admin" || session.data?.user?.level === "user") && 
-                <button onClick={handlePrintReport} className="flex flex-row items-center space-x-1.5">
+                <button disabled onClick={handlePrintReport} className="flex flex-row items-center space-x-1.5">
                     <FaPrint className="h-5 w-5"/>
-                    <h1 className="italic text-sm">Print</h1>
+                    {/* <h1 className="italic text-sm">Print</h1> */}
+                    <h1 className="italic text-sm">Press ctrl + p to generate PDF</h1>
                 </button>}
                 {session.data?.user?.level === "admin" && 
                 <button onClick={handleSaveReport} className="flex flex-row items-center space-x-1.5">

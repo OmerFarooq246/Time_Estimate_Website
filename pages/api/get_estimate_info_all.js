@@ -31,7 +31,7 @@ export default async function handler(req, res){
                 }
             }
         })
-        console.log("estimate fetched: ", estimate)
+        console.log("estimate fetched in all: ", estimate)
         res.status(200).json(estimate)
     }
     catch(error){
