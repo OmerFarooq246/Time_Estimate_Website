@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import Delete_Pop from "../BaseLayout/Delete_Pop";
 
 export default function Project_Estimates(){
@@ -10,6 +11,7 @@ export default function Project_Estimates(){
     const [estimates, setEstimates] = useState([])
     const [estimate_nos, setEstimate_nos] = useState([])
     const router = useRouter()
+    const session = useSession()
 
     async function get_estimates(){
         try{
@@ -84,8 +86,8 @@ export default function Project_Estimates(){
                         <th className="w-1/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Total Time per Unit</th>
                         <th className="w-2/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Created by</th>
                         <th className="w-2/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Created At</th>
-                        <th className="w-1/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Edit</th>
-                        <th className="w-1/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Delete</th>
+                        {session.data?.user?.level === "admin" && <th className="w-1/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Edit</th>}
+                        {session.data?.user?.level === "admin" && <th className="w-1/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Delete</th>}
                     </tr>
                 </thead>
             </table>
@@ -112,8 +114,8 @@ export default function Project_Estimates(){
                                         <td className="w-1/12 text-center font-light px-2 py-1.5 border border-[#31313A]">{estimate.Estimate_Link[0]?.time_per_unit}</td>
                                         <td className="w-2/12 text-center font-light px-2 py-1.5 border border-[#31313A]">{estimate.creating_user.username}</td>
                                         <td className="w-2/12 text-center font-light px-2 py-1.5 border border-[#31313A]">{format_date(estimate.created_at)}</td>
-                                        <td className="w-1/12 text-center font-light px-2 py-1.5 border border-[#31313A]"><button onClick={() => editProcess(estimate)}><MdEdit className="hover:text-[#3E5EFF]"/></button></td>
-                                        <td className="w-1/12 text-center font-light px-2 py-1.5 border border-[#31313A]"><button onClick={() => deleteEstimate(estimate)}><MdDelete className="text-red-600"/></button></td>
+                                        {session.data?.user?.level === "admin" && <td className="w-1/12 text-center font-light px-2 py-1.5 border border-[#31313A]"><button onClick={() => editProcess(estimate)}><MdEdit className="hover:text-[#3E5EFF]"/></button></td>}
+                                        {session.data?.user?.level === "admin" && <td className="w-1/12 text-center font-light px-2 py-1.5 border border-[#31313A]"><button onClick={() => deleteEstimate(estimate)}><MdDelete className="text-red-600"/></button></td>}
                                     </tr>
                             ))}
                         </table>
