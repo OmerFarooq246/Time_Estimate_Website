@@ -6,7 +6,7 @@ export default async function handler(req, res) {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         
-        await page.goto(`http://localhost:3000/estimate/${req.query.estimate_id}?edit=true&height_reset=true`, { waitUntil: 'networkidle2' });
+        await page.goto(`https://time-estimate-website.vercel.app/${req.query.estimate_id}?edit=true&height_reset=true`, { waitUntil: 'networkidle2' });
 
         // Wait for 10 seconds
         await new Promise(resolve => setTimeout(resolve, 3000));
