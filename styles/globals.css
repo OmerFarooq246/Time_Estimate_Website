@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* .category-container {
+  border: 3px red solid;
+  page-break-before: always;
+} */
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

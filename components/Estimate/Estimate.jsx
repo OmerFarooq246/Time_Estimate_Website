@@ -5,6 +5,35 @@ import { useState, useEffect } from "react";
 import Category_Link from "./Category_Link";
 import axios from "axios";
 import { useRouter } from "next/router"
+import React from 'react';
+import { useRef } from 'react';
+
+export async function getServerSideProps(context) {
+    const { params } = context;
+    const { estimate, edit } = params;
+
+    try {
+        const res = await axios.get(`/api/get_estimate_info_all`, {
+            params: { estimate_id: estimate }
+        });
+
+        const data = res.data;
+
+        return {
+            props: {
+                data,
+                edit
+            }
+        };
+    } catch (error) {
+        console.error("Error fetching estimate data:", error);
+        return {
+            props: {
+                data: null
+            }
+        };
+    }
+}
 
 // type User = {
 //     username?: string;
@@ -24,6 +53,7 @@ import { useRouter } from "next/router"
 
 
 export default function Estimate({estimate, edit}){
+// const Estimate = ({data, edit}) => {
     console.log("edit in Estiamte comp: ", edit)
     const session = useSession()
     const router = useRouter()
@@ -170,13 +200,15 @@ export default function Estimate({estimate, edit}){
 
     useEffect(() => {
         if(edit){
+            console.log("in edit useEffect")
             get_estimate_info_all()
         }
         else{
+            console.log("in non-edit useEffect")
             get_estimate_info()
             set_categories_Link()
         }
-    }, [])
+    }, [edit])
 
     function sum_all_total(){
         let total = categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai
@@ -252,19 +284,45 @@ export default function Estimate({estimate, edit}){
     }
 
     async function handlePrintReport(){
-        // try{
-        //     const res = await axios.post(`/api/save_puppet_PDF`)
-        //     console.log("res.data in handlePrintReport: ", res.data)
-        // }
-        // catch(error){
-        //     console.log("error in handlePrintReport: ", error)
-        // }
+        try{
+            const res = await axios.get(`/api/save_puppet_PDF`, {
+                params: {
+                    estimate_id: estimate
+                },
+                responseType: "blob"
+            })
+            console.log("res.data in handlePrintReport: ", res.data)
+            
+            // Create a blob from the response data
+            const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+
+            // Create a URL for the blob
+            const url = URL.createObjectURL(pdfBlob);
+
+            // Create a link element
+            const a = document.createElement('a');
+
+            // Set the href attribute to the blob URL
+            a.href = url;
+
+            // Set the download attribute to specify the filename
+            a.download = `Estimate_${estimate_info.estimate_no}.pdf`
+
+            // Programmatically trigger the click event on the link to start the download
+            a.click();
+
+            // Clean up by revoking the blob URL
+            URL.revokeObjectURL(url);
+        }
+        catch(error){
+            console.log("error in handlePrintReport: ", error)
+        }
     }
 
     return(
         <div className="flex flex-col font-poppins">
             <div className="flex flex-row items-start space-x-6 font-poppins px-5">
-                {session.data?.user?.level === "admin111" && 
+                {(session.data?.user?.level === "admin" || session.data?.user?.level === "user") && 
                 <button onClick={handlePrintReport} className="flex flex-row items-center space-x-1.5">
                     <FaPrint className="h-5 w-5"/>
                     <h1 className="italic text-sm">Print</h1>
@@ -275,6 +333,7 @@ export default function Estimate({estimate, edit}){
                     <h1 className="italic text-sm">{edit ? "Save Edit" : "Save"}</h1>
                 </button>}
             </div>
+            {(estimate_info && categories_Link) && 
             <div className="flex flex-col w-7/12 mb-5 bg-[#1D1D22] rounded px-4 py-4 space-y-3 self-center items-center">
                 <div className="flex flex-row justify-between items-center w-full">
                     <img src="/images/logo.png" alt="logo" className="h-10"/>
@@ -298,45 +357,50 @@ export default function Estimate({estimate, edit}){
                         <div className="w-full flex flex-col space-y-2 text-sm">
                             <h1 className="font-bold">Engineering</h1>
                             <table className="text-xs bg-[#1D1D22] rounded">
+                                <tbody>
                                 <tr className="border-b-2 border-[#26262D]">
                                     <th className="px-3 py-2 font-semibold w-5/6 text-start">Process</th>
                                     <th className="px-3 py-2 font-semibold w-1/6 text-end">Time (mins)</th>
                                 </tr>
-                                <tr className="">
+                                <tr>
                                     <td className="px-3">Customer Drawing</td>
                                     <td className="flex flex-row justify-end pr-2"><input value={engineering.cd} onChange={handleEngineering} id="cd" type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none"/></td>
                                 </tr>
-                                <tr className="">
+                                <tr>
                                     <td className="px-3">Revision</td>
                                     <td className="flex flex-row justify-end pr-2"><input value={engineering.r} onChange={handleEngineering} id="r" type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none"/></td>
                                 </tr>
-                                <tr className="">
+                                <tr>
                                     <td className="px-3">Shop Drawing</td>
                                     <td className="flex flex-row justify-end pr-2"><input value={engineering.sd} onChange={handleEngineering} id="sd" type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none"/></td>
                                 </tr>
-                                <tr className="">
+                                <tr>
                                     <td className="px-3">Assembly Instructions</td>
                                     <td className="mb-2 flex flex-row justify-end pr-2"><input value={engineering.ai} onChange={handleEngineering} id="ai" type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none"/></td>
                                 </tr>
+                                </tbody>
                             </table>
                             <div className="flex flex-col w-fit self-end">
                                 <table className="text-xs border-separate border-spacing-x-2">
-                                    <tr className="">
+                                    <tbody>
+                                    <tr>
                                         <td>Total Engineering Time/EA: </td>
                                         <td><p className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">{engineering.sd + engineering.r + engineering.cd + engineering.ai}</p></td>
                                     </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    {categories_Link?.map((category, index) => (
+                    {Array.isArray(categories_Link) && categories_Link?.map((category, index) => (
                         <div key={index} className="w-full bg-[#26262D] rounded px-3 py-2">
                             <Category_Link index={index} categories_Link={categories_Link} setCategories_Link={setCategories_Link} handleSetUpChange={handleSetUpChange} handleMiscChange={handleMiscChange}/>
                         </div>
                     ))}
                     
                     <table className="w-fit border-separate border-spacing-y-1">
-                        <tr className="">
+                        <tbody>
+                        <tr>
                             <td className="text-xs pr-2">Total time for qty of {estimate_info?.quantity}: </td>
                             <td className="w-18 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">
                                 {/* {categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai}
@@ -346,7 +410,7 @@ export default function Estimate({estimate, edit}){
                                 {total_time_qty}
                             </td>
                         </tr>
-                        <tr className="">
+                        <tr>
                             <td className="text-xs pr-2">Total time for each: </td>
                             <td className="w-18 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">
                                 {total_time_each}
@@ -354,6 +418,7 @@ export default function Estimate({estimate, edit}){
                                 {/* {((categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai)/estimate_info?.quantity).toFixed(4)} */}
                             </td>
                         </tr>
+                        </tbody>
                     </table>
 
                     <div className="flex flex-row space-x-5 justify-center items-center pt-6">
@@ -373,7 +438,9 @@ export default function Estimate({estimate, edit}){
 
                     </div>
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }
+
+// export default Estimate;

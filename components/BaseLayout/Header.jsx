@@ -43,9 +43,11 @@ export default function Header({ heading }) {
             </header>
             <div className="flex flex-row justify-between px-3 py-3 bg-[#161616] text-[#E3E4E8] mb-2">
                 {router.pathname !== "/" && router.pathname !== "/login" && 
-                <div className="flex w-full flex-row items-center space-x-1">
-                    <IoArrowBack className="h-4"/>
-                    <button onClick={() => router.back()} className={`${poppins.className} text-xs`}>Back</button>
+                <div className="w-full">
+                    <button onClick={() => router.back()} className={`${poppins.className} text-xs flex flex-row items-center space-x-1`}>
+                        <IoArrowBack className="h-4"/>
+                        <p>Back</p>
+                    </button>
                 </div>}
                 {router.pathname === "/" && session.data?.user?.level === "admin" &&
                     <Link href="/admin" className={`text-xs font-semibold w-full ${poppins.className}`}>Admin Panel</Link>
