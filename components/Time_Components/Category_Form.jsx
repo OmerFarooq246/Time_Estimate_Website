@@ -118,7 +118,7 @@ export default function Category_Form({toggleModel, categories, setCategories, i
 
     return(
         <div className="w-screen h-screen inset-0 fixed bg-black/70 text-[#E3E4E8] flex flex-col items-center justify-center">
-            <form onSubmit={handleSubmit} className="w-2/6 px-7 pt-5 pb-7 rounded flex flex-col justify-center items-center font-poppins bg-[#26262D]">
+            <form onSubmit={handleSubmit} className="w-3/6 px-7 pt-5 pb-7 rounded flex flex-col justify-center items-center font-poppins bg-[#26262D]">
                 <div className="w-full flex flex-col space-y-2.5 mb-4">
                     <label htmlFor="name" className="text-xs">Category Name</label>
                     <input value={categoryData.name} onChange={handleChange} type="text" id="name" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
