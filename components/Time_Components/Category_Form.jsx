@@ -19,9 +19,9 @@ export default function Category_Form({toggleModel, categories, setCategories, i
 
     function giveError(){
         Object.entries(categoryData).map(([key, value]) => {
-            // if(key === "img_source" && value === ""){
-            //     setError((prevError) => {return {...prevError, ["img_source"]: `- img not uploaded -`}})    
-            // }
+            if(key === "img_source" && value === "" && !edit){
+                setError((prevError) => {return {...prevError, ["img_source"]: `- img not uploaded -`}})    
+            }
             if(key === "img_source" && value === ""){
                 
             }
@@ -32,9 +32,9 @@ export default function Category_Form({toggleModel, categories, setCategories, i
                 setError((prevError) => {return {...prevError, [key]: ""}})
             }
         })
-        // if(file === "" || file === null || file === undefined){
-        //     setError((prevError) => {return {...prevError, ["img_source"]: `- img not uploaded -`}})
-        // }
+        if((file === "" || file === null || file === undefined) && !edit){
+            setError((prevError) => {return {...prevError, ["img_source"]: `- img not uploaded -`}})
+        }
     }
 
     function resetError(){
@@ -43,16 +43,41 @@ export default function Category_Form({toggleModel, categories, setCategories, i
         })
     }
 
+    async function handleFileUpload() {
+        console.log("inside fileUpload");
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const res = await axios.post(`/api/img_upload`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            });
+            console.log("res.data in handlefile uplaod: ", res.data);
+            return res.data.secure_url;
+        } 
+        catch (error) {
+          console.log("error in hadnleFileUpload");
+        }
+    }
+
     async function handleSubmit(event){
         event.preventDefault()
         resetError()
         giveError()
-        // if(categoryData.name !== "" && categoryData.img_source !== "" && (file !== null || file !== "undefined") ){
-        if(categoryData.name !== ""){
+        if(categoryData.name !== "" && categoryData.img_source !== "" && (file !== null || file !== "undefined") ){
+        // if(categoryData.name !== ""){
             try{
                 console.log("file: ", file)
                 if(edit){
-                    const res = await axios.post(`/api/edit_category`, {categoryData: categoryData})
+                    let temp_categoryData = {...categoryData};
+                    if (file) {
+                        const secure_url = await handleFileUpload();                            
+                        temp_categoryData.img_source = secure_url;
+                    }
+                    
+                    const res = await axios.post(`/api/edit_category`, {categoryData: temp_categoryData})
                     console.log("res.data in edit cat: ", res.data)
                     let temp_cats = [...categories]
                     temp_cats[index] = res.data
@@ -60,29 +85,11 @@ export default function Category_Form({toggleModel, categories, setCategories, i
                     setEdit(false)
                 }
                 else{
-                    // const res = await fetch(`/api/add_category`, {
-                    //     mode: "no-cors",
-                    //     method: 'POST',
-                    //     headers: {
-                    //         'Content-Type': 'application/json',
-                    //         'Accept': 'application/json'
-                    //     },
-                    //     body: JSON.stringify({categoryData: categoryData}) // Assuming categoryData is already in the correct format
-                    // });
-                    // // const resData = await res.json()
-                    // // console.log("res.data in add cat: ", resData)
-                    // const resData = {}
-                    // console.log("res in add cat: ", await res)
-                    // let temp_categories = categories
-                    // if(Array.isArray(resData)){
-                    //     temp_categories = [...temp_categories, ...resData]    
-                    // }
-                    // else{
-                    //     temp_categories = [...temp_categories, resData]
-                    // }
-                    // setCategories(temp_categories)   
-
-                    const res = await axios.post(`/api/add_category`, {categoryData: categoryData}, {headers: {"Content-Type": "application/json", 'Accept': 'application/json'}})
+                    const secure_url = await handleFileUpload();
+                    let temp_categoryData = {...categoryData};
+                    temp_categoryData.img_source = secure_url;
+                    
+                    const res = await axios.post(`/api/add_category`, {categoryData: temp_categoryData}, {headers: {"Content-Type": "application/json", 'Accept': 'application/json'}})
                     console.log("res.data in add cat: ", res.data)
                     let temp_categories = categories
                     if(Array.isArray(res.data)){
@@ -116,10 +123,11 @@ export default function Category_Form({toggleModel, categories, setCategories, i
                     <label htmlFor="name" className="text-xs">Category Name</label>
                     <input value={categoryData.name} onChange={handleChange} type="text" id="name" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
                 </div>
-                {/* <div className="w-full flex flex-col space-y-2.5 mb-2">
+                <div className="w-full flex flex-col space-y-2.5 mb-2">
                     <label htmlFor="img" className="text-xs">Image</label>
+                    {edit && !file && <h1 className="text-xs font-light">{categoryData.img_source}</h1>}
                     <input onChange={handleFileChange} type="file" id="img" name="img" accept=".jpg" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
-                </div> */}
+                </div>
                 <div className="w-full flex flex-col space-y-1 mb-7">
                     {error.name !== "" && <p className="text-xs text-orange-700 mt-0.5">{error.name}</p>}
                     {error.img_source !== "" && <p className="text-xs text-orange-700 mt-0.5">{error.img_source}</p>}

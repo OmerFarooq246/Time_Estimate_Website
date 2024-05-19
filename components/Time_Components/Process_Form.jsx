@@ -156,13 +156,15 @@ export default function Process_Form({
         console.log("file: ", file);
         console.log("process: ", processData);
         if (edit) {
+          let temp_processData = {...processData};
           if (file) {
             const secure_url = await handleFileUpload();
-            let temp_processData = processData;
+            // let temp_processData = {...processData};
             temp_processData.img_source = secure_url;
+            // setProcessData(temp_processData)
           }
           const res = await axios.post(`/api/edit_process`, {
-            processData: processData,
+            processData: temp_processData,
           });
           console.log("res.data in edit process: ", res.data);
           let temp_process = [...processes];
@@ -171,8 +173,9 @@ export default function Process_Form({
           setEdit(false);
         } else {
           const secure_url = await handleFileUpload();
-          let temp_processData = processData;
+          let temp_processData = {...processData};
           temp_processData.img_source = secure_url;
+          
           const res = await axios.post(`/api/add_process`, {
             processData: { ...temp_processData, sub_category },
           });
@@ -260,7 +263,7 @@ export default function Process_Form({
     <div className="w-screen h-screen inset-0 fixed bg-black/70 text-[#E3E4E8] flex flex-col items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        className="w-4/6 h-5/6 overflow-y-scroll overscroll-contain rounded flex flex-col justify-center items-center font-poppins bg-[#26262D]"
+        className="w-4/6 h-5/6 overflow-y-scroll overscroll-contain scrollbar scrollbar-thumb-[#26262D] scrollbar-track-[#1D1D22] rounded flex flex-col justify-center items-center font-poppins bg-[#26262D]"
       >
         <div className="w-full h-full px-7 pt-5 pb-7 flex flex-col">
           <div className="w-full flex flex-col space-y-2.5 mb-4">

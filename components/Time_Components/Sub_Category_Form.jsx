@@ -11,16 +11,16 @@ export default function Sub_Category_Form({toggleModel, category, sub_categories
         setSub_CategoryData(prevSub_CategoryData => {return {...prevSub_CategoryData, [id]: value}})
     }
 
-    // function handleFileChange(event){
-    //     console.log("event.target.files: ", event.target.files)
-    //     setFile(event.target.files[0]);
-    //     setSub_CategoryData({...sub_categoryData, ["img_source"]: event.target.files[0].name})
-    // }
+    function handleFileChange(event){
+        console.log("event.target.files: ", event.target.files)
+        setFile(event.target.files[0]);
+        setSub_CategoryData({...sub_categoryData, ["img_source"]: event.target.files[0].name})
+    }
 
     function giveError(){
         Object.entries(sub_categoryData).map(([key, value]) => {
-            if(key === "img_source" && value === ""){
-                // setError((prevError) => {return {...prevError, ["img_source"]: `- img not uploaded -`}})    
+            if(key === "img_source" && value === "" && !edit){
+                setError((prevError) => {return {...prevError, ["img_source"]: `- img not uploaded -`}})    
             }
             else if(value === ""){
                 setError((prevError) => {return {...prevError, [key]: `- ${key} is empty -`}})
@@ -29,9 +29,9 @@ export default function Sub_Category_Form({toggleModel, category, sub_categories
                 setError((prevError) => {return {...prevError, [key]: ""}})
             }
         })
-        // if(file === "" || file === null || file === undefined){
-        //     setError((prevError) => {return {...prevError, ["img_source"]: `- img not uploaded -`}})
-        // }
+        if((file === "" || file === null || file === undefined) && !edit){
+            setError((prevError) => {return {...prevError, ["img_source"]: `- img not uploaded -`}})
+        }
     }
 
     function resetError(){
@@ -40,16 +40,41 @@ export default function Sub_Category_Form({toggleModel, category, sub_categories
         })
     }
 
+    async function handleFileUpload() {
+        console.log("inside fileUpload");
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const res = await axios.post(`/api/img_upload`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            });
+            console.log("res.data in handlefile uplaod: ", res.data);
+            return res.data.secure_url;
+        } 
+        catch (error) {
+          console.log("error in hadnleFileUpload");
+        }
+    }
+
     async function handleSubmit(event){
         event.preventDefault()
         resetError()
         giveError()
-        // if(sub_categoryData.name !== "" && sub_categoryData.img_source !== "" && (file !== null || file !== "undefined") ){
-        if(sub_categoryData.name !== ""){
+        if(sub_categoryData.name !== "" && sub_categoryData.img_source !== "" && (file !== null || file !== "undefined") ){
+        // if(sub_categoryData.name !== ""){
             try{
                 console.log("file: ", file)
                 if(edit){
-                    const res = await axios.post(`/api/edit_sub_category`, {sub_categoryData: sub_categoryData})
+                    let temp_sub_categoryData = {...sub_categoryData};
+                    if (file) {
+                        const secure_url = await handleFileUpload();                            
+                        temp_sub_categoryData.img_source = secure_url;
+                    }
+
+                    const res = await axios.post(`/api/edit_sub_category`, {sub_categoryData: temp_sub_categoryData})
                     console.log("res.data in edit sub_cat: ", res.data)
                     let temp_sub_cats = [...sub_categories]
                     temp_sub_cats[index] = res.data
@@ -57,7 +82,11 @@ export default function Sub_Category_Form({toggleModel, category, sub_categories
                     setEdit(false)
                 }
                 else{
-                    const res = await axios.post(`/api/add_sub_category`, {sub_categoryData: {...sub_categoryData, category}})
+                    const secure_url = await handleFileUpload();
+                    let temp_sub_categoryData = {...categoryData};
+                    temp_sub_categoryData.img_source = secure_url;
+
+                    const res = await axios.post(`/api/add_sub_category`, {sub_categoryData: {...temp_sub_categoryData, category}})
                     console.log("res.data: ", res.data)
                     let temp_sub_categories = sub_categories
                     if(Array.isArray(res.data)){
@@ -91,10 +120,11 @@ export default function Sub_Category_Form({toggleModel, category, sub_categories
                     <label htmlFor="name" className="text-xs">Sub Category Name</label>
                     <input value={sub_categoryData.name} onChange={handleChange} type="text" id="name" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
                 </div>
-                {/* <div className="w-full flex flex-col space-y-2.5 mb-2">
+                <div className="w-full flex flex-col space-y-2.5 mb-2">
                     <label htmlFor="img" className="text-xs">Image</label>
+                    {edit && !file && <h1 className="text-xs font-light">{sub_categoryData.img_source}</h1>}
                     <input onChange={handleFileChange} type="file" id="img" name="img" accept=".jpg" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
-                </div> */}
+                </div>
                 <div className="w-full flex flex-col space-y-1 mb-7">
                     {error.name !== "" && <p className="text-xs text-orange-700 mt-0.5">{error.name}</p>}
                     {error.img_source !== "" && <p className="text-xs text-orange-700 mt-0.5">{error.img_source}</p>}
