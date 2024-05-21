@@ -119,10 +119,10 @@ export default function Processes({sub_category}){
                                 <button onClick={() => editProcess(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button>
                                 <button onClick={() => deleteProcess(index)}><MdDelete className="text-red-600 hover:text-red-500"/></button>
                             </div>}
-                            <Link href={`/time_components/process/${process.id}`} className="flex flex-col items-center justify-center space-y-4">
+                            <Link href={`/time_components/process/${process.id}`} className="flex flex-col items-center justify-center space-y-4 text-sm">
                                 <img src={process?.img_source} alt="Category Image" className="rounded-sm h-32"/>
                                 {/* <MdSettingsInputComponent className="w-20 h-20 text-[#E3E4E8]"/> */}
-                                <h1 className="font-bold">{process.name}</h1>
+                                <h1 className="font-bold text-center">{process.name}</h1>
                             </Link>
                         </div>
                     ))}

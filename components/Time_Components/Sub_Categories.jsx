@@ -107,10 +107,10 @@ export default function Sub_Categories({category}){
                                 <button onClick={() => editSubCat(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button>
                                 <button onClick={() => delete_SubCat(index)}><MdDelete className="text-red-600 hover:text-red-500"/></button>
                             </div>}
-                            <Link href={`/time_components/processes/${sub_category.id}`} className="flex flex-col items-center justify-center space-y-4">
+                            <Link href={`/time_components/processes/${sub_category.id}`} className="flex flex-col items-center justify-center space-y-4 text-sm">
                                 {/* <GiBoxUnpacking className="w-20 h-20 text-[#E3E4E8]"/> */}
                                 <img src={sub_category?.img_source} alt="Sub_Category Image" className="rounded-sm h-32"/>
-                                <h1 className="font-bold">{sub_category.name}</h1>
+                                <h1 className="font-bold text-center">{sub_category.name}</h1>
                             </Link>
                         </div>
                     ))}

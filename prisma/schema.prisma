@@ -53,11 +53,22 @@ model Spec {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   description String
   options     String
+  time_inc    String
   process     String @db.ObjectId
 
   owner_process Processes    @relation(fields: [process], references: [id], onDelete: Cascade)
   Specs_Info    Specs_Info[]
 }
+
+// model Spec {
+//   id          String @id @default(auto()) @map("_id") @db.ObjectId
+//   description String
+//   options     String
+//   process     String @db.ObjectId
+
+//   owner_process Processes    @relation(fields: [process], references: [id], onDelete: Cascade)
+//   Specs_Info    Specs_Info[]
+// }
 
 model Estimate {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -74,7 +85,7 @@ model Estimate {
 
 model Estimate_Link {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  estimate_id   String          @db.ObjectId @unique
+  estimate_id   String          @unique @db.ObjectId
   cd            Int
   r             Int
   sd            Int
@@ -88,7 +99,7 @@ model Estimate_Link {
 
 model Category_Link {
   id               String         @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  name             String
   estimate_link_id String         @db.ObjectId
   category_id      String         @db.ObjectId
   setup            Int
