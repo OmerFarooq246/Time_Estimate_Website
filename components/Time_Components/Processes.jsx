@@ -53,7 +53,7 @@ export default function Processes({sub_category}){
         if(sub_category){
             get_processes()   
         }
-    }, [sub_category])
+    }, [sub_category, edit])
 
     function toggleModel(){
         console.log("inside toggle")
@@ -87,6 +87,7 @@ export default function Processes({sub_category}){
         temp_process.specs.map((spec) => {
             if(!Array.isArray(spec.options)){
                 spec.options = spec.options.split(",")
+                spec.time_inc = spec.time_inc.split(",")
             }
             else{
                 console.log("process in edit has options already in array: ", spec.options)

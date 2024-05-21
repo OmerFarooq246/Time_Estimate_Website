@@ -32,6 +32,7 @@ export default function Process({process_id}){
             console.log("temp_process: ", temp_process)
             temp_process.specs.map((spec) => {
                 spec.options = spec.options.split(",")
+                spec.time_inc = spec.time_inc.split(",")
             })
             console.log("temp_process: ", temp_process)
             setProcesses(temp_process)
@@ -53,14 +54,17 @@ export default function Process({process_id}){
             </div>
             <div className="w-3/5 bg-[#1D1D22] flex flex-col space-y-3 px-6 py-5 rounded">
                 <h1 className="font-semibold px-3 py-2 bg-[#26262D] rounded w-fit">{process_i?.name}</h1>
-                <h1 className="text-xs font-medium">Time Per Unit: <span className="font-light">{process_i?.time_per_unit} mins</span></h1>
+                {/* <h1 className="text-xs font-medium">Time Per Unit: <span className="font-light">{process_i?.time_per_unit} mins</span></h1> */}
                 <div className="flex flex-col space-y-5">
                     {process_i?.specs?.map((spec, index) => (
                         <div key={index} className="flex flex-col mt-5 space-y-2">
                             <h3 className="text-xs">{spec.description}</h3>
                             <div className="flex flex-row space-x-2">
                                 {spec.options.map((option, index_2) => (
-                                    <p key={index_2} className="text-xs px-2 py-1 rounded bg-[#26262D]">{option}</p>
+                                    <div key={index_2}>
+                                        <p key={index_2} className="text-xs px-2 py-1 rounded bg-[#26262D]">{option}</p>
+                                        <p key={index_2} className="text-xs px-2 py-1 rounded bg-[#26262D]">+ {spec.time_inc[index_2]}</p>
+                                    </div>
                                 ))}
                             </div>
                         </div>

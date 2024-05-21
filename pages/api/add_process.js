@@ -14,6 +14,7 @@ export default async function handler(req, res){
                         {
                             description: spec.description,
                             options: spec.options.join(','),
+                            time_inc: spec.time_inc.join(','),
                             // process: {connect: {id: process.id}}
                         }
                     ))

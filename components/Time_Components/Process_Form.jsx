@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Process_Form({
@@ -17,7 +17,7 @@ export default function Process_Form({
       : {
           name: "",
           time_per_unit: 0,
-          specs: [{ description: "", options: ["", "", "", ""] }],
+          specs: [{ description: "", options: ["", "", "", ""], time_inc: [0, 0, 0, 0]}],
           img_source: "",
         }
   );
@@ -28,6 +28,7 @@ export default function Process_Form({
     specs: "",
     img_source: "",
   });
+  const [to_del_specs, setTo_del_specs] = useState([])
 
   function handleChange(event) {
     const { id, value } = event.target;
@@ -157,6 +158,10 @@ export default function Process_Form({
         console.log("process: ", processData);
         if (edit) {
           let temp_processData = {...processData};
+
+          const res_del = await axios.post("/api/delete_specs", {spec_ids: to_del_specs})
+          console.log("res.data in handleDeleteSpec: ", res_del.data)
+          
           if (file) {
             const secure_url = await handleFileUpload();
             // let temp_processData = {...processData};
@@ -203,38 +208,31 @@ export default function Process_Form({
   function handleAddOption(index) {
     let specs = processData.specs;
     specs[index].options = [...specs[index].options, ""];
-    setProcessData((prevProcessData) => ({
-      ...prevProcessData,
-      ["specs"]: specs,
-    }));
+    specs[index].time_inc = [...specs[index].time_inc, 0];
+    setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: specs}))
   }
 
   function handleDeleteOption(index) {
     let specs = processData.specs;
     specs[index].options.splice(specs[index].options.length - 1, 1);
-    setProcessData((prevProcessData) => ({
-      ...prevProcessData,
-      ["specs"]: specs,
-    }));
+    specs[index].time_inc.splice(specs[index].time_inc.length - 1, 1);
+    setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: specs}))
   }
 
   function handleAddSpec() {
-    setProcessData((prevProcessData) => ({
-      ...prevProcessData,
-      ["specs"]: [
-        ...prevProcessData.specs,
-        { description: "", options: ["", "", "", ""] },
-      ],
-    }));
-  }
+    setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: [...prevProcessData.specs, { description: "", options: ["", "", "", ""], time_inc: [0, 0, 0, 0]}]}))}
 
   function handleDeleteSpec(index) {
     let specs = processData.specs;
+    const id = specs[index].id
+    if(id){
+      console.log("index: ", index)
+      console.log("id: ", id)
+      console.log("specs: ", specs)
+      setTo_del_specs((prevIds) => ([...prevIds, id]))
+    }
     specs.splice(index, 1);
-    setProcessData((prevProcessData) => ({
-      ...prevProcessData,
-      ["specs"]: specs,
-    }));
+    setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: specs}))
   }
 
   function handleDescriptionChange(event, index) {
@@ -259,6 +257,17 @@ export default function Process_Form({
     }));
   }
 
+  function handleTime_Inc_Change(event, index, index_2){
+    let specs = processData.specs
+    specs[index].time_inc[index_2] = event.target.value
+    setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: specs}))
+  }
+
+  function cancelForm(){
+    setEdit(false)
+    toggleModel()
+  }
+
   return (
     <div className="w-screen h-screen inset-0 fixed bg-black/70 text-[#E3E4E8] flex flex-col items-center justify-center">
       <form
@@ -278,7 +287,7 @@ export default function Process_Form({
               className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"
             />
           </div>
-          <div className="w-full flex flex-col space-y-2.5 mb-4">
+          {/* <div className="w-full flex flex-col space-y-2.5 mb-4">
             <label htmlFor="time_per_unit" className="text-xs">
               Time per Unit (in minutes)
             </label>
@@ -290,7 +299,7 @@ export default function Process_Form({
               id="time_per_unit"
               className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"
             />
-          </div>
+          </div> */}
           {processData.specs.map((spec, index) => (
             <div
               key={index}
@@ -324,6 +333,9 @@ export default function Process_Form({
                         id={`spec_${index + 1}_option_${index_2 + 1}`}
                         className="px-3 py-2 bg-[#3A3A43] text-sm rounded-sm focus:outline-none w-full"
                       />
+                      <div className="w-full flex items-center justify-center py-1">
+                        <input value={processData?.specs[index].time_inc[index_2]} onChange={(event) => handleTime_Inc_Change(event, index, index_2)} type="number" min={0} className="py-1 px-2 bg-[#3A3A43] text-xs rounded-sm focus:outline-none w-full"/>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -398,7 +410,7 @@ export default function Process_Form({
           </div>
           <div className="w-full pb-7 flex flex-row space-x-5 justify-end">
             <button
-              onClick={toggleModel}
+              onClick={cancelForm}
               type="button"
               className="text-xs text-[#FA450C] hover:text-[#de3705] focus:text-[#de3705]"
             >

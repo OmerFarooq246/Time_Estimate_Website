@@ -12,31 +12,14 @@ export default async function handler(req, res){
             }
         })
 
-        // const specs = await prisma.spec.findMany({where:{process: req.body.processData.id}})
-        // if(specs.length === req.body.processData.specs.length){
-        //     req.body.processData.specs.map(async (spec) => {
-        //         const updated_spec = await prisma.spec.update({
-        //             where: {id: spec.id},
-        //             data: {
-        //                 description: spec.description,
-        //                 options: spec.options.join(',')
-        //             }
-        //         })
-        //         console.log("updated_spec: ", updated_spec)
-        //     })
-        // }
-        // else{
-        //     req.body.processData.specs.map(async (spec) => {
-        //     })
-        // }
-
         req.body.processData.specs.map(async (spec) => {
             if(spec.id){
                 const updated_spec = await prisma.spec.update({
                     where: {id: spec.id},
                     data: {
                         description: spec.description,
-                        options: spec.options.join(',')
+                        options: spec.options.join(','),
+                        time_inc: spec.time_inc.join(',')
                     }
                 })
                 console.log("updated_spec: ", updated_spec)
@@ -46,6 +29,7 @@ export default async function handler(req, res){
                     data: {
                         description: spec.description,
                         options: spec.options.join(','),
+                        time_inc: spec.time_inc.join(','),
                         process: req.body.processData.id
                     }
                 })
