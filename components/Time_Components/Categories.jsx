@@ -102,7 +102,7 @@ export default function Categories(){
                         </div>}
                         <Link href={`/time_components/sub_categories/${category.id}`} className="text-sm flex flex-col items-center justify-center space-y-4">
                             {/* <FaScrewdriverWrench className="w-20 h-20 text-[#E3E4E8]"/> */}
-                            {category?.img_source 
+                            {category?.img_source === ""
                             ? <img src={category?.img_source} alt="Category Image" className="rounded-sm h-32"/>
                             : <img src="/images/placeholder.jpg" alt="Category Image" className="rounded-sm h-32"/>}
                             
