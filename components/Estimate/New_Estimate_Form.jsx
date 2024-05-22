@@ -109,32 +109,32 @@ export default function New_Estimate_Form({toggleModel, user}){
     }
 
     return(
-        <div ref={reference} className="w-screen h-screen inset-0 fixed bg-black/70 text-[#E3E4E8] flex flex-col rounded items-center justify-center">
-            <form onSubmit={handleSubmit} className="w-3/6 h-5/6 rounded overflow-y-scroll overscroll-contain flex flex-col justify-center items-center font-poppins bg-[#26262D]">
+        <div ref={reference} className="w-screen h-screen inset-0 fixed bg-black/70 text-[#E3E4E8] dark:text-[#17181C] flex flex-col rounded items-center justify-center">
+            <form onSubmit={handleSubmit} className="w-3/6 h-5/6 rounded overflow-y-scroll overscroll-contain flex flex-col justify-center items-center font-poppins bg-[#26262D] dark:bg-[#F7F9FC]">
                 <div className="w-full h-full px-7 pt-5 pb-7 flex flex-col rounded">
                     <div className="w-full flex flex-col space-y-2.5 mb-4">
                         <label htmlFor="estimate_no" className="text-xs">Estimate #</label>
-                        <input onChange={handleChange} value={new_estimteData.estimate_no} type="number" min={0} id="estimate_no" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
+                        <input onChange={handleChange} value={new_estimteData.estimate_no} type="number" min={0} id="estimate_no" className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"/>
                     </div>
                     <div className="w-full flex flex-col space-y-2.5 mb-4">
                         <label htmlFor="name" className="text-xs">Project Name</label>
-                        <input onChange={handleChange} value={new_estimteData.name} type="text" id="name" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
+                        <input onChange={handleChange} value={new_estimteData.name} type="text" id="name" className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"/>
                     </div>
                     <div className="w-full flex flex-col space-y-2.5 mb-4">
                         <label htmlFor="quantity" className="text-xs">Quantity</label>
-                        <input onChange={handleChange} value={new_estimteData.quantity} type="number" min={0} id="quantity" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
+                        <input onChange={handleChange} value={new_estimteData.quantity} type="number" min={0} id="quantity" className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"/>
                     </div>
                     <div className="w-full flex flex-col space-y-2.5 mb-4">
                         <label htmlFor="item_no" className="text-xs">Item #</label>
-                        <input onChange={handleChange} value={new_estimteData.item_no} type="text" id="item_no" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
+                        <input onChange={handleChange} value={new_estimteData.item_no} type="text" id="item_no" className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"/>
                     </div>
                     <div className="w-full flex flex-col space-y-2.5 mb-4">
                         <label htmlFor="created_by" className="text-xs">Created By</label>
-                        <input onChange={handleChange} value={new_estimteData.created_by} type="text" id="created_by" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
+                        <input onChange={handleChange} value={new_estimteData.created_by} type="text" id="created_by" className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"/>
                     </div>
                     <div className="w-full flex flex-col space-y-2.5 mb-7">
                         <label htmlFor="created_at" className="text-xs">Created At</label>
-                        <input onChange={handleChange} value={new_estimteData.created_at} type="text" id="created_at" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
+                        <input onChange={handleChange} value={new_estimteData.created_at} type="text" id="created_at" className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"/>
                     </div>
                     <div className="mb-5 w-full">
                         {error.estimate_no !== "" && <p className="text-xs text-orange-700 mt-0.5">{error.estimate_no}</p>}
@@ -146,7 +146,7 @@ export default function New_Estimate_Form({toggleModel, user}){
                     </div>
                     <div className="w-full flex flex-row space-x-5 pb-7 justify-end">
                         <button onClick={toggleModel} type="button" className="text-xs text-[#FA450C] hover:text-[#de3705] focus:text-[#de3705]">Cancel</button>
-                        <button type="submit" className="rounded-sm focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs px-8 py-3 text-lg">Create New Estimate</button>
+                        <button type="submit" className="rounded-sm focus:outline-none hover:bg-[#2D44B7] dark:text-[#F9FAFF] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs px-8 py-3 text-lg">Create New Estimate</button>
                     </div>
                 </div>
             </form>

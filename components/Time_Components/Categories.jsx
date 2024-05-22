@@ -82,7 +82,7 @@ export default function Categories(){
     }
 
     return(
-        <div className="h-full bg-[#161616]">
+        <div className="h-full bg-[#161616] dark:bg-[#FFFFFF]">
             {active && <Category_Form toggleModel={toggleModel} categories={categories} setCategories={setCategories} index={index} current_Cat={current_Cat} edit={edit} setEdit={setEdit}/>}
             <div className="flex flex-row items-start space-x-5 font-poppins px-5">
                 {session.data?.user?.level === "admin" && 
@@ -94,7 +94,7 @@ export default function Categories(){
             </div>
             <div className="px-24 py-10 grid gap-x-5 gap-y-10 grid-cols-5 justify-center font-poppins">
                 {categories.map((category, index) => (
-                    <div key={index} className="max-w-44 min-h-48 flex flex-col items-center justify-center px-5 py-3 space-y-4 rounded bg-[#1D1D22] hover:bg-[#26262D]">
+                    <div key={index} className="max-w-44 min-h-48 flex flex-col items-center justify-center px-5 py-3 space-y-4 rounded bg-[#1D1D22] hover:bg-[#26262D] dark:bg-[#F0F2FF] hover:dark:bg-[#F7F9FC]">
                         {session.data?.user?.level === "admin" && 
                         <div className="flex flex-row space-x-2 self-end">
                             <button onClick={() => editCat(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button>

@@ -99,20 +99,20 @@ export default function Login(){
         <div className="h-full flex flex-col items-center">
             <div className="h-1/6"></div>
             <div className="flex items-center justify-center h-4/6 w-5/12 ">
-                <form onSubmit={handleSubmit} className="flex flex-col py-5 px-6 w-full rounded items-center font-poppins bg-[#26262D]">
+                <form onSubmit={handleSubmit} className="flex flex-col py-5 px-6 w-full rounded items-center font-poppins bg-[#26262D] dark:bg-[#F7F9FC]">
                     <div className="w-full flex mb-5 flex-col space-y-2.5 justify-center">
                         {/* <div className="border-2 border-gray-900 rounded-md p-1">
                             <LuUser2 className="h-8 w-8"/>
                         </div> */}
                         <label htmlFor="username" className="text-xs">Username</label>
-                        <input type="text" id="username" value={loginData.username} onChange={handleChange} className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
+                        <input type="text" id="username" value={loginData.username} onChange={handleChange} className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"/>
                     </div>
                     <div className="w-full flex mb-2 flex-col space-y-2.5 justify-center">
                         {/* <div className="border-2 border-gray-900 rounded-md p-1">
                             <RiLockPasswordLine className="h-8 w-8"/>
                         </div> */}
                         <label htmlFor="password" className="text-xs">Password</label>
-                        <input type="password" id="password" value={loginData.password} onChange={handleChange} className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
+                        <input type="password" id="password" value={loginData.password} onChange={handleChange} className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"/>
                     </div>
                     <div className="mb-5 w-full">
                         {error.username !== "" && <p className="text-xs text-orange-700 mt-0.5">{error.username}</p>}
@@ -120,7 +120,7 @@ export default function Login(){
                         {error.credentials !== "" && <p className="text-xs text-orange-700 mt-0.5">{error.credentials}</p>}
                     </div>
                     <div className="flex flex-row justify-end w-full">
-                        <button type="submit" className="focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs px-8 py-3 text-lg rounded-sm">Login</button>
+                        <button type="submit" className="focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] dark:text-[#F9FAFF] text-xs px-8 py-3 text-lg rounded-sm">Login</button>
                     </div>
                     {/* <Link href="/home">Home</Link> */}
                 </form>

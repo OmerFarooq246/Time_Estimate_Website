@@ -614,7 +614,7 @@ export default function Estimate({estimate, edit}){
                 </button>}
             </div>
             {(estimate_info && categories_Link) && 
-            <div className="flex flex-col w-7/12 mb-5 bg-[#1D1D22] rounded px-4 py-4 space-y-3 self-center items-center">
+            <div className="flex flex-col w-7/12 mb-5 bg-[#1D1D22] dark:bg-[#F7F9FC] rounded px-4 py-4 space-y-3 self-center items-center">
                 <div className="flex flex-row justify-between items-center w-full">
                     <img src="/images/logo.png" alt="logo" className="h-10"/>
                     <div className="flex flex-col">
@@ -622,7 +622,7 @@ export default function Estimate({estimate, edit}){
                         <p className="text-xs">Created at: {estimate_info?.created_at}</p>
                     </div>
                 </div>
-                <div className="flex flex-col space-y-1 w-full bg-[#26262D] rounded px-3 py-2">
+                <div className="flex flex-col space-y-1 w-full bg-[#26262D] dark:bg-[#F0F2FF] rounded px-3 py-2">
                     <div className="flex flex-row">
                         <h1 className="text-sm font-semibold w-1/3">Estiamte # {estimate_info?.estimate_no}</h1>
                         <h1 className="text-sm font-semibold w-2/3">Project Name: {estimate_info?.name}</h1>
@@ -633,10 +633,10 @@ export default function Estimate({estimate, edit}){
                     </div>
                 </div>
                 <div className="flex flex-col w-full space-y-3">
-                    <div className="w-full bg-[#26262D] rounded px-3 py-2">
+                    <div className="w-full bg-[#26262D] dark:bg-[#F0F2FF] rounded px-3 py-2">
                         <div className="w-full flex flex-col space-y-2 text-sm">
                             <h1 className="font-bold">Engineering</h1>
-                            <table className="text-xs bg-[#1D1D22] rounded">
+                            <table className="text-xs bg-[#1D1D22] dark:bg-[#F7F9FC] rounded">
                                 <tbody>
                                 <tr className="border-b-2 border-[#26262D]">
                                     <th className="px-3 py-2 font-semibold w-5/6 text-start">Process</th>
@@ -644,19 +644,19 @@ export default function Estimate({estimate, edit}){
                                 </tr>
                                 <tr>
                                     <td className="px-3">Customer Drawing</td>
-                                    <td className="flex flex-row justify-end pr-2"><input value={engineering.cd} onChange={handleEngineering} id="cd" type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none"/></td>
+                                    <td className="flex flex-row justify-end pr-2"><input value={engineering.cd} onChange={handleEngineering} id="cd" type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
                                 </tr>
                                 <tr>
                                     <td className="px-3">Revision</td>
-                                    <td className="flex flex-row justify-end pr-2"><input value={engineering.r} onChange={handleEngineering} id="r" type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none"/></td>
+                                    <td className="flex flex-row justify-end pr-2"><input value={engineering.r} onChange={handleEngineering} id="r" type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
                                 </tr>
                                 <tr>
                                     <td className="px-3">Shop Drawing</td>
-                                    <td className="flex flex-row justify-end pr-2"><input value={engineering.sd} onChange={handleEngineering} id="sd" type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none"/></td>
+                                    <td className="flex flex-row justify-end pr-2"><input value={engineering.sd} onChange={handleEngineering} id="sd" type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
                                 </tr>
                                 <tr>
                                     <td className="px-3">Assembly Instructions</td>
-                                    <td className="mb-2 flex flex-row justify-end pr-2"><input value={engineering.ai} onChange={handleEngineering} id="ai" type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none"/></td>
+                                    <td className="mb-2 flex flex-row justify-end pr-2"><input value={engineering.ai} onChange={handleEngineering} id="ai" type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -665,7 +665,7 @@ export default function Estimate({estimate, edit}){
                                     <tbody>
                                     <tr>
                                         <td>Total Engineering Time/EA: </td>
-                                        <td><p className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">{engineering.sd + engineering.r + engineering.cd + engineering.ai}</p></td>
+                                        <td><p className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{engineering.sd + engineering.r + engineering.cd + engineering.ai}</p></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -673,7 +673,7 @@ export default function Estimate({estimate, edit}){
                         </div>
                     </div>
                     {Array.isArray(categories_Link) && categories_Link?.map((category, index) => (
-                        <div key={index} className="w-full bg-[#26262D] rounded px-3 py-2">
+                        <div key={index} className="w-full bg-[#26262D] dark:bg-[#F0F2FF] rounded px-3 py-2">
                             <Category_Link index={index} categories_Link={categories_Link} setCategories_Link={setCategories_Link} handleSetUpChange={handleSetUpChange} handleMiscChange={handleMiscChange}/>
                         </div>
                     ))}
@@ -682,7 +682,7 @@ export default function Estimate({estimate, edit}){
                         <tbody>
                         <tr>
                             <td className="text-xs pr-2">Total time for qty of {estimate_info?.quantity}: </td>
-                            <td className="w-18 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">
+                            <td className="w-18 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">
                                 {/* {categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai}
                                 {complex === "C" && " + " + ((categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai)*5/100).toFixed(2)}
                                 {complex === "VC" && " + " + ((categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai)*10/100).toFixed(2)} */}
@@ -692,7 +692,7 @@ export default function Estimate({estimate, edit}){
                         </tr>
                         <tr>
                             <td className="text-xs pr-2">Total time for each: </td>
-                            <td className="w-18 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">
+                            <td className="w-18 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">
                                 {total_time_each}
                                 {/* {(sum_all_total()/estimate_info?.quantity).toFixed(4)} */}
                                 {/* {((categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai)/estimate_info?.quantity).toFixed(4)} */}

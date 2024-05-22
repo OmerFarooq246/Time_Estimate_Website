@@ -53,38 +53,38 @@ export default function Category_Link({index, categories_Link, setCategories_Lin
         <div className="w-full flex flex-col space-y-2 text-sm">
             {active && <Add_Process_Form toggleModel={toggleModel} index={index} categories_Link={categories_Link} setCategories_Link={setCategories_Link} edit={edit} setEdit={setEdit} index_process={index_process} current_process={current_process}/>}
             <h1 className="font-bold">{categories_Link[index].category.name}</h1>
-            <table className="text-xs bg-[#1D1D22] rounded">
+            <table className="text-xs bg-[#1D1D22] dark:bg-[#F7F9FC] rounded">
                 <tr>
-                    <th className="px-3 py-2 px-2 border border-[#31313A] font-semibold w-7/12 text-start">Process</th>
-                    <th className="px-3 py-2 px-2 border border-[#31313A] font-semibold w-2/12 text-center">Time (mins)</th>
-                    <th className="px-3 py-2 px-2 border border-[#31313A] font-semibold w-1/12">Qty</th>
-                    <th className="px-3 py-2 px-2 border border-[#31313A] font-semibold w-1/12">Edit</th>
-                    <th className="px-3 py-2 px-2 border border-[#31313A] font-semibold w-1/12">Delete</th>
+                    <th className="px-3 py-2 px-2 border border-[#31313A] dark:border-[#E0E6FF] font-semibold w-7/12 text-start">Process</th>
+                    <th className="px-3 py-2 px-2 border border-[#31313A] dark:border-[#E0E6FF] font-semibold w-2/12 text-center">Time (mins)</th>
+                    <th className="px-3 py-2 px-2 border border-[#31313A] dark:border-[#E0E6FF] font-semibold w-1/12">Qty</th>
+                    <th className="px-3 py-2 px-2 border border-[#31313A] dark:border-[#E0E6FF] font-semibold w-1/12">Edit</th>
+                    <th className="px-3 py-2 px-2 border border-[#31313A] dark:border-[#E0E6FF] font-semibold w-1/12">Delete</th>
                 </tr>
                 {categories_Link[index].processes.map((process, index) => (
                     <tr key={index} className="">
-                        <td className="px-3 py-1 border border-[#31313A]">{process.process.name} {process.specs_info.map(spec => (" - " + spec.option))}</td>
-                        <td className="px-3 py-1 border border-[#31313A] text-center">{process.quantity * process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)}</td>
-                        <td className="px-3 py-1 border border-[#31313A] text-center">{process.quantity}</td>
-                        <td className="px-3 py-1 border border-[#31313A] text-center"><button onClick={() => editProcess(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button></td>
-                        <td className="px-3 py-1 border border-[#31313A] text-center"><button onClick={() => deleteProcess(index)}><MdDelete className="text-red-600"/></button></td>
+                        <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF]">{process.process.name} {process.specs_info.map(spec => (" - " + spec.option))}</td>
+                        <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center">{process.quantity * process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)}</td>
+                        <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center">{process.quantity}</td>
+                        <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center"><button onClick={() => editProcess(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button></td>
+                        <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center"><button onClick={() => deleteProcess(index)}><MdDelete className="text-red-600"/></button></td>
                     </tr>
                 ))}
             </table>
-            <button onClick={toggleModel} className="w-fit text-xs rounded-sm focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs mx-1 px-3 py-1.5">Add Process</button>
+            <button onClick={toggleModel} className="w-fit text-xs rounded-sm focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] dark:text-[#F9FAFF] text-xs mx-1 px-3 py-1.5">Add Process</button>
             <div className="flex flex-col w-fit self-end">
                 <table className="text-xs border-separate border-spacing-x-2">
                     <tr className="">
                         <td>Manufacturing Set Up Time/QTY: </td>
-                        <td><input id={index} value={categories_Link[index].time_info.setup} onChange={handleSetUpChange} type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none"/></td>
+                        <td><input id={index} value={categories_Link[index].time_info.setup} onChange={handleSetUpChange} type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
                     </tr>
                     <tr className="">
                         <td>Manufacturing Misc. Time/EA: </td>
-                        <td><input id={index} value={categories_Link[index].time_info.misc} onChange={handleMiscChange} type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none"/></td>
+                        <td><input id={index} value={categories_Link[index].time_info.misc} onChange={handleMiscChange} type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
                     </tr>
                     <tr className="">
                         <td>Total Manufacturing Time/EA: </td>
-                        <td><p className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">{categories_Link[index].processes.map((process) => (parseInt(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + parseInt(categories_Link[index].time_info.setup) + parseInt(categories_Link[index].time_info.misc)}</p></td>
+                        <td><p className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{categories_Link[index].processes.map((process) => (parseInt(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + parseInt(categories_Link[index].time_info.setup) + parseInt(categories_Link[index].time_info.misc)}</p></td>
                         {/* <td><p className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">hello</p></td> */}
                     </tr>
                 </table>

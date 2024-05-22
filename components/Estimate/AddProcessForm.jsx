@@ -159,12 +159,12 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
     }
 
     return(
-        <div className="w-screen h-screen overflow-y-scroll scrollbar scrollbar-thumb-[#26262D] scrollbar-track-[#1D1D22] inset-0 fixed bg-black/70 text-[#E3E4E8] flex flex-col items-center justify-center">
-            <form onSubmit={handleSubmit} className="w-7/12 px-7 pt-5 pb-7 rounded flex flex-col justify-center items-center font-poppins bg-[#26262D]">
+        <div className="w-screen h-screen overflow-y-scroll scrollbar scrollbar-thumb-[#26262D] scrollbar-track-[#1D1D22] inset-0 fixed bg-black/70 text-[#E3E4E8] dark:text-[#17181C] flex flex-col items-center justify-center">
+            <form onSubmit={handleSubmit} className="w-7/12 px-7 pt-5 pb-7 rounded flex flex-col justify-center items-center font-poppins bg-[#26262D] dark:bg-[#F7F9FC]">
                 <h1 className="text-sm font-bold">{categories_Link[index].name}</h1>
                 <div className="w-full flex flex-col space-y-2.5 mb-4">
                     <label htmlFor="processes" className="text-xs">Select Process</label>
-                    <select disabled={edit} id="processes" value={selected_Process?.id} onChange={handleProcessSelectChange} className="px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">
+                    <select disabled={edit} id="processes" value={selected_Process?.id} onChange={handleProcessSelectChange} className="px-2 py-1 bg-[#31313A] dark:bg-[#F0F2FF] text-xs rounded-sm focus:outline-none">
                         {processes.map((process, index) => (
                             <option key={index} value={process.id}>[{process.owner_sub_category.name}] - {process.name}</option>
                         ))}
@@ -173,18 +173,21 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
 
                 {selected_Process !== null && selected_Process !== undefined && 
                 <div className="w-full flex flex-row space-x-3 font-poppins mb-3">
-                    <div className="w-2/5 flex justify-center items-center px-6 py-9 bg-[#1D1D22] rounded">
-                        <img src={selected_Process?.img_source} width={300} alt="Process Image" className="rounded-sm"/>
+                    <div className="w-2/5 flex justify-center items-center px-6 py-9 bg-[#1D1D22] dark:bg-[#F0F2FF] rounded">
+                        
+                        {selected_Process?.img_source !== ""
+                        ? <img src={selected_Process?.img_source} width={300} alt="Process Image" className="rounded-sm"/>
+                        : <img src="/images/placeholder.jpg" width={300} alt="Process Image" className="rounded-sm"/>}
                     </div>
-                    <div className="w-3/5 bg-[#1D1D22] flex flex-col space-y-3 px-6 py-5 rounded">
-                        <h1 className="font-semibold px-3 py-2 bg-[#26262D] rounded w-fit">{selected_Process?.name}</h1>
+                    <div className="w-3/5 bg-[#1D1D22] dark:bg-[#F0F2FF] flex flex-col space-y-3 px-6 py-5 rounded">
+                        <h1 className="font-semibold px-3 py-2 bg-[#26262D] dark:bg-[#F7F9FC] rounded w-fit">{selected_Process?.name}</h1>
                         <h1 className="text-xs font-medium">Time Per Unit: <span className="font-light">{specs_info?.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)} mins</span></h1>
                         <div className="flex flex-col space-y-5">
                             {selected_Process?.specs?.map((spec, index) => (
                                 <div key={index} className="flex flex-col mt-5 space-y-2">
                                     <h3 className="text-xs">{spec.description}</h3>
                                     {specs_info && 
-                                    <select disabled={edit} id={spec.id} onChange={handleSpecOptionSelectChange} value={specs_info[index]?.option} className="px-2 py-1 bg-[#26262D] text-xs rounded-sm focus:outline-none">
+                                    <select disabled={edit} id={spec.id} onChange={handleSpecOptionSelectChange} value={specs_info[index]?.option} className="px-2 py-1 bg-[#26262D] dark:bg-[#F7F9FC] text-xs rounded-sm focus:outline-none">
                                         {spec.options.map((option, index_2) => (
                                             <option key={index_2} value={option}>{option} <span className="font-light">+ ({spec.time_inc[index_2]} mins)</span></option>
                                         ))}
@@ -197,7 +200,7 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
 
                 <div className="flex flex-row self-end items-center space-x-3 mb-3">
                     <label htmlFor="quantity" className="text-xs">Quantity:</label>
-                    <input value={quantity} onChange={handleQuantityChange} id="quantity" type="number" min={0} className="w-16 px-3 py-2 bg-[#31313A] text-xs rounded-sm focus:outline-none"/>
+                    <input value={quantity} onChange={handleQuantityChange} id="quantity" type="number" min={0} className="w-16 px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-xs rounded-sm focus:outline-none"/>
                 </div>
                 
                 <div className="w-full flex flex-col space-y-1 mb-3">
@@ -206,7 +209,7 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
 
                 <div className="w-full flex flex-row justify-end space-x-5">
                     <button onClick={cancelForm} type="button" className="text-xs text-[#FA450C] hover:text-[#de3705] focus:text-[#de3705]">Cancel</button>
-                    <button type="submit" className="rounded-sm focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs px-5 py-3 text-lg">{edit ? "Edit" : "Add"} Process</button>
+                    <button type="submit" className="rounded-sm focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] dark:text-[#F9FAFF] bg-[#3E5EFF] text-xs px-5 py-3 text-lg">{edit ? "Edit" : "Add"} Process</button>
                 </div>
             </form>
         </div>

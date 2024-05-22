@@ -269,10 +269,10 @@ export default function Process_Form({
   }
 
   return (
-    <div className="w-screen h-screen inset-0 fixed bg-black/70 text-[#E3E4E8] flex flex-col items-center justify-center">
+    <div className="w-screen h-screen inset-0 fixed bg-black/70 text-[#E3E4E8] dark:text-[#17181C] flex flex-col items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        className="w-4/6 h-5/6 overflow-y-scroll overscroll-contain scrollbar scrollbar-thumb-[#26262D] scrollbar-track-[#1D1D22] rounded flex flex-col justify-center items-center font-poppins bg-[#26262D]"
+        className="w-4/6 h-5/6 overflow-y-scroll overscroll-contain scrollbar scrollbar-thumb-[#26262D] scrollbar-track-[#1D1D22] dark:scrollbar-thumb-[#F0F2FF] scrollbar-track-[#F7F9FC] rounded flex flex-col justify-center items-center font-poppins bg-[#26262D] dark:bg-[#F7F9FC]"
       >
         <div className="w-full h-full px-7 pt-5 pb-7 flex flex-col">
           <div className="w-full flex flex-col space-y-2.5 mb-4">
@@ -284,7 +284,7 @@ export default function Process_Form({
               onChange={handleChange}
               type="text"
               id="name"
-              className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"
+              className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"
             />
           </div>
           {/* <div className="w-full flex flex-col space-y-2.5 mb-4">
@@ -297,7 +297,7 @@ export default function Process_Form({
               type="number"
               min="0"
               id="time_per_unit"
-              className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"
+              className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"
             />
           </div> */}
           {processData.specs.map((spec, index) => (
@@ -306,7 +306,7 @@ export default function Process_Form({
               className="w-full flex flex-col space-y-2.5 mb-3 rounded"
             >
               <h1 className="text-xs">{`spec_${index + 1}`}</h1>
-              <div className="bg-[#31313A] space-y-2.5 py-3 px-3 flex flex-col items-start">
+              <div className="bg-[#31313A] dark:bg-[#F0F2FF] space-y-2.5 py-3 px-3 flex flex-col items-start">
                 <label
                   htmlFor={`spec_${index + 1}_description`}
                   className="text-xs pl-0.5"
@@ -318,10 +318,10 @@ export default function Process_Form({
                   onChange={(event) => handleDescriptionChange(event, index)}
                   type="text"
                   id={`spec_${index + 1}_description`}
-                  className="px-3 py-2 bg-[#3A3A43] text-sm rounded-sm focus:outline-none w-full"
+                  className="px-3 py-2 bg-[#3A3A43] dark:bg-[#E0E6FF] text-sm rounded-sm focus:outline-none w-full"
                 />
                 <p className="text-xs pl-0.5">Options and Time</p>
-                <div className="bg-[#31313A] grid grid-cols-4 gap-x-2.5 gap-y-2.5">
+                <div className="bg-[#31313A] dark:bg-[#F0F2FF] grid grid-cols-4 gap-x-2.5 gap-y-2.5">
                   {spec.options.map((option, index_2) => (
                     <div key={index_2} className="">
                       <input
@@ -331,10 +331,10 @@ export default function Process_Form({
                         }
                         type="text"
                         id={`spec_${index + 1}_option_${index_2 + 1}`}
-                        className="px-3 py-2 bg-[#3A3A43] text-sm rounded-sm focus:outline-none w-full"
+                        className="px-3 py-2 bg-[#3A3A43] dark:bg-[#E0E6FF] text-sm rounded-sm focus:outline-none w-full"
                       />
                       <div className="w-full flex items-center justify-center py-1">
-                        <input value={processData?.specs[index].time_inc[index_2]} onChange={(event) => handleTime_Inc_Change(event, index, index_2)} type="float" min={0} className="py-1 px-2 bg-[#3A3A43] text-xs rounded-sm focus:outline-none w-full"/>
+                        <input value={processData?.specs[index].time_inc[index_2]} onChange={(event) => handleTime_Inc_Change(event, index, index_2)} type="float" min={0} className="py-1 px-2 bg-[#3A3A43] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none w-full"/>
                       </div>
                     </div>
                   ))}
@@ -358,7 +358,7 @@ export default function Process_Form({
                     <button
                       type="button"
                       onClick={() => handleAddOption(index)}
-                      className="rounded-sm px-5 py-2 text-xs hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF]"
+                      className="rounded-sm px-5 py-2 text-xs hover:bg-[#2D44B7] dark:text-[#F9FAFF] focus:bg-[#2D44B7] bg-[#3E5EFF]"
                     >
                       Add Option
                     </button>
@@ -370,7 +370,7 @@ export default function Process_Form({
           <button
             type="button"
             onClick={handleAddSpec}
-            className="w-fit mb-4 self-start rounded-sm px-5 py-2 text-xs hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF]"
+            className="w-fit mb-4 self-start rounded-sm px-5 py-2 text-xs hover:bg-[#2D44B7] dark:text-[#F9FAFF] focus:bg-[#2D44B7] bg-[#3E5EFF]"
           >
             Add Spec
           </button>
@@ -387,7 +387,7 @@ export default function Process_Form({
               id="img"
               name="img"
               accept=".jpg"
-              className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"
+              className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"
             />
           </div>
           <div className="w-full flex flex-col space-y-1 mb-7">
@@ -418,7 +418,7 @@ export default function Process_Form({
             </button>
             <button
               type="submit"
-              className="rounded-sm focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs px-8 py-3 text-lg"
+              className="rounded-sm focus:outline-none hover:bg-[#2D44B7] dark:text-[#F9FAFF] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs px-8 py-3 text-lg"
             >
               {edit ? "Edit" : "Add"} Process
             </button>

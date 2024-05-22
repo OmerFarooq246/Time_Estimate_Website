@@ -59,17 +59,16 @@ export default function Home(){
             {active && <New_Estimate_Form toggleModel={toggleModel} user={session.data?.user}/>}
             <div className="h-1/5"></div>
             <div className="h-3/5 flex flex-row font-poppins justify-center space-x-20">
-                {/* <button onClick={toggleModel} className={`h-4/6 w-1/6 px-7 bg-[#1D1D22] flex flex-col justify-center items-center rounded ${!user?.level === "read only" && "hover:bg-[#26262D]"}`}> */}
-                <button disabled={session?.data?.user?.level === "read only"} onClick={toggleModel} className={`h-4/6 w-1/6 px-7 bg-[#1D1D22] flex flex-col justify-center items-center rounded hover:bg-[#26262D]`}>
-                    <LuClipboardEdit className="w-24 h-24 text-[#E3E4E8]"/>
+                <button disabled={session?.data?.user?.level === "read only"} onClick={toggleModel} className={`h-4/6 w-1/6 px-7 bg-[#1D1D22] dark:bg-[#F7F9FC] flex flex-col justify-center items-center rounded hover:bg-[#26262D] hover:dark:bg-[#F0F2FF]`}>
+                    <LuClipboardEdit className="w-24 h-24 text-[#E3E4E8] dark:text-[#000C47]"/>
                     <h1 className="font-bold mt-8">New Estimate</h1>
                 </button>
-                <Link href="/project_estimates" className="h-4/6 w-1/6 px-7 bg-[#1D1D22] flex flex-col justify-center items-center rounded hover:bg-[#26262D]">
-                    <TbReportSearch className="w-24 h-24 text-[#E3E4E8]"/>
+                <Link href="/project_estimates" className="h-4/6 w-1/6 px-7 bg-[#1D1D22] dark:bg-[#F7F9FC] flex flex-col justify-center items-center rounded hover:bg-[#26262D] hover:dark:bg-[#F0F2FF]">
+                    <TbReportSearch className="w-24 h-24 text-[#E3E4E8] dark:text-[#000C47]"/>
                     <h1 className="font-bold mt-8">Project Estimates</h1>
                 </Link>
-                <Link href="/time_components/categories" className="h-4/6 w-1/6 px-7 bg-[#1D1D22] flex flex-col justify-center items-center rounded hover:bg-[#26262D]">
-                    <MdOutlineGroupWork className="w-24 h-24 text-[#E3E4E8]"/>
+                <Link href="/time_components/categories" className="h-4/6 w-1/6 px-7 bg-[#1D1D22] dark:bg-[#F7F9FC] flex flex-col justify-center items-center rounded hover:bg-[#26262D] hover:dark:bg-[#F0F2FF]">
+                    <MdOutlineGroupWork className="w-24 h-24 text-[#E3E4E8] dark:text-[#000C47]"/>
                     <h1 className="font-bold mt-8">Time Components</h1>
                 </Link>
             </div>

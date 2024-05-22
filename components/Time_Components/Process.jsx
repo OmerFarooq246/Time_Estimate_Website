@@ -48,12 +48,14 @@ export default function Process({process_id}){
 
     return(
         <div className="flex flex-row space-x-3 font-poppins px-14 py-10">
-            <div className="w-2/5 flex justify-center items-center px-6 py-9 bg-[#1D1D22] rounded">
+            <div className="w-2/5 flex justify-center items-center px-6 py-9 bg-[#1D1D22] dark:bg-[#F0F2FF] rounded">
                 {/* <img src="/images/process.jpg" width={300} alt="Process Image" className="rounded-sm"/> */}
-                <img src={process_i?.img_source} width={300} alt="Process Image" className="rounded-sm"/>
+                {process_i?.img_source !== ""
+                ? <img src={process_i?.img_source} width={300} alt="Process Image" className="rounded-sm"/>
+                : <img src="/images/placeholder.jpg" width={300} alt="Process Image" className="rounded-sm"/>}
             </div>
-            <div className="w-3/5 bg-[#1D1D22] flex flex-col space-y-3 px-6 py-5 rounded">
-                <h1 className="font-semibold px-3 py-2 bg-[#26262D] rounded w-fit">{process_i?.name}</h1>
+            <div className="w-3/5 bg-[#1D1D22] dark:bg-[#F0F2FF] flex flex-col space-y-3 px-6 py-5 rounded">
+                <h1 className="font-semibold px-3 py-2 bg-[#26262D] dark:bg-[#F7F9FC] rounded w-fit">{process_i?.name}</h1>
                 {/* <h1 className="text-xs font-medium">Time Per Unit: <span className="font-light">{process_i?.time_per_unit} mins</span></h1> */}
                 <div className="flex flex-col space-y-5">
                     {process_i?.specs?.map((spec, index) => (
@@ -62,8 +64,8 @@ export default function Process({process_id}){
                             <div className="flex flex-row space-x-2">
                                 {spec.options.map((option, index_2) => (
                                     <div key={index_2}>
-                                        <p key={index_2} className="text-xs px-2 py-1 rounded bg-[#26262D]">{option}</p>
-                                        <p key={index_2} className="text-xs px-2 py-1 rounded bg-[#26262D]">+ {spec.time_inc[index_2]}</p>
+                                        <p key={index_2} className="text-xs px-2 py-1 rounded bg-[#26262D] dark:bg-[#F7F9FC]">{option}</p>
+                                        <p key={index_2} className="text-xs px-2 py-1 rounded bg-[#26262D] dark:bg-[#F7F9FC]">+ {spec.time_inc[index_2]}</p>
                                     </div>
                                 ))}
                             </div>

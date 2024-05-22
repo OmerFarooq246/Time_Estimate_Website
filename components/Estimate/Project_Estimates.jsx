@@ -79,15 +79,15 @@ export default function Project_Estimates(){
             <table className="text-sm">
                 <thead>
                     <tr>
-                        <th className="w-1/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Estimate #</th>
-                        <th className="w-2/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Project Name</th>
-                        <th className="w-1/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Qunatity</th>
-                        <th className="w-1/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Item #</th>
-                        <th className="w-1/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Total Time per Unit</th>
-                        <th className="w-2/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Created by</th>
-                        <th className="w-2/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Created At</th>
-                        {session.data?.user?.level === "admin" && <th className="w-1/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Edit</th>}
-                        {session.data?.user?.level === "admin" && <th className="w-1/12 bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#31313A]">Delete</th>}
+                        <th className="w-1/12 bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#31313A]">Estimate #</th>
+                        <th className="w-2/12 bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#31313A]">Project Name</th>
+                        <th className="w-1/12 bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#31313A]">Qunatity</th>
+                        <th className="w-1/12 bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#31313A]">Item #</th>
+                        <th className="w-1/12 bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#31313A]">Total Time per Unit</th>
+                        <th className="w-2/12 bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#31313A]">Created by</th>
+                        <th className="w-2/12 bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#31313A]">Created At</th>
+                        {session.data?.user?.level === "admin" && <th className="w-1/12 bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#31313A]">Edit</th>}
+                        {session.data?.user?.level === "admin" && <th className="w-1/12 bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#31313A]">Delete</th>}
                     </tr>
                 </thead>
             </table>

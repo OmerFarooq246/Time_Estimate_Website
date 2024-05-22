@@ -117,16 +117,16 @@ export default function Category_Form({toggleModel, categories, setCategories, i
     }
 
     return(
-        <div className="w-screen h-screen inset-0 fixed bg-black/70 text-[#E3E4E8] flex flex-col items-center justify-center">
-            <form onSubmit={handleSubmit} className="w-3/6 px-7 pt-5 pb-7 rounded flex flex-col justify-center items-center font-poppins bg-[#26262D]">
+        <div className="w-screen h-screen inset-0 fixed bg-black/70 text-[#E3E4E8] dark:text-[#17181C] flex flex-col items-center justify-center">
+            <form onSubmit={handleSubmit} className="w-3/6 px-7 pt-5 pb-7 rounded flex flex-col justify-center items-center font-poppins bg-[#26262D] dark:bg-[#F7F9FC]">
                 <div className="w-full flex flex-col space-y-2.5 mb-4">
                     <label htmlFor="name" className="text-xs">Category Name</label>
-                    <input value={categoryData.name} onChange={handleChange} type="text" id="name" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
+                    <input value={categoryData.name} onChange={handleChange} type="text" id="name" className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"/>
                 </div>
                 <div className="w-full flex flex-col space-y-2.5 mb-2">
                     <label htmlFor="img" className="text-xs">Image</label>
                     {edit && !file && <h1 className="text-xs font-light">{categoryData.img_source}</h1>}
-                    <input onChange={handleFileChange} type="file" id="img" name="img" accept=".jpg" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
+                    <input onChange={handleFileChange} type="file" id="img" name="img" accept=".jpg" className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"/>
                 </div>
                 <div className="w-full flex flex-col space-y-1 mb-7">
                     {error.name !== "" && <p className="text-xs text-orange-700 mt-0.5">{error.name}</p>}
@@ -134,7 +134,7 @@ export default function Category_Form({toggleModel, categories, setCategories, i
                 </div>
                 <div className="w-full flex flex-row justify-end space-x-5">
                     <button onClick={cancelForm} type="button" className="text-xs text-[#FA450C] hover:text-[#de3705] focus:text-[#de3705]">Cancel</button>
-                    <button type="submit" className="rounded-sm focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs px-8 py-3 text-lg">{edit ? "Edit" : "Add"} Category</button>
+                    <button type="submit" className="rounded-sm focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] dark:text-[#F9FAFF] text-xs px-8 py-3 text-lg">{edit ? "Edit" : "Add"} Category</button>
                 </div>
             </form>
         </div>

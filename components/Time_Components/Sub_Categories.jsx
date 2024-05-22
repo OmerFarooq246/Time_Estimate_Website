@@ -102,7 +102,7 @@ export default function Sub_Categories({category}){
             <div className="flex flex-col">
                 <div className="px-24 py-10 grid gap-x-5 gap-y-10 grid-cols-5 justify-center font-poppins">
                     {sub_categories.map((sub_category, index) => (
-                        <div key={index} className="max-w-44 min-h-48 flex flex-col items-center justify-center px-5 py-3 space-y-4 rounded bg-[#1D1D22] hover:bg-[#26262D]">
+                        <div key={index} className="max-w-44 min-h-48 flex flex-col items-center justify-center px-5 py-3 space-y-4 rounded bg-[#1D1D22] hover:bg-[#26262D] dark:bg-[#F0F2FF] hover:dark:bg-[#F7F9FC]">
                             {session.data?.user?.level === "admin" && <div className="flex flex-row space-x-2 self-end">
                                 <button onClick={() => editSubCat(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button>
                                 <button onClick={() => delete_SubCat(index)}><MdDelete className="text-red-600 hover:text-red-500"/></button>

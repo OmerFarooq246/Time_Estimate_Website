@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 
 const poppins = Poppins({subsets: ['latin'], variable: "--font-poppins", weight: ['100', '200', '300','400','500', '600', '700', '800', '900']})
 
-export default function Header({ heading }) {
+export default function Header({ heading, toggleMode, darkmode}) {
     const router = useRouter()
     const session = useSession()
 
@@ -28,20 +28,21 @@ export default function Header({ heading }) {
     // }
 
     return (
-        <div className="bg-[#161616]">
-            <header className="flex flex-row bg-[#1D1D22] text-[#E3E4E8] justify-center py-2 px-1">
+        <div className="bg-[#161616] dark:bg-[#FFFFFF]">
+            <header className="flex flex-row bg-[#1D1D22] text-[#E3E4E8] dark:bg-[#F7F9FC] dark:text-[#17181C] justify-center py-2 px-1">
                 <div className="w-2/12">
                     <img src="/images/logo.png" alt="logo" className="h-10"/>
                 </div>
                 <div className={`w-8/12 ${poppins.className} uppercase text-2xl flex justify-center items-center`}>
                     <h1 className="font-bold">{heading}</h1>
                 </div>
-                <div className={`w-2/12 flex flex-row justify-end items-center pr-2 ${poppins.className}`}>
+                <div className={`w-2/12 flex flex-row space-x-3 justify-end items-center pr-2 ${poppins.className}`}>
                     {(router.pathname === "/" && router.pathname !== "/login") && <button className="uppercase font-bold text-sm" onClick={() => signOut({ callbackUrl: '/login' })}>Log Off</button>}
                     {(router.pathname !== "/" && router.pathname !== "/login" && !router.pathname.includes("/estimate")) && <Link className="uppercase font-bold text-sm" href="/">Home</Link>}
+                    <button className='text-xs font-base' onClick={toggleMode}>{darkmode === "true" ? "Dark Mode" : "Light Mode"}</button>
                 </div>
             </header>
-            <div className="flex flex-row justify-between px-3 py-3 bg-[#161616] text-[#E3E4E8] mb-2">
+            <div className="flex flex-row justify-between px-3 py-3 bg-[#161616] text-[#E3E4E8] dark:bg-[#FFFFFF] dark:text-[#17181C] mb-2">
                 {router.pathname !== "/" && router.pathname !== "/login" && 
                 <div className="w-full">
                     <button onClick={() => router.back()} className={`${poppins.className} text-xs flex flex-row items-center space-x-1`}>
