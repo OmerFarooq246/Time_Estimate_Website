@@ -320,7 +320,7 @@ export default function Process_Form({
                   id={`spec_${index + 1}_description`}
                   className="px-3 py-2 bg-[#3A3A43] text-sm rounded-sm focus:outline-none w-full"
                 />
-                <p className="text-xs pl-0.5">Options</p>
+                <p className="text-xs pl-0.5">Options and Time</p>
                 <div className="bg-[#31313A] grid grid-cols-4 gap-x-2.5 gap-y-2.5">
                   {spec.options.map((option, index_2) => (
                     <div key={index_2} className="">
@@ -334,7 +334,7 @@ export default function Process_Form({
                         className="px-3 py-2 bg-[#3A3A43] text-sm rounded-sm focus:outline-none w-full"
                       />
                       <div className="w-full flex items-center justify-center py-1">
-                        <input value={processData?.specs[index].time_inc[index_2]} onChange={(event) => handleTime_Inc_Change(event, index, index_2)} type="number" min={0} className="py-1 px-2 bg-[#3A3A43] text-xs rounded-sm focus:outline-none w-full"/>
+                        <input value={processData?.specs[index].time_inc[index_2]} onChange={(event) => handleTime_Inc_Change(event, index, index_2)} type="float" min={0} className="py-1 px-2 bg-[#3A3A43] text-xs rounded-sm focus:outline-none w-full"/>
                       </div>
                     </div>
                   ))}
