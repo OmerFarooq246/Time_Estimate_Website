@@ -121,7 +121,7 @@ export default function Processes({sub_category}){
                                 <button onClick={() => deleteProcess(index)}><MdDelete className="text-red-600 hover:text-red-500"/></button>
                             </div>}
                             <Link href={`/time_components/process/${process.id}`} className="flex flex-col items-center justify-center space-y-4 text-sm">
-                                {process?.img_source === ""
+                                {process?.img_source !== ""
                                 ? <img src={process?.img_source} alt="Category Image" className="rounded-sm h-32"/>
                                 : <img src="/images/placeholder.jpg" alt="Category Image" className="rounded-sm h-32"/>}
                                 
