@@ -127,6 +127,7 @@ model Specs_Info {
   process_link_id String @db.ObjectId
   spec_id         String @db.ObjectId
   option          String
+  time            Int
 
   spec_rel         Spec         @relation(fields: [spec_id], references: [id])
   process_link_rel Process_Link @relation(fields: [process_link_id], references: [id], onDelete: Cascade)

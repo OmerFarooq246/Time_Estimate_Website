@@ -64,7 +64,7 @@ export default function Category_Link({index, categories_Link, setCategories_Lin
                 {categories_Link[index].processes.map((process, index) => (
                     <tr key={index} className="">
                         <td className="px-3 py-1 border border-[#31313A]">{process.process.name} {process.specs_info.map(spec => (" - " + spec.option))}</td>
-                        <td className="px-3 py-1 border border-[#31313A] text-center">{process.quantity * process.process.time_per_unit}</td>
+                        <td className="px-3 py-1 border border-[#31313A] text-center">{process.quantity * process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)}</td>
                         <td className="px-3 py-1 border border-[#31313A] text-center">{process.quantity}</td>
                         <td className="px-3 py-1 border border-[#31313A] text-center"><button onClick={() => editProcess(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button></td>
                         <td className="px-3 py-1 border border-[#31313A] text-center"><button onClick={() => deleteProcess(index)}><MdDelete className="text-red-600"/></button></td>
@@ -84,7 +84,7 @@ export default function Category_Link({index, categories_Link, setCategories_Lin
                     </tr>
                     <tr className="">
                         <td>Total Manufacturing Time/EA: </td>
-                        <td><p className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">{categories_Link[index].processes.map((process) => (parseInt(process.quantity) * parseInt(process.process.time_per_unit))).reduce((a, b) => a + b, 0) + parseInt(categories_Link[index].time_info.setup) + parseInt(categories_Link[index].time_info.misc)}</p></td>
+                        <td><p className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">{categories_Link[index].processes.map((process) => (parseInt(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + parseInt(categories_Link[index].time_info.setup) + parseInt(categories_Link[index].time_info.misc)}</p></td>
                         {/* <td><p className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">hello</p></td> */}
                     </tr>
                 </table>

@@ -13,7 +13,10 @@ export default async function handler(req, res){
 
         const processes = await prisma.processes.findMany({
             where: {sub_category: {in: sub_cat_ids}},
-            include: {specs: true}
+            include: {
+                specs: true,
+                owner_sub_category: {select: {name: true}}
+            }
         })
         console.log("processes fetched: ", processes)
         res.status(200).json(processes)

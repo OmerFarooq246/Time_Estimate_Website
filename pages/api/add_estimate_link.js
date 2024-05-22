@@ -26,7 +26,8 @@ export default async function handler(req, res){
                                 specs_info: {
                                     create: process.specs_info.map((spec) => ({
                                         spec_id: spec.id,
-                                        option: spec.option
+                                        option: spec.option,
+                                        time: spec.time
                                     }))
                                 }
                             }))

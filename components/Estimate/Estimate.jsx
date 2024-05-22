@@ -92,7 +92,7 @@ export default function Estimate({estimate, edit}){
         // console.log("event.target: ", event.target)
         let temp_cat_links = [...categories_Link]
         temp_cat_links[event.target.id].time_info.setup = event.target.value
-        temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseInt(process.quantity) * parseInt(process.process.time_per_unit))).reduce((a, b) => a + b, 0) + parseInt(temp_cat_links[event.target.id].time_info.setup) + parseInt(temp_cat_links[event.target.id].time_info.misc)
+        temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseInt(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + parseInt(temp_cat_links[event.target.id].time_info.setup) + parseInt(temp_cat_links[event.target.id].time_info.misc)
         console.log("total: ", temp_cat_links[event.target.id].time_info.total)
         setCategories_Link(temp_cat_links)
     }
@@ -101,7 +101,7 @@ export default function Estimate({estimate, edit}){
         // console.log("event.target: ", event.target)
         let temp_cat_links = [...categories_Link]
         temp_cat_links[event.target.id].time_info.misc = event.target.value
-        temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseInt(process.quantity) * parseInt(process.process.time_per_unit))).reduce((a, b) => a + b, 0) + parseInt(temp_cat_links[event.target.id].time_info.setup) + parseInt(temp_cat_links[event.target.id].time_info.misc)
+        temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseInt(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + parseInt(temp_cat_links[event.target.id].time_info.setup) + parseInt(temp_cat_links[event.target.id].time_info.misc)
         console.log("total: ", temp_cat_links[event.target.id].time_info.total)
         setCategories_Link(temp_cat_links)
     }
@@ -154,7 +154,8 @@ export default function Estimate({estimate, edit}){
                                 id: spec.id,
                                 description: spec.description,
                                 process: spec.process,
-                                options: spec.options.split(",")
+                                options: spec.options.split(","),
+                                time_inc: spec.time_inc.split(",")
                             })),
                             img_source: process.process_rel.img_source
                         }, 
