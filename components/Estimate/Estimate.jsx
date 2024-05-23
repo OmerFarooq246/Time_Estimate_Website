@@ -212,7 +212,7 @@ export default function Estimate({estimate, edit}){
     }, [edit])
 
     function sum_all_total(){
-        let total = categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai
+        let total = categories_Link.map((cat) => ((cat.time_info.total)/60)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai
         if(complex === "C"){
             total = ((total + total*5/100)/estimate_info?.quantity).toFixed(2)
             setTotal_time_each(total)
