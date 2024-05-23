@@ -76,15 +76,15 @@ export default function Category_Link({index, categories_Link, setCategories_Lin
                 <table className="text-xs border-separate border-spacing-x-2">
                     <tr className="">
                         <td>Manufacturing Set Up Time/QTY: </td>
-                        <td><input id={index} value={categories_Link[index].time_info.setup} onChange={handleSetUpChange} type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
+                        <td><input id={index} value={categories_Link[index].time_info.setup} onChange={handleSetUpChange} type="number" step="0.01" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
                     </tr>
                     <tr className="">
                         <td>Manufacturing Misc. Time/EA: </td>
-                        <td><input id={index} value={categories_Link[index].time_info.misc} onChange={handleMiscChange} type="number" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
+                        <td><input id={index} value={categories_Link[index].time_info.misc} onChange={handleMiscChange} type="number" step="0.01" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
                     </tr>
                     <tr className="">
                         <td>Total Manufacturing Time/EA: </td>
-                        <td><p className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{categories_Link[index].processes.map((process) => (parseInt(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + parseInt(categories_Link[index].time_info.setup) + parseInt(categories_Link[index].time_info.misc)}</p></td>
+                        <td><p className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{categories_Link[index].processes.map((process) => (parseFloat(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + parseFloat(categories_Link[index].time_info.setup) + parseFloat(categories_Link[index].time_info.misc)}</p></td>
                         {/* <td><p className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">hello</p></td> */}
                     </tr>
                 </table>
