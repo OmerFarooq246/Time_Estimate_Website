@@ -214,29 +214,31 @@ export default function Estimate({estimate, edit}){
     function sum_all_total(){
         let total = categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai
         if(complex === "C"){
-            total = ((total + total*5/100)/estimate_info?.quantity).toFixed(4)
+            total = ((total + total*5/100)/estimate_info?.quantity).toFixed(2)
             setTotal_time_each(total)
         }
         else if(complex === "VC"){
-            total = ((total + total*10/100)/estimate_info?.quantity).toFixed(4)
+            total = ((total + total*10/100)/estimate_info?.quantity).toFixed(2)
             setTotal_time_each(total)
         }
         else{
-            setTotal_time_each((total/estimate_info?.quantity).toFixed(4))
+            setTotal_time_each((total/estimate_info?.quantity).toFixed(2))
         }
         // return total
     }
 
     function sum_total(){
-        let total = categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai
+        let total = (categories_Link.map((cat) => ((cat.time_info.total)/60)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai).toFixed(2)
         let complex_value;
         if(complex === "C"){
-            complex_value = total*5/100
-            setTotal_time_qty(`${total} + ${complex_value} = ${total + complex_value}`)
+            complex_value = (total*5/100).toFixed(2)
+            // console.log("setTotal_time_qty: ", `${total} + ${complex_value} = ${(total + complex_value)}`)
+            setTotal_time_qty(`${total} + ${complex_value} = ${(parseFloat(total) + parseFloat(complex_value)).toFixed(2)}`)
         }
         else if(complex === "VC"){
             complex_value = total*10/100
-            setTotal_time_qty(`${total} + ${complex_value} = ${total + complex_value}`)
+            // console.log("setTotal_time_qty: ", `${total} + ${complex_value} = ${(total + complex_value)}`)
+            setTotal_time_qty(`${total} + ${complex_value} = ${(parseFloat(total) + parseFloat(complex_value)).toFixed(2)}`)
         }
         else if(complex === "NC"){
             // return total
@@ -638,9 +640,9 @@ export default function Estimate({estimate, edit}){
                             <h1 className="font-bold">Engineering</h1>
                             <table className="text-xs bg-[#1D1D22] dark:bg-[#F7F9FC] rounded">
                                 <tbody>
-                                <tr className="border-b-2 border-[#26262D]">
+                                <tr className="border-b-2 dark:border-b dark:border-[#E0E6FF] border-[#26262D]">
                                     <th className="px-3 py-2 font-semibold w-5/6 text-start">Process</th>
-                                    <th className="px-3 py-2 font-semibold w-1/6 text-end">Time (mins)</th>
+                                    <th className="px-3 py-2 font-semibold w-1/6 text-end">Time (hours)</th>
                                 </tr>
                                 <tr>
                                     <td className="px-3">Customer Drawing</td>
@@ -665,7 +667,7 @@ export default function Estimate({estimate, edit}){
                                     <tbody>
                                     <tr>
                                         <td>Total Engineering Time/EA: </td>
-                                        <td><p className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{engineering.sd + engineering.r + engineering.cd + engineering.ai}</p></td>
+                                        <td><p className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{((engineering.sd + engineering.r + engineering.cd + engineering.ai)/estimate_info.quantity).toFixed(2)}</p></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -689,14 +691,16 @@ export default function Estimate({estimate, edit}){
                                 {/* {sum_total()} */}
                                 {total_time_qty}
                             </td>
+                            <td className="text-xs pl-1">(hours)</td>
                         </tr>
                         <tr>
                             <td className="text-xs pr-2">Total time for each: </td>
                             <td className="w-18 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">
                                 {total_time_each}
-                                {/* {(sum_all_total()/estimate_info?.quantity).toFixed(4)} */}
-                                {/* {((categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai)/estimate_info?.quantity).toFixed(4)} */}
+                                {/* {(sum_all_total()/estimate_info?.quantity).toFixed(2)} */}
+                                {/* {((categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai)/estimate_info?.quantity).toFixed(2)} */}
                             </td>
+                            <td className="text-xs pl-1">(hours)</td>
                         </tr>
                         </tbody>
                     </table>
