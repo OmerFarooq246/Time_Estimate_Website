@@ -76,11 +76,11 @@ export default function Category_Link({index, categories_Link, setCategories_Lin
                 <table className="text-xs border-separate border-spacing-x-2">
                     <tr className="">
                         <td>Manufacturing Set Up Time/QTY: </td>
-                        <td><input id={index} value={categories_Link[index].time_info.setup} onChange={handleSetUpChange} type="number" step="0.01" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
+                        <td><input id={index} value={categories_Link[index].time_info.setup} onChange={handleSetUpChange} type="number" step="0.1" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
                     </tr>
                     <tr className="">
                         <td>Manufacturing Misc. Time/EA: </td>
-                        <td><input id={index} value={categories_Link[index].time_info.misc} onChange={handleMiscChange} type="number" step="0.01" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
+                        <td><input id={index} value={categories_Link[index].time_info.misc} onChange={handleMiscChange} type="number" step="0.1" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
                     </tr>
                     <tr className="">
                         <td>Total Manufacturing Time/EA: </td>
