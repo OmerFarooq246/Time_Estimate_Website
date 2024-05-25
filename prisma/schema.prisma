@@ -86,10 +86,10 @@ model Estimate {
 model Estimate_Link {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   estimate_id   String          @unique @db.ObjectId
-  cd            Int
-  r             Int
-  sd            Int
-  ai            Int
+  cd            Float
+  r             Float
+  sd            Float
+  ai            Float
   complex       String
   time_per_unit Float
   category_link Category_Link[]
@@ -102,9 +102,9 @@ model Category_Link {
   name             String
   estimate_link_id String         @db.ObjectId
   category_id      String         @db.ObjectId
-  setup            Int
-  misc             Int
-  total            Int
+  setup            Float
+  misc             Float
+  total            Float
   process_link     Process_Link[]
 
   category_rel      Categories    @relation(fields: [category_id], references: [id], onDelete: Cascade)
@@ -127,7 +127,7 @@ model Specs_Info {
   process_link_id String @db.ObjectId
   spec_id         String @db.ObjectId
   option          String
-  time            Int
+  time            Float
 
   spec_rel         Spec         @relation(fields: [spec_id], references: [id])
   process_link_rel Process_Link @relation(fields: [process_link_id], references: [id], onDelete: Cascade)

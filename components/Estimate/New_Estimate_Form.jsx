@@ -39,7 +39,7 @@ export default function New_Estimate_Form({toggleModel, user}){
 
     function giveError(){
         Object.entries(new_estimteData).map(([key, value]) => {
-            if(value === ""){
+            if(value === "" || value === 0){
                 setError((prevError) => {return {...prevError, [key]: `- ${key} is empty -`}})
             }
             else{
@@ -61,7 +61,7 @@ export default function New_Estimate_Form({toggleModel, user}){
         event.preventDefault()
         resetError()
         giveError()
-        if(new_estimteData.estimate_no !== "" && new_estimteData.name !== "" && new_estimteData.quantity !== 0 && new_estimteData.item_no !== "" && new_estimteData.created_at !== "" && new_estimteData.created_by !== ""){
+        if(new_estimteData.estimate_no !== "" && new_estimteData.name !== "" && parseInt(new_estimteData.quantity) !== 0 && new_estimteData.item_no !== "" && new_estimteData.created_at !== "" && new_estimteData.created_by !== ""){
             try{
                 console.log("new_estimteData: ", new_estimteData)
                 const res = await axios.post(`/api/add_estimate_data`, {

@@ -64,7 +64,7 @@ export default function Category_Link({index, categories_Link, setCategories_Lin
                 {categories_Link[index].processes.map((process, index) => (
                     <tr key={index} className="">
                         <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF]">{process.process.name} {process.specs_info.map(spec => (" - " + spec.option))}</td>
-                        <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center">{process.quantity * process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)}</td>
+                        <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center">{(process.quantity * process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)).toFixed(2)}</td>
                         <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center">{process.quantity}</td>
                         <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center"><button onClick={() => editProcess(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button></td>
                         <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center"><button onClick={() => deleteProcess(index)}><MdDelete className="text-red-600"/></button></td>
@@ -84,8 +84,8 @@ export default function Category_Link({index, categories_Link, setCategories_Lin
                     </tr>
                     <tr className="">
                         <td>Total Manufacturing Time/EA: </td>
-                        <td><p className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{categories_Link[index].processes.map((process) => (parseFloat(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + parseFloat(categories_Link[index].time_info.setup) + parseFloat(categories_Link[index].time_info.misc)}</p></td>
-                        {/* <td><p className="w-16 px-2 py-1 bg-[#31313A] text-xs rounded-sm focus:outline-none">hello</p></td> */}
+                        {/* <td><p className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{categories_Link[index].processes.map((process) => (parseFloat(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + parseFloat(categories_Link[index].time_info.setup) + parseFloat(categories_Link[index].time_info.misc)}</p></td> */}
+                        <td><p className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{(categories_Link[index].time_info.total).toFixed(2)}</p></td>
                     </tr>
                 </table>
             </div>

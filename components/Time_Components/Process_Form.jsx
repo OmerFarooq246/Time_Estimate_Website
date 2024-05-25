@@ -259,7 +259,7 @@ export default function Process_Form({
 
   function handleTime_Inc_Change(event, index, index_2){
     let specs = processData.specs
-    specs[index].time_inc[index_2] = event.target.value
+    specs[index].time_inc[index_2] = parseFloat(event.target.value)
     setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: specs}))
   }
 
@@ -334,7 +334,7 @@ export default function Process_Form({
                         className="px-3 py-2 bg-[#3A3A43] dark:bg-[#E0E6FF] text-sm rounded-sm focus:outline-none w-full"
                       />
                       <div className="w-full flex items-center justify-center py-1">
-                        <input value={processData?.specs[index].time_inc[index_2]} onChange={(event) => handleTime_Inc_Change(event, index, index_2)} type="float" min={0} className="py-1 px-2 bg-[#3A3A43] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none w-full"/>
+                        <input value={processData?.specs[index].time_inc[index_2]} onChange={(event) => handleTime_Inc_Change(event, index, index_2)} type="number" step="0.1" min={0} className="py-1 px-2 bg-[#3A3A43] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none w-full"/>
                       </div>
                     </div>
                   ))}

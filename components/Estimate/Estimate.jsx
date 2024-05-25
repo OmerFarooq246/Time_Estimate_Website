@@ -92,7 +92,7 @@ export default function Estimate({estimate, edit}){
         // console.log("event.target: ", event.target)
         let temp_cat_links = [...categories_Link]
         temp_cat_links[event.target.id].time_info.setup = event.target.value
-        temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseFloat(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + parseFloat(temp_cat_links[event.target.id].time_info.setup) + parseFloat(temp_cat_links[event.target.id].time_info.misc)
+        temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseFloat(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + (parseFloat(temp_cat_links[event.target.id].time_info.setup)/parseFloat(estimate_info.quantity)) + parseFloat(temp_cat_links[event.target.id].time_info.misc)
         console.log("total: ", temp_cat_links[event.target.id].time_info.total)
         setCategories_Link(temp_cat_links)
     }
@@ -101,7 +101,7 @@ export default function Estimate({estimate, edit}){
         // console.log("event.target: ", event.target)
         let temp_cat_links = [...categories_Link]
         temp_cat_links[event.target.id].time_info.misc = event.target.value
-        temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseFloat(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + parseFloat(temp_cat_links[event.target.id].time_info.setup) + parseFloat(temp_cat_links[event.target.id].time_info.misc)
+        temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseFloat(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + (parseFloat(temp_cat_links[event.target.id].time_info.setup)/parseFloat(estimate_info.quantity)) + parseFloat(temp_cat_links[event.target.id].time_info.misc)
         console.log("total: ", temp_cat_links[event.target.id].time_info.total)
         setCategories_Link(temp_cat_links)
     }
@@ -212,23 +212,23 @@ export default function Estimate({estimate, edit}){
     }, [edit])
 
     function sum_all_total(){
-        let total = categories_Link.map((cat) => ((cat.time_info.total)/60)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai
+        let total = categories_Link.map((cat) => ((cat.time_info.total)/60)).reduce((a, b) => a + b, 0) + (engineering.sd + engineering.r + engineering.cd + engineering.ai)/estimate_info.quantity
         if(complex === "C"){
-            total = ((total + total*5/100)/estimate_info?.quantity).toFixed(2)
+            total = (total + total*5/100).toFixed(2)
             setTotal_time_each(total)
         }
         else if(complex === "VC"){
-            total = ((total + total*10/100)/estimate_info?.quantity).toFixed(2)
+            total = (total + total*10/100).toFixed(2)
             setTotal_time_each(total)
         }
         else{
-            setTotal_time_each((total/estimate_info?.quantity).toFixed(2))
+            setTotal_time_each(total.toFixed(2))
         }
         // return total
     }
 
     function sum_total(){
-        let total = (categories_Link.map((cat) => ((cat.time_info.total)/60)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai).toFixed(2)
+        let total = ((categories_Link.map((cat) => ((cat.time_info.total)/60)).reduce((a, b) => a + b, 0) + (engineering.sd + engineering.r + engineering.cd + engineering.ai)/estimate_info.quantity) * estimate_info.quantity).toFixed(2)
         let complex_value;
         if(complex === "C"){
             complex_value = (total*5/100).toFixed(2)
@@ -363,7 +363,7 @@ export default function Estimate({estimate, edit}){
                     </div>
                     {Array.isArray(categories_Link) && categories_Link?.map((category, index) => (
                         <div key={index} className="w-full bg-[#26262D] dark:bg-[#F0F2FF] rounded px-3 py-2">
-                            <Category_Link index={index} categories_Link={categories_Link} setCategories_Link={setCategories_Link} handleSetUpChange={handleSetUpChange} handleMiscChange={handleMiscChange}/>
+                            <Category_Link index={index} categories_Link={categories_Link} setCategories_Link={setCategories_Link} handleSetUpChange={handleSetUpChange} handleMiscChange={handleMiscChange} estimate_info={estimate_info}/>
                         </div>
                     ))}
                     
