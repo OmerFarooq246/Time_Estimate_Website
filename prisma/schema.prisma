@@ -47,6 +47,7 @@ model Processes {
 
   owner_sub_category Sub_Categories @relation(fields: [sub_category], references: [id], onDelete: Cascade)
   Process_Link       Process_Link[]
+  Time_Pairs         Time_Pairs[]
 }
 
 model Spec {
@@ -58,6 +59,15 @@ model Spec {
 
   owner_process Processes    @relation(fields: [process], references: [id], onDelete: Cascade)
   Specs_Info    Specs_Info[]
+}
+
+model Time_Pairs {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  process String @db.ObjectId
+  options String
+  time    Float
+
+  owner_process Processes @relation(fields: [process], references: [id], onDelete: Cascade)
 }
 
 // model Spec {

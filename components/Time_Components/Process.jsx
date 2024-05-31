@@ -1,27 +1,14 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
-
-// type User = {
-//     username?: string;
-//     level?: string;
-// };
-
-// type Process = {
-//     id?: string,
-//     name?: string;
-//     time_per_unit?: number;
-//     specs: [Spec],
-//     img_source?: string
-// };
-
-// type Spec = {
-//     id?: string,
-//     description?: string,
-//     options?: [string],
-// };
+import Set_Time_Form from "./Set_Time_Form"
 
 export default function Process({process_id}){
     const [process_i, setProcesses] = useState({})
+    const [active, setActive] = useState(false)
+
+    function toggleModel(){
+        setActive(!active)
+    }
 
     async function get_process_info(){
         try{
@@ -29,12 +16,12 @@ export default function Process({process_id}){
                 params: {process_id: process_id}
             })
             let temp_process = res.data
-            console.log("temp_process: ", temp_process)
+            // console.log("temp_process: ", temp_process)
             temp_process.specs.map((spec) => {
                 spec.options = spec.options.split(",")
                 spec.time_inc = spec.time_inc.split(",")
             })
-            console.log("temp_process: ", temp_process)
+            // console.log("temp_process: ", temp_process)
             setProcesses(temp_process)
         }
         catch(error){
@@ -48,6 +35,7 @@ export default function Process({process_id}){
 
     return(
         <div className="flex flex-row space-x-3 font-poppins px-14 py-10">
+            {active && <Set_Time_Form toggleModel={toggleModel} process={process_i}/>}
             <div className="w-2/5 flex justify-center items-center px-6 py-9 bg-[#1D1D22] dark:bg-[#F0F2FF] rounded">
                 {/* <img src="/images/process.jpg" width={300} alt="Process Image" className="rounded-sm"/> */}
                 {process_i?.img_source !== ""
@@ -65,12 +53,15 @@ export default function Process({process_id}){
                                 {spec.options.map((option, index_2) => (
                                     <div key={index_2}>
                                         <p key={index_2} className="text-xs px-2 py-1 rounded bg-[#26262D] dark:bg-[#F7F9FC]">{option}</p>
-                                        <p key={index_2} className="text-xs px-2 py-1 rounded bg-[#26262D] dark:bg-[#F7F9FC]">+ {spec.time_inc[index_2]}</p>
+                                        {/* <p key={index_2} className="text-xs px-2 py-1 rounded bg-[#26262D] dark:bg-[#F7F9FC]">+ {spec.time_inc[index_2]}</p> */}
                                     </div>
                                 ))}
                             </div>
                         </div>
                     ))}
+                </div>
+                <div className="justify-end items-end flex grow">
+                    <button onClick={toggleModel} className="rounded-sm focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] dark:text-[#F9FAFF] text-xs px-8 py-3 text-lg">Set Time</button>
                 </div>
             </div>
         </div>

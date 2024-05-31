@@ -8,6 +8,7 @@ import { MdSettingsInputComponent } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { useRouter } from "next/router";
+import Set_Time_Form from "./Set_Time_Form";
 
 // type User = {
 //     username?: string;
@@ -16,6 +17,7 @@ import { useRouter } from "next/router";
 
 export default function Processes({sub_category}){
     const [active, setActive] = useState(false) //if true, model shown
+    // const [active_2, setActive_2] = useState(false) //if true, set time form shown
     const [processes, setProcesses] = useState([])
     const [current_Process, setCurrent_Process] = useState({})
     const [current_img, set_Current_img] = useState(null)
@@ -51,7 +53,7 @@ export default function Processes({sub_category}){
 
     useEffect(() => {
         if(sub_category){
-            get_processes()   
+            get_processes()
         }
     }, [sub_category, edit])
 
@@ -103,6 +105,7 @@ export default function Processes({sub_category}){
     return(
         <div className="h-full flex flex-col">
             {active && <Process_Form toggleModel={toggleModel} sub_category={sub_category} processes={processes} setProcesses={setProcesses} index={index} current_Process={current_Process} edit={edit} setEdit={setEdit}/>}
+            {/* {active_2 && <Set_Time_Form toggleModel={toggleModel} sub_category={sub_category} processes={processes} setProcesses={setProcesses} index={index} current_Process={current_Process} edit={edit} setEdit={setEdit}/>} */}
             <div className="flex flex-row items-start space-x-5 font-poppins px-5">
                 {session.data?.user?.level === "admin" && 
                 <button onClick={toggleModel} className="flex flex-row items-center space-x-2">

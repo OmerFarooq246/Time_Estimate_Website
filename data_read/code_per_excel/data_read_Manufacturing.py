@@ -7,7 +7,7 @@ from pprint import pprint
 def get_json_obj(excel_path):
     cat_id = 0
     sub_cat_id = 0
-    for i in range(42):
+    for i in range(57):
         print("sheet:", i)
         df = pd.read_excel(excel_path, sheet_name = i)
 
@@ -56,7 +56,7 @@ def get_json_obj(excel_path):
 
         if i == 0: 
             cat_id = add_cat(process)
-        if i == 0 or i == 11 or i == 22 or i == 30 or i == 38 :
+        if i == 0 or i == 11 or i == 22 or i == 30 or i == 38 or i == 46 or i == 50:
             sub_cat_id = add_sub_cat(process, cat_id)
         add_process(process, sub_cat_id)
         print("---------------------")
