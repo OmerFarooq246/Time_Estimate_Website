@@ -8,13 +8,13 @@ export default async function handler(req, res){
         const process = await prisma.processes.create({
             data: {
                 name: req.body.processData.name,
-                time_per_unit: parseInt(req.body.processData.time_per_unit),
+                // time_per_unit: parseInt(req.body.processData.time_per_unit),
                 specs: {
                     create: req.body.processData.specs.map((spec) => (
                         {
                             description: spec.description,
                             options: spec.options.join(','),
-                            time_inc: spec.time_inc.join(','),
+                            // time_inc: spec.time_inc.join(','),
                             // process: {connect: {id: process.id}}
                         }
                     ))

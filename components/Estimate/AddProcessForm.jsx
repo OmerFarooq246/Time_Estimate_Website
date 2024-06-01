@@ -20,7 +20,7 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
             temp_process.map((process) => {
                 process.specs.map((spec) => {
                     spec.options = spec.options.split(",")
-                    spec.time_inc = spec.time_inc.split(",")
+                    // spec.time_inc = spec.time_inc.split(",")
                 })
             })
             setProcesses(temp_process)
@@ -53,8 +53,8 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
         else{
             // let temp_time_per_unit = 0
             let temp_specs_info = selected_Process?.specs?.map((spec) => {
-                // temp_time_per_unit = temp_time_per_unit + parseFloat(spec.time_inc[0])
-                return {id: spec.id, option: spec.options[0], time: parseFloat(spec.time_inc[0])}
+                // return {id: spec.id, option: spec.options[0], time: parseFloat(spec.time_inc[0])}
+                return {id: spec.id, option: spec.options[0]}
             })
             // console.log("temp_time_per_unit: ", temp_time_per_unit)
             // setTime_per_unit(temp_time_per_unit)
@@ -80,7 +80,7 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
                 console.log("in setting")
                 temp_specs_info[index].option = event.target.value
                 let index_2 = selected_Process.specs[index].options.indexOf(event.target.value)
-                temp_specs_info[index].time = parseFloat(selected_Process.specs[index].time_inc[index_2])
+                // temp_specs_info[index].time = parseFloat(selected_Process.specs[index].time_inc[index_2])
                 // console.log("selected_Process.specs[index].time_inc[index_2]: ", selected_Process.specs[index].time_inc[index_2])
             }
         })

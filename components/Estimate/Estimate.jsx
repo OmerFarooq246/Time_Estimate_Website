@@ -151,13 +151,13 @@ export default function Estimate({estimate, edit}){
                         process: {
                             id: process.process_rel.id,
                             name: process.process_rel.name,
-                            time_per_unit: parseFloat(process.process_rel.time_per_unit),
+                            // time_per_unit: parseFloat(process.process_rel.time_per_unit),
                             specs: process.process_rel.specs.map((spec) => ({
                                 id: spec.id,
                                 description: spec.description,
                                 process: spec.process,
                                 options: spec.options.split(","),
-                                time_inc: spec.time_inc.split(",")
+                                // time_inc: spec.time_inc.split(",")
                             })),
                             img_source: process.process_rel.img_source
                         }, 

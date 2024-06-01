@@ -43,7 +43,7 @@ def get_json_obj(excel_path):
                 specs.append({
                     "description": col,
                     "options": sheet_1[col],
-                    'time_inc': ",".join(["0"]*len(sheet_1[col].split(','))),
+                    # 'time_inc': ",".join(["0"]*len(sheet_1[col].split(','))),
                     "process": sheet_1["Process"]
                 })
             else:

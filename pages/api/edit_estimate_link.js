@@ -41,6 +41,7 @@ export default async function handler(req, res){
                         process_rel: {connect: {id: process.process.id}},
                         category_link_rel: {connect: {id: category_link.id}},
                         quantity: process.quantity,
+                        time_of_pair: process.time_of_pair,
                         specs_info: {
                             create: process.specs_info.map((spec) => ({
                                 spec_id: spec.id,

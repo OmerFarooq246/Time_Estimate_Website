@@ -16,15 +16,16 @@ export default function Process_Form({
       ? current_Process
       : {
           name: "",
-          time_per_unit: 0,
-          specs: [{ description: "", options: ["", "", "", ""], time_inc: [0, 0, 0, 0]}],
+          // time_per_unit: 0,
+          // specs: [{ description: "", options: ["", "", "", ""], time_inc: [0, 0, 0, 0]}],
+          specs: [{ description: "", options: ["", "", "", ""] }],
           img_source: "",
         }
   );
   const [file, setFile] = useState(null);
   const [error, setError] = useState({
     name: "",
-    time_per_unit: "",
+    // time_per_unit: "",
     specs: "",
     img_source: "",
   });
@@ -86,18 +87,19 @@ export default function Process_Form({
             }
           });
         }
-      } else if (key === "time_per_unit") {
-        if (value === 0) {
-          error = true;
-          setError((prevError) => {
-            return { ...prevError, [key]: `- ${key} can not be zero -` };
-          });
-        } else if (value === "") {
-          error = true;
-          setError((prevError) => {
-            return { ...prevError, [key]: `- ${key} is empty -` };
-          });
-        }
+      } 
+      else if (key === "time_per_unit") {
+        // if (value === 0) {
+        //   error = true;
+        //   setError((prevError) => {
+        //     return { ...prevError, [key]: `- ${key} can not be zero -` };
+        //   });
+        // } else if (value === "") {
+        //   error = true;
+        //   setError((prevError) => {
+        //     return { ...prevError, [key]: `- ${key} is empty -` };
+        //   });
+        // }
       } else if (value === "") {
         error = true;
         setError((prevError) => {
@@ -208,19 +210,20 @@ export default function Process_Form({
   function handleAddOption(index) {
     let specs = processData.specs;
     specs[index].options = [...specs[index].options, ""];
-    specs[index].time_inc = [...specs[index].time_inc, 0];
+    // specs[index].time_inc = [...specs[index].time_inc, 0];
     setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: specs}))
   }
 
   function handleDeleteOption(index) {
     let specs = processData.specs;
     specs[index].options.splice(specs[index].options.length - 1, 1);
-    specs[index].time_inc.splice(specs[index].time_inc.length - 1, 1);
+    // specs[index].time_inc.splice(specs[index].time_inc.length - 1, 1);
     setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: specs}))
   }
 
   function handleAddSpec() {
-    setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: [...prevProcessData.specs, { description: "", options: ["", "", "", ""], time_inc: [0, 0, 0, 0]}]}))}
+    // setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: [...prevProcessData.specs, { description: "", options: ["", "", "", ""], time_inc: [0, 0, 0, 0]}]}))}
+    setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: [...prevProcessData.specs, { description: "", options: ["", "", "", ""]}]}))}
 
   function handleDeleteSpec(index) {
     let specs = processData.specs;
@@ -257,11 +260,11 @@ export default function Process_Form({
     }));
   }
 
-  function handleTime_Inc_Change(event, index, index_2){
-    let specs = processData.specs
-    specs[index].time_inc[index_2] = parseFloat(event.target.value)
-    setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: specs}))
-  }
+  // function handleTime_Inc_Change(event, index, index_2){
+  //   let specs = processData.specs
+  //   specs[index].time_inc[index_2] = parseFloat(event.target.value)
+  //   setProcessData((prevProcessData) => ({...prevProcessData, ["specs"]: specs}))
+  // }
 
   function cancelForm(){
     setEdit(false)
@@ -333,9 +336,9 @@ export default function Process_Form({
                         id={`spec_${index + 1}_option_${index_2 + 1}`}
                         className="px-3 py-2 bg-[#3A3A43] dark:bg-[#E0E6FF] text-sm rounded-sm focus:outline-none w-full"
                       />
-                      <div className="w-full flex items-center justify-center py-1">
+                      {/* <div className="w-full flex items-center justify-center py-1">
                         <input value={processData?.specs[index].time_inc[index_2]} onChange={(event) => handleTime_Inc_Change(event, index, index_2)} type="number" step="0.1" min={0} className="py-1 px-2 bg-[#3A3A43] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none w-full"/>
-                      </div>
+                      </div> */}
                     </div>
                   ))}
                 </div>
@@ -394,11 +397,11 @@ export default function Process_Form({
             {error.name !== "" && (
               <p className="text-xs text-orange-700 mt-0.5">{error.name}</p>
             )}
-            {error.time_per_unit !== "" && (
+            {/* {error.time_per_unit !== "" && (
               <p className="text-xs text-orange-700 mt-0.5">
                 {error.time_per_unit}
               </p>
-            )}
+            )} */}
             {error.img_source !== "" && (
               <p className="text-xs text-orange-700 mt-0.5">
                 {error.img_source}

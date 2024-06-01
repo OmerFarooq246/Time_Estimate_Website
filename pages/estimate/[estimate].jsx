@@ -10,7 +10,7 @@ const Estimate_Page = () => {
 
     return(
         <BaseLayout title={"New Estimate"} heading={"New Estimate"} height_reset={router.query.edit}>
-            {router.query.edit 
+            {router.query.edit === "true"
             ? <Estimate estimate={router.query.estimate} edit={true}/> 
             : <Estimate estimate={router.query.estimate} edit={false}/>}
         </BaseLayout>)

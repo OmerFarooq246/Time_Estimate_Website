@@ -8,7 +8,7 @@ export default async function handler(req, res){
             data: {
                 name: req.body.processData.name,
                 img_source: req.body.processData.img_source,
-                time_per_unit: parseInt(req.body.processData.time_per_unit)
+                // time_per_unit: parseInt(req.body.processData.time_per_unit)
             }
         })
 
@@ -19,7 +19,7 @@ export default async function handler(req, res){
                     data: {
                         description: spec.description,
                         options: spec.options.join(','),
-                        time_inc: spec.time_inc.join(',')
+                        // time_inc: spec.time_inc.join(',')
                     }
                 })
                 console.log("updated_spec: ", updated_spec)
@@ -29,7 +29,7 @@ export default async function handler(req, res){
                     data: {
                         description: spec.description,
                         options: spec.options.join(','),
-                        time_inc: spec.time_inc.join(','),
+                        // time_inc: spec.time_inc.join(','),
                         process: req.body.processData.id
                     }
                 })

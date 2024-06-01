@@ -17,7 +17,7 @@ export default async function handler(req, res){
                                             select: {
                                                 id: true,
                                                 name: true,
-                                                time_per_unit: true,
+                                                // time_per_unit: true,
                                                 specs: true,
                                                 img_source: true,
                                             }

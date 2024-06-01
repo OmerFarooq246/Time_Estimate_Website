@@ -39,7 +39,7 @@ model Sub_Categories {
 model Processes {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   name          String
-  time_per_unit Int
+  // time_per_unit Int
   specs         Spec[]
   sub_category  String   @db.ObjectId
   img_source    String
@@ -54,7 +54,7 @@ model Spec {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   description String
   options     String
-  time_inc    String
+  // time_inc    String
   process     String @db.ObjectId
 
   owner_process Processes    @relation(fields: [process], references: [id], onDelete: Cascade)

@@ -69,7 +69,7 @@ export default function New_Estimate_Form({toggleModel, user}){
                 })
                 if(res.status === 200){
                     console.log("res.data in add_estimate_data: ", res.data)
-                    router.push(`/estimate/${res.data.id}`)
+                    router.push(`/estimate/${res.data.id}?edit=true_add`)
                 }
             }
             catch(error){

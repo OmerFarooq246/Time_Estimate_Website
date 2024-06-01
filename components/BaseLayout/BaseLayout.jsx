@@ -22,7 +22,7 @@ export default function BaseLayout({title, heading, height_reset, children}) {
   }, [])
 
   return (
-    <div className={`${height_reset === "true" ? "" : "h-screen"} ${darkmode === "true" ? "dark" : ""} flex flex-col bg-[#161616] dark:bg-[#FFFFFF] overflow-y-scroll scrollbar scrollbar-thumb-[#26262D] scrollbar-track-[#1D1D22] dark:scrollbar-thumb-[#F0F2FF] scrollbar-track-[#F7F9FC]`}>
+    <div className={`${(height_reset === "true" || height_reset === "true_add") ? "" : "h-screen"} ${darkmode === "true" ? "dark" : ""} flex flex-col bg-[#161616] dark:bg-[#FFFFFF] overflow-y-scroll scrollbar scrollbar-thumb-[#26262D] scrollbar-track-[#1D1D22] dark:scrollbar-thumb-[#F0F2FF] scrollbar-track-[#F7F9FC]`}>
         <Head>
             <title>{title}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />

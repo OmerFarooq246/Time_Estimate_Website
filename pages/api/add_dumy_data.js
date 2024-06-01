@@ -12,7 +12,7 @@ export default async function handler(req, res){
             const processDB = await prisma.processes.create({
                 data: {
                     name: process + i.toString(),
-                    time_per_unit: 2,
+                    // time_per_unit: 2,
                     specs: {
                         createMany: {
                             data: [

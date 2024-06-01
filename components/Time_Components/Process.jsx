@@ -19,7 +19,7 @@ export default function Process({process_id}){
             // console.log("temp_process: ", temp_process)
             temp_process.specs.map((spec) => {
                 spec.options = spec.options.split(",")
-                spec.time_inc = spec.time_inc.split(",")
+                // spec.time_inc = spec.time_inc.split(",")
             })
             // console.log("temp_process: ", temp_process)
             setProcesses(temp_process)
