@@ -32,9 +32,37 @@ export default function Set_Time_Form({toggleModel, process}){
         setTimes(temp_times)
     }
 
+    async function get_time(){
+        try{
+            const res = await axios.post("/api/get_time", {combinations: combinations, process: process.id})
+            console.log("res.data in get_time: ", res.data)
+            let temp_time = res.data
+            temp_time.map((time, index) => {
+                if(time.time === null){
+                    temp_time[index] = 0
+                }
+                else{
+                    temp_time[index] = parseFloat(time.time)
+                }
+                
+            })
+            console.log("temp_time: ", temp_time)
+            setTimes(temp_time)
+        }
+        catch(error){
+            console.log("error in get_time:", error)
+        }
+    }
+
     useEffect(() => {
         make_options_data()
     }, [])
+
+    useEffect(() => {
+        if(combinations.length > 0){
+            get_time()
+        }
+    }, [combinations])
 
     function handleChange(event){
         console.log("event.target.value: ", event.target.value)
@@ -60,6 +88,7 @@ export default function Set_Time_Form({toggleModel, process}){
                 try{
                     const res = await axios.post("/api/set_time", {combinations: combinations, times: times, process: process.id})
                     console.log("res.data in set time: ", res.data)
+                    toggleModel()
                 }
                 catch(error){
                     console.log("error in time_pairs: ", error)

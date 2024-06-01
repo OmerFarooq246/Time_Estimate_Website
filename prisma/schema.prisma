@@ -127,6 +127,7 @@ model Process_Link {
   process_id       String       @db.ObjectId
   specs_info       Specs_Info[]
   quantity         Int
+  time_of_pair     Float
 
   process_rel       Processes     @relation(fields: [process_id], references: [id])
   category_link_rel Category_Link @relation(fields: [category_link_id], references: [id], onDelete: Cascade)
@@ -137,7 +138,7 @@ model Specs_Info {
   process_link_id String @db.ObjectId
   spec_id         String @db.ObjectId
   option          String
-  time            Float
+  // time            Float
 
   spec_rel         Spec         @relation(fields: [spec_id], references: [id])
   process_link_rel Process_Link @relation(fields: [process_link_id], references: [id], onDelete: Cascade)

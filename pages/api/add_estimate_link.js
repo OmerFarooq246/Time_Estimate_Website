@@ -23,11 +23,12 @@ export default async function handler(req, res){
                             create: categoryLink.processes.map((process) => ({
                                 process_id: process.process.id,
                                 quantity: process.quantity,
+                                time_of_pair: process.time_of_pair,
                                 specs_info: {
                                     create: process.specs_info.map((spec) => ({
                                         spec_id: spec.id,
                                         option: spec.option,
-                                        time: parseFloat(spec.time)
+                                        // time: parseFloat(spec.time)
                                     }))
                                 }
                             }))

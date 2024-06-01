@@ -92,7 +92,8 @@ export default function Estimate({estimate, edit}){
         // console.log("event.target: ", event.target)
         let temp_cat_links = [...categories_Link]
         temp_cat_links[event.target.id].time_info.setup = event.target.value
-        temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseFloat(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + (parseFloat(temp_cat_links[event.target.id].time_info.setup)/parseFloat(estimate_info.quantity)) + parseFloat(temp_cat_links[event.target.id].time_info.misc)
+        // temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseFloat(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + (parseFloat(temp_cat_links[event.target.id].time_info.setup)/parseFloat(estimate_info.quantity)) + parseFloat(temp_cat_links[event.target.id].time_info.misc)
+        temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseFloat(process.quantity) * (process.time_of_pair))).reduce((a, b) => a + b, 0) + (parseFloat(temp_cat_links[event.target.id].time_info.setup)/parseFloat(estimate_info.quantity)) + parseFloat(temp_cat_links[event.target.id].time_info.misc)
         console.log("total: ", temp_cat_links[event.target.id].time_info.total)
         setCategories_Link(temp_cat_links)
     }
@@ -101,7 +102,8 @@ export default function Estimate({estimate, edit}){
         // console.log("event.target: ", event.target)
         let temp_cat_links = [...categories_Link]
         temp_cat_links[event.target.id].time_info.misc = event.target.value
-        temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseFloat(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + (parseFloat(temp_cat_links[event.target.id].time_info.setup)/parseFloat(estimate_info.quantity)) + parseFloat(temp_cat_links[event.target.id].time_info.misc)
+        // temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseFloat(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + (parseFloat(temp_cat_links[event.target.id].time_info.setup)/parseFloat(estimate_info.quantity)) + parseFloat(temp_cat_links[event.target.id].time_info.misc)
+        temp_cat_links[event.target.id].time_info.total = temp_cat_links[event.target.id].processes.map((process) => (parseFloat(process.quantity) * (process.time_of_pair))).reduce((a, b) => a + b, 0) + (parseFloat(temp_cat_links[event.target.id].time_info.setup)/parseFloat(estimate_info.quantity)) + parseFloat(temp_cat_links[event.target.id].time_info.misc)
         console.log("total: ", temp_cat_links[event.target.id].time_info.total)
         setCategories_Link(temp_cat_links)
     }
@@ -160,7 +162,8 @@ export default function Estimate({estimate, edit}){
                             img_source: process.process_rel.img_source
                         }, 
                         specs_info: process.specs_info, 
-                        quantity: parseFloat(process.quantity)
+                        quantity: parseFloat(process.quantity),
+                        time_of_pair: parseFloat(process.time_of_pair)
                     })),
                     time_info: {
                         setup: parseFloat(cat.setup), 

@@ -64,7 +64,8 @@ export default function Category_Link({index, categories_Link, setCategories_Lin
                 {categories_Link[index].processes.map((process, index) => (
                     <tr key={index} className="">
                         <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF]">{process.process.name} {process.specs_info.map(spec => (" - " + spec.option))}</td>
-                        <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center">{(process.quantity * process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)).toFixed(2)}</td>
+                        {/* <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center">{(process.quantity * process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)).toFixed(2)}</td> */}
+                        <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center">{(process.quantity * process.time_of_pair).toFixed(2)}</td>
                         <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center">{process.quantity}</td>
                         <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center"><button onClick={() => editProcess(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button></td>
                         <td className="px-3 py-1 border border-[#31313A] dark:border-[#E0E6FF] text-center"><button onClick={() => deleteProcess(index)}><MdDelete className="text-red-600"/></button></td>
