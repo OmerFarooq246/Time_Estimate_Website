@@ -58,7 +58,7 @@ def get_json_obj(excel_path):
             cat_id = add_cat(process)
         if i == 0 or i == 11 or i == 22 or i == 30 or i == 38 or i == 46 or i == 50:
             sub_cat_id = add_sub_cat(process, cat_id)
-        add_process(process, sub_cat_id)
+        add_process(process, sub_cat_id, i)
         print("---------------------")
 
 
@@ -91,7 +91,7 @@ def add_sub_cat(json_obj, cat_id):
     pprint(res.json())
     return res.json()["id"]
 
-def add_process(json_obj, sub_cat_id):
+def add_process(json_obj, sub_cat_id, sheet_index):
     process = {
         'name': json_obj["Process"],
         'img_source': "",
@@ -104,6 +104,31 @@ def add_process(json_obj, sub_cat_id):
     pprint({'processData': process})
     res = requests.post("http://localhost:3000/api/add_process_py", json={'processData': process})
     print("res in add_process:")
+    pprint(res.json())
+    get_time_pairs(sheet_index, res.json()["id"])
+
+def get_time_pairs(sheet_index, process):
+    time_pairs = []
+    print("sheet:", sheet_index)
+    df = pd.read_excel(excel_path, sheet_name = sheet_index)
+    for j in range(df.shape[0]):
+        row = df.iloc[j]
+        # if row.isnull().any():
+        #     continue
+
+        num = 0
+        options = []
+        for option in row:
+            if(num > 4):
+                if type(option) == type(str('')):
+                    options.append(str(option))
+            num = num + 1
+        pair = {'process': process, 'time': float(df[df.keys()[4]][j]), 'options': ",".join(options)}
+        print(pair)
+        time_pairs.append(pair)
+    # print(time_pairs)
+    res = requests.post("http://localhost:3000/api/add_time_pairs_py", json={'time_pairs': time_pairs})
+    print("res in add_time_pairs_py:")
     pprint(res.json())
 
 print("\n")

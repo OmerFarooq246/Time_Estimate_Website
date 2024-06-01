@@ -67,7 +67,7 @@ def get_json_obj(excel_path):
             # break
         if i < 4:
             sub_cat_id = add_sub_cat(process, cat_id)
-        add_process(process, sub_cat_id)
+        add_process(process, sub_cat_id, i)
         print("---------------------")
 
 
@@ -100,11 +100,11 @@ def add_sub_cat(json_obj, cat_id):
     pprint(res.json())
     return res.json()["id"]
 
-def add_process(json_obj, sub_cat_id):
+def add_process(json_obj, sub_cat_id, sheet_index):
     process = {
         'name': json_obj["Process"],
         'img_source': "",
-        'time_per_unit': 3,
+        # 'time_per_unit': 3,
         'sub_category': sub_cat_id,
         'specs': json_obj["specs"]
     }
@@ -114,6 +114,37 @@ def add_process(json_obj, sub_cat_id):
     res = requests.post("http://localhost:3000/api/add_process_py", json={'processData': process})
     print("res in add_process:")
     pprint(res.json())
+    get_time_pairs(sheet_index, res.json()["id"])
+
+def get_time_pairs(sheet_index, process):
+    time_pairs = []
+    print("sheet:", sheet_index)
+    df = pd.read_excel(excel_path, sheet_name = sheet_index)
+    for j in range(df.shape[0]):
+        row = df.iloc[j]
+        # if row.isnull().any():
+        #     continue
+
+        num = 0
+        options = []
+        for option in row:
+            if(num > 4):
+                if type(option) == type(str('')):
+                    options.append(str(option))
+            num = num + 1
+        
+        if type(df[df.keys()[3]][j]) == type(str('')):
+            pair = {'process': process, 'time': float(df[df.keys()[4]][j]), 'options': ",".join(options)}
+            print(pair)
+            time_pairs.append(pair)
+        else:
+            pair = {'process': process, 'time': (df[df.keys()[4]][j]), 'options': ",".join(options)}
+            print("nan pair:", pair)
+    # print(time_pairs)
+    res = requests.post("http://localhost:3000/api/add_time_pairs_py", json={'time_pairs': time_pairs})
+    print("res in add_time_pairs_py:")
+    pprint(res.json())
+
 
 print("\n")
 excel_path = "D:/VSCODEs/Time_Estimate_Website/time-estimate-website/data_read/Electrical _ Assembly.xlsx"
