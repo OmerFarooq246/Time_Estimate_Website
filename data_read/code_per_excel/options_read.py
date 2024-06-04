@@ -6,7 +6,7 @@ from pprint import pprint
 
 def get_time_pairs(excel_path):
     time_pairs = []
-    for i in range(2):
+    for i in range(10, 11):
         print("sheet:", i)
         df = pd.read_excel(excel_path, sheet_name = i)
         for j in range(df.shape[0]):
@@ -35,6 +35,6 @@ def get_time_pairs(excel_path):
 
             
 print("\n")
-excel_path = "D:/VSCODEs/Time_Estimate_Website/time-estimate-website/data_read/Packing.xlsx"
+excel_path = "D:/VSCODEs/Time_Estimate_Website/time-estimate-website/data_read/Manufacturing.xlsx"
 get_time_pairs(excel_path)
 print("\n")

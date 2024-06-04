@@ -24,6 +24,6 @@ export default async function handler(req, res){
         res.status(200).json(times)
     }
     catch(error){
-        console.log("error in getting sub_category: ", error)
+        console.log("error in get_time: ", error)
     }
 }
