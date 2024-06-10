@@ -67,19 +67,19 @@ export default function Add_User_Form({toggleModel, index, current_user, users, 
     }
 
     return(
-        <div className="w-screen h-screen inset-0 fixed bg-black/70 text-[#E3E4E8] flex flex-col items-center justify-center">
-            <form onSubmit={handleSubmit} className="w-2/6 px-7 pt-5 pb-7 rounded flex flex-col justify-center items-center font-poppins bg-[#26262D]">
+        <div className="w-screen h-screen inset-0 fixed bg-black/70 text-[#E3E4E8] dark:text-[#17181C] flex flex-col items-center justify-center">
+            <form onSubmit={handleSubmit} className="w-2/6 px-7 pt-5 pb-7 rounded flex flex-col justify-center items-center font-poppins bg-[#26262D] dark:bg-[#F7F9FC]">
                 <div className="w-full flex flex-col space-y-2.5 mb-4">
                     <label htmlFor="username" className="text-xs">Username</label>
-                    <input disabled={edit} value={userData.username} onChange={handleChange} type="text" id="username" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
+                    <input disabled={edit} value={userData.username} onChange={handleChange} type="text" id="username" className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"/>
                 </div>
                 <div className="w-full flex flex-col space-y-2.5 mb-4">
                     <label htmlFor="password" className="text-xs">Password</label>
-                    <input value={userData.password} onChange={handleChange} type="password" id="password" className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none"/>
+                    <input value={userData.password} onChange={handleChange} type="password" id="password" className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none"/>
                 </div>
                 <div className="w-full flex flex-col space-y-2.5 mb-4">
                     <label htmlFor="level" className="text-xs">Level</label>
-                    <select value={userData.level} id="level" onChange={handleChange} className="px-3 py-2 bg-[#31313A] text-sm rounded-sm focus:outline-none">
+                    <select value={userData.level} id="level" onChange={handleChange} className="px-3 py-2 bg-[#31313A] dark:bg-[#F0F2FF] text-sm rounded-sm focus:outline-none">
                         {levels.map((level_i, index) => (
                             <option key={index} value={level_i}>{level_i}</option>
                         ))}
@@ -93,7 +93,7 @@ export default function Add_User_Form({toggleModel, index, current_user, users, 
                 </div>
                 <div className="w-full flex flex-row justify-end space-x-5">
                     <button onClick={cancelForm} type="button" className="text-xs text-[#FA450C] hover:text-[#de3705] focus:text-[#de3705]">Cancel</button>
-                    <button type="submit" className="rounded-sm focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs px-8 py-3 text-lg">{edit ? "Edit" : "Add"} User</button>
+                    <button type="submit" className="rounded-sm focus:outline-none hover:bg-[#2D44B7] dark:text-[#F9FAFF] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs px-8 py-3 text-lg">{edit ? "Edit" : "Add"} User</button>
                 </div>
             </form>
         </div>

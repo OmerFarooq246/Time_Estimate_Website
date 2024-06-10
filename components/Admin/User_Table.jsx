@@ -35,22 +35,24 @@ export default function User_Table({toggleModel, setIndex, users, setUsers, setC
     }
 
     return(
-        <div className="my-5 bg-[#161616]">
+        <div className="my-5 bg-[#161616] dark:bg-[#F7F9FC]">
             <table className="w-full text-sm">
-                <tr>
-                    <th className="bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#26262D]">Username</th>
-                    <th className="bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#26262D]">Password</th>
-                    <th className="bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#26262D]">Level</th>
-                    <th className="bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#26262D]">Edit</th>
-                    <th className="bg-[#1D1D22] font-semibold px-2 py-1.5 border border-[#26262D]">Delete</th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th className="bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#26262D]">Username</th>
+                        <th className="bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#26262D]">Password</th>
+                        <th className="bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#26262D]">Level</th>
+                        <th className="bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#26262D]">Edit</th>
+                        <th className="bg-[#1D1D22] dark:bg-[#F7F9FC] font-semibold px-2 py-1.5 border border-[#26262D]">Delete</th>
+                    </tr>
+                </thead>
                 {users.map((user, index) => (
                     <tr key={index} className="">
-                        <td className="text-center font-light px-2 py-1.5 border border-[#26262D]">{user.username}</td>
-                        <td className="text-center font-light px-2 py-1.5 border border-[#26262D] text-ellipsis">{user.password}</td>
-                        <td className="text-center font-light px-2 py-1.5 border border-[#26262D]">{user.level}</td>
-                        <td className="text-center font-light px-2 py-1.5 border border-[#26262D]"><button onClick={() => edituser(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button></td>
-                        <td className="text-center font-light px-2 py-1.5 border border-[#26262D]"><button onClick={() => deleteUser(index)}><MdDelete className="text-red-600"/></button></td>
+                        <td className="text-center dark:bg-[#F7F9FC] font-light px-2 py-1.5 border border-[#26262D]">{user.username}</td>
+                        <td className="text-center dark:bg-[#F7F9FC] font-light px-2 py-1.5 border border-[#26262D] text-ellipsis">{user.password}</td>
+                        <td className="text-center dark:bg-[#F7F9FC] font-light px-2 py-1.5 border border-[#26262D]">{user.level}</td>
+                        <td className="text-center dark:bg-[#F7F9FC] font-light px-2 py-1.5 border border-[#26262D]"><button onClick={() => edituser(index)}><MdEdit className="hover:text-[#3E5EFF]"/></button></td>
+                        <td className="text-center dark:bg-[#F7F9FC] font-light px-2 py-1.5 border border-[#26262D]"><button onClick={() => deleteUser(index)}><MdDelete className="text-red-600"/></button></td>
                     </tr>
                 ))}
             </table>

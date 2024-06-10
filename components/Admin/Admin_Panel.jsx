@@ -48,8 +48,8 @@ export default function Admin_Panel(){
     }
 
     return(
-        <div className="flex flex-col px-10 font-poppins bg-[#161616]">
-            <button onClick={toggleModel} className="w-fit focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] bg-[#3E5EFF] text-xs px-5 py-2 text-lg rounded-sm">Add User</button>
+        <div className="flex flex-col px-10 font-poppins bg-[#161616] dark:bg-[#FFFFFF] dark:text-[#17181C]">
+            <button onClick={toggleModel} className="w-fit focus:outline-none hover:bg-[#2D44B7] focus:bg-[#2D44B7] dark:text-[#F9FAFF] bg-[#3E5EFF] text-xs px-5 py-2 text-lg rounded-sm">Add User</button>
             {active && <Add_User_Form toggleModel={toggleModel} index={index} users={users} setUsers={setUsers} current_user={current_user} edit={edit} setEdit={setEdit}/>}
             <User_Table users={users} setIndex={setIndex} toggleModel={toggleModel} setUsers={setUsers} setCurrent_user={setCurrent_user} setEdit={setEdit}/>
         </div>
