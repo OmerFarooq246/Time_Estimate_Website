@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios";
 
-export default function Add_Process_Form({toggleModel, index, categories_Link, setCategories_Link, edit, setEdit, index_process, current_process}){
+export default function Add_Process_Form({estimate_info, toggleModel, index, categories_Link, setCategories_Link, edit, setEdit, index_process, current_process}){
     const [processes, setProcesses] = useState([])
     const [selected_Process, setSelected_Process] = useState(null)
     const [specs_info, setSpec_info] = useState([])
@@ -132,9 +132,15 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
         else{
             setError((prevError) => {return {...prevError, "quantity": ""}})
             if(edit){
-                let temp_categories_link = categories_Link
+                let temp_categories_link = [...categories_Link]
                 temp_categories_link[index].processes[index_process].quantity = quantity
                 console.log("temp_categories_link: ", temp_categories_link)
+
+                temp_categories_link[index].time_info.total = temp_categories_link[index].processes.map((process) => (
+                    parseInt(process.quantity) * (process.time_of_pair)
+                ))
+                .reduce((a, b) => a + b, 0) + parseInt(temp_categories_link[index].time_info.setup)/parseFloat(estimate_info.quantity) + parseInt(temp_categories_link[index].time_info.misc)
+
                 setCategories_Link(temp_categories_link)
                 setEdit(false)
                 toggleModel()
@@ -154,7 +160,7 @@ export default function Add_Process_Form({toggleModel, index, categories_Link, s
                     temp_cat_links[index].time_info.total = temp_cat_links[index].processes.map((process) => (
                         parseInt(process.quantity) * (process.time_of_pair)
                     ))
-                    .reduce((a, b) => a + b, 0) + parseInt(temp_cat_links[index].time_info.setup) + parseInt(temp_cat_links[index].time_info.misc)
+                    .reduce((a, b) => a + b, 0) + parseInt(temp_cat_links[index].time_info.setup)/parseFloat(estimate_info.quantity) + parseInt(temp_cat_links[index].time_info.misc)
                     
                     console.log("total: ", temp_cat_links[index].time_info.total)
                     setCategories_Link(temp_cat_links)

@@ -4,7 +4,7 @@ import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 
-export default function Category_Link({index, categories_Link, setCategories_Link, handleSetUpChange, handleMiscChange}){
+export default function Category_Link({index, categories_Link, setCategories_Link, handleSetUpChange, handleMiscChange, estimate_info}){
     const [active, setActive] = useState(false) //if true, model shown
     const [current_process, setCurrent_process] = useState({})
     const [index_process, setIndex_process] = useState(null)
@@ -17,6 +17,12 @@ export default function Category_Link({index, categories_Link, setCategories_Lin
     async function deleteProcess(index_p){
             let temp_cat_links = [...categories_Link]
             temp_cat_links[index].processes.splice(index_p, 1)
+            
+            temp_cat_links[index].time_info.total = temp_cat_links[index].processes.map((process) => (
+                parseInt(process.quantity) * (process.time_of_pair)
+            ))
+            .reduce((a, b) => a + b, 0) + parseInt(temp_cat_links[index].time_info.setup)/parseFloat(estimate_info.quantity) + parseInt(temp_cat_links[index].time_info.misc)
+
             console.log("temp_cat_links: ", temp_cat_links)
             setCategories_Link(temp_cat_links)
 
@@ -51,7 +57,7 @@ export default function Category_Link({index, categories_Link, setCategories_Lin
 
     return(
         <div className="w-full flex flex-col space-y-2 text-sm">
-            {active && <Add_Process_Form toggleModel={toggleModel} index={index} categories_Link={categories_Link} setCategories_Link={setCategories_Link} edit={edit} setEdit={setEdit} index_process={index_process} current_process={current_process}/>}
+            {active && <Add_Process_Form estimate_info={estimate_info} toggleModel={toggleModel} index={index} categories_Link={categories_Link} setCategories_Link={setCategories_Link} edit={edit} setEdit={setEdit} index_process={index_process} current_process={current_process}/>}
             <h1 className="font-bold">{categories_Link[index].category.name}</h1>
             <table className="text-xs bg-[#1D1D22] dark:bg-[#F7F9FC] rounded">
                 <tr>
