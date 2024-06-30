@@ -268,7 +268,8 @@ export default function Estimate({estimate, edit}){
             console.log("estimate_Link: ", estimate_Link)
             try{
                 const res = await axios.post(`/api/edit_estimate_link`,{
-                    estimate_Link: estimate_Link
+                    estimate_Link: estimate_Link,
+                    estimate_info: estimate_info
                 })
                 console.log("res.data in handleSaveReport: ", res.data)
                 router.push("/")
@@ -296,6 +297,15 @@ export default function Estimate({estimate, edit}){
     async function handlePrintReport(){
     }
 
+    function handleEstimateInfoChange(event){
+        if(event.target.id === "estimate_no" || event.target.id === "quantity"){
+            setEstimate_info(prevInfo => {return {...prevInfo, [event.target.id]: parseInt(event.target.value)}})    
+        }
+        else{
+            setEstimate_info(prevInfo => {return {...prevInfo, [event.target.id]: event.target.value}})   
+        }
+    }
+
     return(
         <div id="abc123" className="flex flex-col font-poppins">
             <div className="flex flex-col items-start space-y-3 mb-7 font-poppins px-5">
@@ -321,13 +331,33 @@ export default function Estimate({estimate, edit}){
                     </div>
                 </div>
                 <div className="flex flex-col space-y-1 w-full bg-[#26262D] dark:bg-[#F0F2FF] rounded px-3 py-2">
-                    <div className="flex flex-row">
+                    {/* <div className="flex flex-row">
                         <h1 className="text-sm font-semibold w-1/3">Estiamte # {estimate_info?.estimate_no}</h1>
                         <h1 className="text-sm font-semibold w-2/3">Project Name: {estimate_info?.name}</h1>
                     </div>
                     <div className="flex flex-row">
                         <h1 className="text-sm font-semibold w-1/3">Item # {estimate_info?.item_no}</h1>
                         <h1 className="text-sm font-semibold w-2/3">Quantity: {estimate_info?.quantity}</h1>
+                    </div> */}
+                    <div className="flex flex-row">
+                        <div className="flex flex-row w-1/3 space-x-1 items-center">
+                            <h1 className="text-sm font-semibold">Estiamte #</h1>
+                            <input id="estimate_no" onChange={handleEstimateInfoChange} value={estimate_info?.estimate_no} type="text" className="focus:outline-none border-0 outline-0 text-sm bg-[#26262D] dark:bg-[#F0F2FF] font-semibold w-1/2 py-1"/>
+                        </div>
+                        <div className="flex flex-row w-2/3 space-x-1 items-center">
+                            <h1 className="text-sm font-semibold">Project Name:</h1>
+                            <input id="name" onChange={handleEstimateInfoChange} value= {estimate_info?.name} type="text" className="focus:outline-none border-0 outline-0 text-sm bg-[#26262D] dark:bg-[#F0F2FF] font-semibold w-1/2 py-1"/>
+                        </div>
+                    </div>
+                    <div className="flex flex-row">
+                        <div className="flex flex-row w-1/3 space-x-1 items-center">
+                            <h1 className="text-sm font-semibold">Item #</h1>
+                            <input id="item_no" onChange={handleEstimateInfoChange} value={estimate_info?.item_no} type="text" className="focus:outline-none border-0 outline-0 text-sm bg-[#26262D] dark:bg-[#F0F2FF] font-semibold w-1/2 py-1"/>
+                        </div>
+                        <div className="flex flex-row w-2/3 space-x-1 items-center">
+                            <h1 className="text-sm font-semibold">Quantity:</h1>
+                            <input id="quantity" onChange={handleEstimateInfoChange} value={estimate_info?.quantity} type="text" className="focus:outline-none border-0 outline-0 text-sm bg-[#26262D] dark:bg-[#F0F2FF] font-semibold w-1/2 py-1"/>
+                        </div>
                     </div>
                 </div>
                 <div className="flex flex-col w-full space-y-3">

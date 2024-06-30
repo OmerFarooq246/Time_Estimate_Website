@@ -3,6 +3,17 @@ import prisma from "../../client"
 export default async function handler(req, res){
     console.log("req.body in edit_estimate_link: ", req.body)
     try{
+        const estimate_info = await prisma.estimate.update({
+            where: {id: req.body.estimate_Link.estimate_id},
+            data: {
+                estimate_no: req.body.estimate_info.estimate_no,
+                name: req.body.estimate_info.name,
+                quantity: req.body.estimate_info.quantity,
+                item_no: req.body.estimate_info.item_no,
+            }
+        })
+        console.log("updated estimate_info in edit_estimate_link: ", estimate_info)
+    
         const estimate_link = await prisma.estimate_Link.update({
             where: {estimate_id: req.body.estimate_Link.estimate_id},
             data: {
