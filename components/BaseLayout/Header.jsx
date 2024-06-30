@@ -30,13 +30,16 @@ export default function Header({ heading, toggleMode, darkmode}) {
     return (
         <div className="bg-[#161616] dark:bg-[#FFFFFF]">
             <header className="flex flex-row bg-[#1D1D22] text-[#E3E4E8] dark:bg-[#F7F9FC] dark:text-[#17181C] justify-center py-2 px-1">
-                <div className="w-2/12">
-                    <img src="/images/logo.png" alt="logo" className="h-10"/>
+                <div className="w-4/12">
+                    {heading !== "New Time Estimate" && <img src="/images/logo.png" alt="logo" className="h-10"/>}
                 </div>
-                <div className={`w-8/12 ${poppins.className} uppercase text-2xl flex justify-center items-center`}>
-                    <h1 className="font-bold">{heading}</h1>
+                <div className={`w-6/12 ${poppins.className} uppercase text-2xl flex justify-center items-center`}>
+                    {heading === "New Time Estimate"
+                    ? <img src="/images/logo.png" alt="logo" className="h-10"/>
+                    : <h1 className="font-bold">{heading}</h1>}
                 </div>
-                <div className={`w-2/12 flex flex-row space-x-3 justify-end items-center pr-2 ${poppins.className}`}>
+                <div className={`w-4/12 flex flex-row space-x-3 justify-end items-center pr-2 ${poppins.className}`}>
+                    {heading === "New Time Estimate" && <h1 className="font-bold">{heading}</h1>}
                     {(router.pathname === "/" && router.pathname !== "/login") && <button className="uppercase font-bold text-sm" onClick={() => signOut({ callbackUrl: '/login' })}>Log Off</button>}
                     {(router.pathname !== "/" && router.pathname !== "/login" && !router.pathname.includes("/estimate")) && <Link className="uppercase font-bold text-sm" href="/">Home</Link>}
                     <button className='text-xs font-base' onClick={toggleMode}>{darkmode === "true" ? "Dark Mode" : "Light Mode"}</button>

@@ -82,7 +82,7 @@ export default function Category_Link({index, categories_Link, setCategories_Lin
             <div className="flex flex-col w-fit self-end">
                 <table className="text-xs border-separate border-spacing-x-2">
                     <tr className="">
-                        <td>{categories_Link[index].category.name} Set Up Time/QTY: </td>
+                        <td>General QTY Set Up Time: </td>
                         <td><input id={index} value={categories_Link[index].time_info.setup} onChange={handleSetUpChange} type="number" step="0.1" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
                     </tr>
                     <tr className="">
@@ -90,9 +90,9 @@ export default function Category_Link({index, categories_Link, setCategories_Lin
                         <td><input id={index} value={categories_Link[index].time_info.misc} onChange={handleMiscChange} type="number" step="0.1" min={0} className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none"/></td>
                     </tr>
                     <tr className="">
-                        <td>Total Manufacturing Time/EA: </td>
+                        <td className="font-bold">{categories_Link[index].category.name} Time/EA (MIN.): </td>
                         {/* <td><p className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{categories_Link[index].processes.map((process) => (parseFloat(process.quantity) * (process.specs_info.map((spec) => (spec.time)).reduce((a, b) => a + b, 0)))).reduce((a, b) => a + b, 0) + parseFloat(categories_Link[index].time_info.setup) + parseFloat(categories_Link[index].time_info.misc)}</p></td> */}
-                        <td><p className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{(categories_Link[index].time_info.total).toFixed(2)}</p></td>
+                        <td><p className="font-bold w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{(categories_Link[index].time_info.total).toFixed(2)}</p></td>
                     </tr>
                 </table>
             </div>

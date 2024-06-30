@@ -116,7 +116,7 @@ export default function Estimate({estimate, edit}){
         let year = date.getFullYear(); // Get the year
         let time = date.toLocaleTimeString(); // Get the time
 
-        let formattedDate = `${day}/${month}/${year} ${time}`;
+        let formattedDate = `${month}/${day}/${year} ${time}`;
         return formattedDate
     }
 
@@ -306,12 +306,12 @@ export default function Estimate({estimate, edit}){
                 </button>}
             </div>
             {(estimate_info && categories_Link) && 
-            <div className="flex flex-col w-7/12 mb-5 bg-[#1D1D22] dark:bg-[#F7F9FC] rounded px-4 py-4 space-y-3 self-center items-center">
+            <div className="border border-red-500 sm:w-10/12 flex flex-col lg:w-7/12 mb-5 bg-[#1D1D22] dark:bg-[#F7F9FC] rounded px-4 py-4 space-y-3 self-center items-center">
                 <div className="flex flex-row justify-between items-center w-full">
                     <img src="/images/logo.png" alt="logo" className="h-10"/>
                     <div className="flex flex-col">
                         <p className="text-xs">Created by: {estimate_info?.creating_user?.username}</p>
-                        <p className="text-xs">Created at: {estimate_info?.created_at}</p>
+                        <p className="text-xs">Created on: {estimate_info?.created_at}</p>
                     </div>
                 </div>
                 <div className="flex flex-col space-y-1 w-full bg-[#26262D] dark:bg-[#F0F2FF] rounded px-3 py-2">
@@ -356,8 +356,8 @@ export default function Estimate({estimate, edit}){
                                 <table className="text-xs border-separate border-spacing-x-2">
                                     <tbody>
                                     <tr>
-                                        <td>Total Engineering Time/EA: </td>
-                                        <td><p className="w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{((engineering.sd + engineering.r + engineering.cd + engineering.ai)/estimate_info.quantity).toFixed(2)}</p></td>
+                                        <td className="font-bold">Total Engineering Time/EA (HRS.): </td>
+                                        <td><p className="font-bold w-16 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">{((engineering.sd + engineering.r + engineering.cd + engineering.ai)/estimate_info.quantity).toFixed(2)}</p></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -373,24 +373,24 @@ export default function Estimate({estimate, edit}){
                     <table className="w-fit border-separate border-spacing-y-1">
                         <tbody>
                         <tr>
-                            <td className="text-xs pr-2">Total time for qty of {estimate_info?.quantity}: </td>
-                            <td className="w-18 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">
+                            <td className="font-bold text-sm pr-2">Total Manufacturing Time for qty of {estimate_info?.quantity}: </td>
+                            <td className="font-bold w-18 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-sm rounded-sm focus:outline-none">
                                 {/* {categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai}
                                 {complex === "C" && " + " + ((categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai)*5/100).toFixed(2)}
                                 {complex === "VC" && " + " + ((categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai)*10/100).toFixed(2)} */}
                                 {/* {sum_total()} */}
                                 {total_time_qty}
                             </td>
-                            <td className="text-xs pl-1">(hours)</td>
+                            <td className="text-sm pl-1 font-bold">(hours)</td>
                         </tr>
                         <tr>
-                            <td className="text-xs pr-2">Total time for each: </td>
-                            <td className="w-18 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-xs rounded-sm focus:outline-none">
+                            <td className="font-bold text-sm pr-2">Time for each: </td>
+                            <td className="font-bold w-18 px-2 py-1 bg-[#31313A] dark:bg-[#E0E6FF] text-sm rounded-sm focus:outline-none">
                                 {total_time_each}
                                 {/* {(sum_all_total()/estimate_info?.quantity).toFixed(2)} */}
                                 {/* {((categories_Link.map((cat) => (cat.time_info.total)).reduce((a, b) => a + b, 0) + engineering.sd + engineering.r + engineering.cd + engineering.ai)/estimate_info?.quantity).toFixed(2)} */}
                             </td>
-                            <td className="text-xs pl-1">(hours)</td>
+                            <td className="text-sm pl-1 font-bold">(hours)</td>
                         </tr>
                         </tbody>
                     </table>
