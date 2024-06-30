@@ -255,6 +255,12 @@ export default function Estimate({estimate, edit}){
         }
     }, [categories_Link, complex, engineering])
 
+    // useEffect(() => {
+    //     if(categories_Link){
+    //         handleSaveReport()
+    //     }
+    // }, [])
+
     async function handleSaveReport(){
         // const estimate_Link = {estimate_id: estimate_info.id, time_per_unit: sum_all_total(), categories_Link: categories_Link, engineering: engineering, complex: complex}        
         if(edit){
@@ -306,7 +312,7 @@ export default function Estimate({estimate, edit}){
                 </button>}
             </div>
             {(estimate_info && categories_Link) && 
-            <div className="border border-red-500 sm:w-10/12 flex flex-col lg:w-7/12 mb-5 bg-[#1D1D22] dark:bg-[#F7F9FC] rounded px-4 py-4 space-y-3 self-center items-center">
+            <div className="sm:w-10/12 flex flex-col lg:w-7/12 mb-5 bg-[#1D1D22] dark:bg-[#F7F9FC] rounded px-4 py-4 space-y-3 self-center items-center">
                 <div className="flex flex-row justify-between items-center w-full">
                     <img src="/images/logo.png" alt="logo" className="h-10"/>
                     <div className="flex flex-col">

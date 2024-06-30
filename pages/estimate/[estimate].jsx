@@ -12,7 +12,7 @@ const Estimate_Page = () => {
         <BaseLayout title={"New Time Estimate"} heading={"New Time Estimate"} height_reset={router.query.edit}>
             {router.query.edit === "true"
             ? <Estimate estimate={router.query.estimate} edit={true}/> 
-            : <Estimate estimate={router.query.estimate} edit={false}/>}
+            : <Estimate estimate={router.query.estimate} edit={true}/>}
         </BaseLayout>)
 }
 

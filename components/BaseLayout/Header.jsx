@@ -27,6 +27,15 @@ export default function Header({ heading, toggleMode, darkmode}) {
     //     }
     // }
 
+    function goBack(){
+        if(heading === "New Time Estimate"){
+            alert("Save the current time estimate.")
+        }
+        else{
+            router.back()
+        }
+    }
+
     return (
         <div className="bg-[#161616] dark:bg-[#FFFFFF]">
             <header className="flex flex-row bg-[#1D1D22] text-[#E3E4E8] dark:bg-[#F7F9FC] dark:text-[#17181C] justify-center py-2 px-1">
@@ -48,7 +57,7 @@ export default function Header({ heading, toggleMode, darkmode}) {
             <div className="flex flex-row justify-between px-3 py-3 bg-[#161616] text-[#E3E4E8] dark:bg-[#FFFFFF] dark:text-[#17181C] mb-2">
                 {router.pathname !== "/" && router.pathname !== "/login" && 
                 <div className="w-full">
-                    <button onClick={() => router.back()} className={`${poppins.className} text-xs flex flex-row items-center space-x-1`}>
+                    <button onClick={() => goBack()} className={`${poppins.className} text-xs flex flex-row items-center space-x-1`}>
                         <IoArrowBack className="h-4"/>
                         <p>Back</p>
                     </button>

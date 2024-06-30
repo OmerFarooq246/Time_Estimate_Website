@@ -9,6 +9,7 @@ export default function New_Estimate_Form({toggleModel, user}){
     const [error, setError] = useState({estimate_no: "", name: "", quantity: "", item_no: "", created_by: "", created_at: ""})
     const reference = useRef(null)
     const router = useRouter()
+    const [cat_Link, setCat_Link] = useState({})
 
     function getCurrentTimeFormatted(){
         const date = new Date();
@@ -57,6 +58,44 @@ export default function New_Estimate_Form({toggleModel, user}){
         })
     }
 
+    async function set_categories_Link(){
+        try{
+            const res = await axios.get(`/api/get_categories`)
+            console.log("categories: ", res.data)
+            let temp_cats = res.data
+            temp_cats = temp_cats.map((cat) => ({category: cat, processes: [], time_info: {setup: 0, misc: 0, total: 0}}))
+            console.log("temp_cats: ", temp_cats)
+            // return temp_cats
+            setCat_Link(temp_cats)
+        }
+        catch(error){
+            console.log("error in set_categories_Link: ", error)
+        }
+    }
+
+    async function handleSaveReport(id){
+        // await set_categories_Link()
+        const res = await axios.get(`/api/get_categories`)
+        console.log("categories: ", res.data)
+        let temp_cats = res.data
+        temp_cats = temp_cats.map((cat) => ({category: cat, processes: [], time_info: {setup: 0, misc: 0, total: 0}}))
+        console.log("temp_cats: ", temp_cats)
+
+        // console.log("cat_Link: ", cat_Link)
+        const estimate_Link = {estimate_id: id, time_per_unit: 0, categories_Link: temp_cats, engineering: {cd: 0, r: 0, sd: 0, ai: 0}, complex: "NC"}
+            console.log("estimate_Link: ", estimate_Link)
+            try{
+                const res = await axios.post(`/api/add_estimate_link`,{
+                    estimate_Link: estimate_Link
+                })
+                console.log("res.data in handleSaveReport: ", res.data)
+                router.push(`/estimate/${res.data.estimate_id}?edit=true_add`)
+            }
+            catch(error){
+                console.log("error in handleSaveReport: ", error)
+            }
+    }
+
     async function handleSubmit(event){
         event.preventDefault()
         resetError()
@@ -69,7 +108,11 @@ export default function New_Estimate_Form({toggleModel, user}){
                 })
                 if(res.status === 200){
                     console.log("res.data in add_estimate_data: ", res.data)
-                    router.push(`/estimate/${res.data.id}?edit=true_add`)
+                    // router.push(`/estimate/${res.data.id}?edit=true_add`)
+                    handleSaveReport(res.data.id)
+                    // if(result === "pass"){
+                    //     router.push(`/estimate/${res.data.id}?edit=true_add`)
+                    // }
                 }
             }
             catch(error){
